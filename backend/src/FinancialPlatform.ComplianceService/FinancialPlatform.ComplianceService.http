@@ -1,0 +1,6 @@
+@FinancialPlatform.ComplianceService_HostAddress = http://localhost:5250
+
+GET {{FinancialPlatform.ComplianceService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

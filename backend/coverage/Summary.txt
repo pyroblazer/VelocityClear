@@ -1,0 +1,70 @@
+Summary
+  Generated on: 23/04/2026 - 08:24:59
+  Coverage date: 23/04/2026 - 08:24:53
+  Parser: Cobertura
+  Assemblies: 8
+  Classes: 34
+  Files: 26
+  Line coverage: 91.9%
+  Covered lines: 571
+  Uncovered lines: 50
+  Coverable lines: 621
+  Total lines: 2692
+  Branch coverage: 87.5% (105 of 120)
+  Covered branches: 105
+  Total branches: 120
+  Method coverage: 91.8% (79 of 86)
+  Full method coverage: 88.3% (76 of 86)
+  Covered methods: 79
+  Fully covered methods: 76
+  Total methods: 86
+
+FinancialPlatform.ApiGateway                                                      100%
+  FinancialPlatform.ApiGateway.Services.JwtService                                100%
+
+FinancialPlatform.ComplianceService                                               100%
+  FinancialPlatform.ComplianceService.Data.ComplianceDbContext                    100%
+  FinancialPlatform.ComplianceService.Services.AuditService                       100%
+
+FinancialPlatform.EventInfrastructure                                             100%
+  FinancialPlatform.EventInfrastructure.Bus.AdaptiveEventBus                      100%
+  FinancialPlatform.EventInfrastructure.Bus.InMemoryEventBus                      100%
+  FinancialPlatform.EventInfrastructure.Configuration.EventBusConnectionConfig    100%
+  FinancialPlatform.EventInfrastructure.Serialization.EventSerializer             100%
+  FinancialPlatform.EventInfrastructure.Serialization.EventTypeResolver           100%
+  FinancialPlatform.EventInfrastructure.Sse.InMemorySseHub                        100%
+
+FinancialPlatform.PaymentService                                                  100%
+  FinancialPlatform.PaymentService.Services.PaymentGateway                        100%
+  FinancialPlatform.PaymentService.Services.PaymentService                        100%
+
+FinancialPlatform.PinEncryptionService                                           92.9%
+  FinancialPlatform.PinEncryptionService.Models.AuthorizeCardRequest                0%
+  FinancialPlatform.PinEncryptionService.Models.AuthorizeCardResponse               0%
+  FinancialPlatform.PinEncryptionService.Models.EncryptPinResponse                100%
+  FinancialPlatform.PinEncryptionService.Models.GenerateKeyResponse               100%
+  FinancialPlatform.PinEncryptionService.Models.ParseIso8583Response                0%
+  FinancialPlatform.PinEncryptionService.Models.RotateKeyResponse                 100%
+  FinancialPlatform.PinEncryptionService.Models.StoredKey                         100%
+  FinancialPlatform.PinEncryptionService.Models.TranslatePinRequest               100%
+  FinancialPlatform.PinEncryptionService.Models.VerifyPinRequest                  100%
+  FinancialPlatform.PinEncryptionService.Services.Iso8583Service                 96.2%
+  FinancialPlatform.PinEncryptionService.Services.PinBlockService                 100%
+  FinancialPlatform.PinEncryptionService.Services.SoftwareHsmService              100%
+
+FinancialPlatform.RiskService                                                    77.1%
+  FinancialPlatform.RiskService.Controllers.EvaluateRequest                         0%
+  FinancialPlatform.RiskService.Services.RiskEvaluationService                   96.4%
+
+FinancialPlatform.Shared                                                         67.2%
+  FinancialPlatform.Shared.DTOs.CreateTransactionRequest                          100%
+  FinancialPlatform.Shared.DTOs.TransactionResponse                                 0%
+  FinancialPlatform.Shared.Events.AuditLoggedEvent                                100%
+  FinancialPlatform.Shared.Events.PaymentAuthorizedEvent                          100%
+  FinancialPlatform.Shared.Events.PinVerifiedEvent                                  0%
+  FinancialPlatform.Shared.Events.RiskEvaluatedEvent                              100%
+  FinancialPlatform.Shared.Events.TransactionCreatedEvent                         100%
+
+FinancialPlatform.TransactionService                                             97.8%
+  FinancialPlatform.TransactionService.Data.TransactionDbContext                 97.4%
+  FinancialPlatform.TransactionService.Services.TransactionService                100%

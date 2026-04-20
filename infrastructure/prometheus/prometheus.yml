@@ -1,0 +1,63 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+  external_labels:
+    cluster: "financial-platform"
+    environment: "development"
+
+rule_files:
+  - "alerts/*.yml"
+
+scrape_configs:
+  - job_name: "api-gateway"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["api-gateway:5000"]
+        labels:
+          service: "api-gateway"
+          team: "platform"
+
+  - job_name: "transaction-service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["transaction-service:5001"]
+        labels:
+          service: "transaction-service"
+          team: "transactions"
+
+  - job_name: "risk-service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["risk-service:5002"]
+        labels:
+          service: "risk-service"
+          team: "risk"
+
+  - job_name: "payment-service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["payment-service:5003"]
+        labels:
+          service: "payment-service"
+          team: "payments"
+
+  - job_name: "compliance-service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["compliance-service:5004"]
+        labels:
+          service: "compliance-service"
+          team: "compliance"
+
+  - job_name: "pin-encryption-service"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["pin-encryption-service:5005"]
+        labels:
+          service: "pin-encryption-service"
+          team: "platform"
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]

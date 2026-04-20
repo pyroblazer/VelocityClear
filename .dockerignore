@@ -1,0 +1,28 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+
+# IDE and editor files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Frontend node_modules (rebuilt inside Docker)
+**/node_modules/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+infrastructure/
+
+# Docs and config
+*.md
+LICENSE
+.claude/
+.cursor/
+.cursorrules

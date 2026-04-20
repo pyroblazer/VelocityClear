@@ -1,0 +1,6 @@
+@FinancialPlatform.TransactionService_HostAddress = http://localhost:5236
+
+GET {{FinancialPlatform.TransactionService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

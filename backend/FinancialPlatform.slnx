@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FinancialPlatform.ApiGateway/FinancialPlatform.ApiGateway.csproj" />
+    <Project Path="src/FinancialPlatform.ComplianceService/FinancialPlatform.ComplianceService.csproj" />
+    <Project Path="src/FinancialPlatform.EventInfrastructure/FinancialPlatform.EventInfrastructure.csproj" />
+    <Project Path="src/FinancialPlatform.PaymentService/FinancialPlatform.PaymentService.csproj" />
+    <Project Path="src/FinancialPlatform.RiskService/FinancialPlatform.RiskService.csproj" />
+    <Project Path="src/FinancialPlatform.Shared/FinancialPlatform.Shared.csproj" />
+    <Project Path="src/FinancialPlatform.TransactionService/FinancialPlatform.TransactionService.csproj" />
+    <Project Path="src/FinancialPlatform.PinEncryptionService/FinancialPlatform.PinEncryptionService.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FinancialPlatform.IntegrationTests/FinancialPlatform.IntegrationTests.csproj" />
+    <Project Path="tests/FinancialPlatform.UnitTests/FinancialPlatform.UnitTests.csproj" />
+  </Folder>
+</Solution>

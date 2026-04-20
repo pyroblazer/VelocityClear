@@ -1,0 +1,14 @@
+# =============================================================================
+# .trivyignore — intentional suppressions for this project
+#
+# Each entry is a Trivy finding ID. Findings suppressed here are acceptable
+# for a local/demo environment and are documented with a reason below.
+# Review before deploying to production.
+# =============================================================================
+
+# DS-0026: No HEALTHCHECK instruction in Dockerfile
+# Health checks are defined in docker-compose.yml per service (e.g., sqlserver,
+# redis, rabbitmq all have explicit healthcheck blocks). Adding HEALTHCHECK to
+# every Dockerfile would duplicate that config and is unnecessary when the
+# orchestration layer manages container health.
+DS-0026

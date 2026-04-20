@@ -1,0 +1,49 @@
+[
+  {
+    "Name": "All Microservices",
+    "Projects": [
+      {
+        "Path": "src\FinancialPlatform.ApiGateway\FinancialPlatform.ApiGateway.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\FinancialPlatform.TransactionService\FinancialPlatform.TransactionService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\FinancialPlatform.RiskService\FinancialPlatform.RiskService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\FinancialPlatform.PaymentService\FinancialPlatform.PaymentService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\FinancialPlatform.ComplianceService\FinancialPlatform.ComplianceService.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "API Gateway Only",
+    "Projects": [
+      {
+        "Path": "src\FinancialPlatform.ApiGateway\FinancialPlatform.ApiGateway.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "Transaction + Compliance (DB Services)",
+    "Projects": [
+      {
+        "Path": "src\FinancialPlatform.TransactionService\FinancialPlatform.TransactionService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\FinancialPlatform.ComplianceService\FinancialPlatform.ComplianceService.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "Id": "user_001",
+    "Username": "admin",
+    "Role": "Admin",
+    "CreatedAt": "2026-01-01T00:00:00Z"
+  },
+  {
+    "Id": "user_002",
+    "Username": "trader1",
+    "Role": "User",
+    "CreatedAt": "2026-01-15T00:00:00Z"
+  },
+  {
+    "Id": "user_003",
+    "Username": "auditor1",
+    "Role": "Auditor",
+    "CreatedAt": "2026-02-01T00:00:00Z"
+  }
+]

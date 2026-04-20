@@ -1,0 +1,343 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Check formatting
+        run: dotnet format --verify-no-changes
+
+  backend-unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run unit tests with coverage
+        run: >
+          dotnet test tests/FinancialPlatform.UnitTests --no-build --configuration Release --verbosity normal
+          --collect:"XPlat Code Coverage"
+          -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByAttribute=ObsoleteAttribute,GeneratedCodeAttribute,CompilerGeneratedAttribute,ApiControllerAttribute
+          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByFile=**/Program.cs,**/Migrations/**,**/Metrics.cs,**/EventSubscriber.cs,**/RequestLoggingMiddleware.cs,**/RateLimitingMiddleware.cs,**/RedisEventBus.cs,**/RabbitMQEventBus.cs,**/KafkaEventBus.cs
+
+      - name: Check coverage threshold
+        if: always()
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool 2>/dev/null || true
+          reportgenerator -reports:tests/FinancialPlatform.UnitTests/TestResults/**/coverage.cobertura.xml -targetdir:coverage -reporttype:TextSummary
+          cat coverage/Summary.txt
+          COVERAGE=$(grep "Line coverage" coverage/Summary.txt | grep -oP '[0-9]+(?=[.%])' | head -1 || echo "0")
+          echo "Line coverage: ${COVERAGE}%"
+          if [ "$COVERAGE" -lt 55 ]; then
+            echo "Coverage below 55% threshold"
+            exit 1
+          fi
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+  backend-integration-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run integration tests
+        run: dotnet test tests/FinancialPlatform.IntegrationTests --no-build --configuration Release --verbosity normal
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app:
+          - transaction-ui
+          - admin-dashboard
+          - risk-dashboard
+          - audit-dashboard
+          - card-operations
+          - superapp
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/apps/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/apps/${{ matrix.app }}
+        run: npm ci
+
+      - name: Type check
+        working-directory: frontend/apps/${{ matrix.app }}
+        run: npx tsc --noEmit
+
+      - name: Build
+        working-directory: frontend/apps/${{ matrix.app }}
+        run: npm run build
+
+      - name: Lint
+        working-directory: frontend/apps/${{ matrix.app }}
+        run: npm run lint
+
+      - name: Test
+        working-directory: frontend/apps/${{ matrix.app }}
+        run: npm test
+
+  frontend-e2e:
+    runs-on: ubuntu-latest
+    needs: frontend-build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: |
+            frontend/apps/superapp/package-lock.json
+            e2e/package-lock.json
+
+      - name: Install superapp dependencies
+        working-directory: frontend/apps/superapp
+        run: npm ci
+
+      - name: Build superapp
+        working-directory: frontend/apps/superapp
+        run: npm run build
+
+      - name: Install E2E dependencies
+        working-directory: e2e
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        working-directory: e2e
+        run: npx playwright test
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
+          retention-days: 7
+
+  newman-tests:
+    runs-on: ubuntu-latest
+    needs: backend-unit-tests
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          MSSQL_SA_PASSWORD: YourStrong!Passw0rd
+          MSSQL_PID: Developer
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -C -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 15
+          --health-start-period 30s
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Restore and build backend
+        working-directory: backend
+        run: |
+          dotnet restore
+          dotnet build --no-restore --configuration Release
+
+      - name: Start backend services
+        run: |
+          dotnet run --project backend/src/FinancialPlatform.ApiGateway --no-build --configuration Release &
+          dotnet run --project backend/src/FinancialPlatform.TransactionService --no-build --configuration Release &
+          dotnet run --project backend/src/FinancialPlatform.RiskService --no-build --configuration Release &
+          dotnet run --project backend/src/FinancialPlatform.PaymentService --no-build --configuration Release &
+          dotnet run --project backend/src/FinancialPlatform.ComplianceService --no-build --configuration Release &
+          dotnet run --project backend/src/FinancialPlatform.PinEncryptionService --no-build --configuration Release &
+        env:
+          Jwt__SecretKey: "CI_Test_Secret_Key_Minimum_32_Characters!"
+          Jwt__Issuer: "FinancialPlatform"
+
+      - name: Wait for services to be ready
+        run: |
+          for port in 5000 5001 5002 5003 5004 5005; do
+            echo "Waiting for port $port..."
+            for i in $(seq 1 60); do
+              if curl -so /dev/null http://localhost:$port/ 2>/dev/null; then
+                echo "Port $port ready"
+                break
+              fi
+              if [ "$i" -eq 60 ]; then
+                echo "Port $port did not respond in time"
+                exit 1
+              fi
+              sleep 2
+            done
+          done
+          echo "All services ready"
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Newman tests
+        run: |
+          newman run postman/FinancialPlatform.postman_collection.json \
+            -e postman/FinancialPlatform-Local.postman_environment.json \
+            --reporters cli,json \
+            --reporter-json-export newman-results.json
+
+      - name: Upload Newman report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: newman-results.json
+          retention-days: 7
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan dependencies for vulnerabilities
+        uses: aquasecurity/trivy-action@v0.35.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          format: sarif
+          output: trivy-fs.sarif
+
+      - name: Scan IaC config for misconfigurations
+        uses: aquasecurity/trivy-action@v0.35.0
+        if: always()
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          format: sarif
+          output: trivy-config.sarif
+
+      - name: Upload filesystem scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-fs.sarif
+          category: trivy-fs
+
+      - name: Upload config scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-config.sarif
+          category: trivy-config
+
+  sbom-generation:
+    runs-on: ubuntu-latest
+    needs: backend-unit-tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Install CycloneDX
+        run: dotnet tool install --global CycloneDX
+
+      - name: Generate .NET SBOM
+        working-directory: backend
+        run: dotnet CycloneDX FinancialPlatform.slnx -o ../sbom/ -F Json -t
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom/
+          retention-days: 30

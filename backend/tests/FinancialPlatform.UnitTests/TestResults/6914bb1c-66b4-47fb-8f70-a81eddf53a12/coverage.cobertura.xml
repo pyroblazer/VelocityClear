@@ -1,0 +1,2256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<coverage line-rate="0.9194" branch-rate="0.875" version="1.9" timestamp="1776907493" lines-covered="571" lines-valid="621" branches-covered="105" branches-valid="120">
+  <sources>
+    <source>C:\Users\ROG Flow X16\Documents\github\adaptive-realtime-financial-transaction-platform\backend\src\</source>
+  </sources>
+  <packages>
+    <package name="FinancialPlatform.ApiGateway" line-rate="1" branch-rate="0.8332999999999999" complexity="7">
+      <classes>
+        <class name="FinancialPlatform.ApiGateway.Services.JwtService" filename="FinancialPlatform.ApiGateway\Services\JwtService.cs" line-rate="1" branch-rate="0.8332999999999999" complexity="7">
+          <methods>
+            <method name="GenerateToken" signature="(System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="77" hits="8" branch="False" />
+                <line number="82" hits="8" branch="False" />
+                <line number="101" hits="8" branch="False" />
+                <line number="102" hits="8" branch="False" />
+                <line number="103" hits="8" branch="False" />
+                <line number="104" hits="8" branch="False" />
+                <line number="105" hits="8" branch="False" />
+                <line number="106" hits="8" branch="False" />
+                <line number="118" hits="8" branch="False" />
+                <line number="119" hits="8" branch="False" />
+                <line number="120" hits="8" branch="False" />
+                <line number="121" hits="8" branch="False" />
+                <line number="122" hits="8" branch="False" />
+                <line number="123" hits="8" branch="False" />
+                <line number="128" hits="8" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.Extensions.Configuration.IConfiguration)" line-rate="1" branch-rate="0.8332999999999999" complexity="6">
+              <lines>
+                <line number="48" hits="11" branch="False" />
+                <line number="50" hits="11" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="19" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="51" hits="11" branch="False" />
+                <line number="52" hits="10" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="51" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="53" hits="1" branch="False" />
+                <line number="54" hits="9" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="77" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="55" hits="9" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="77" hits="8" branch="False" />
+            <line number="82" hits="8" branch="False" />
+            <line number="101" hits="8" branch="False" />
+            <line number="102" hits="8" branch="False" />
+            <line number="103" hits="8" branch="False" />
+            <line number="104" hits="8" branch="False" />
+            <line number="105" hits="8" branch="False" />
+            <line number="106" hits="8" branch="False" />
+            <line number="118" hits="8" branch="False" />
+            <line number="119" hits="8" branch="False" />
+            <line number="120" hits="8" branch="False" />
+            <line number="121" hits="8" branch="False" />
+            <line number="122" hits="8" branch="False" />
+            <line number="123" hits="8" branch="False" />
+            <line number="128" hits="8" branch="False" />
+            <line number="48" hits="11" branch="False" />
+            <line number="50" hits="11" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="19" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="51" hits="11" branch="False" />
+            <line number="52" hits="10" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="51" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="53" hits="1" branch="False" />
+            <line number="54" hits="9" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="77" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="55" hits="9" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.ComplianceService" line-rate="1" branch-rate="1" complexity="5">
+      <classes>
+        <class name="FinancialPlatform.ComplianceService.Services.AuditService" filename="FinancialPlatform.ComplianceService\Services\AuditService.cs" line-rate="1" branch-rate="1" complexity="3">
+          <methods>
+            <method name="ComputeHash" signature="(System.String,System.String)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="114" hits="13" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="3" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="122" hits="13" branch="False" />
+                <line number="127" hits="13" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(FinancialPlatform.ComplianceService.Data.ComplianceDbContext,FinancialPlatform.Shared.Interfaces.ISseHub,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.ComplianceService.Services.AuditService&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="36" hits="7" branch="False" />
+                <line number="37" hits="7" branch="False" />
+                <line number="38" hits="7" branch="False" />
+                <line number="39" hits="7" branch="False" />
+                <line number="41" hits="7" branch="False" />
+                <line number="42" hits="7" branch="False" />
+                <line number="43" hits="7" branch="False" />
+                <line number="44" hits="7" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="114" hits="13" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="3" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="122" hits="13" branch="False" />
+            <line number="127" hits="13" branch="False" />
+            <line number="36" hits="7" branch="False" />
+            <line number="37" hits="7" branch="False" />
+            <line number="38" hits="7" branch="False" />
+            <line number="39" hits="7" branch="False" />
+            <line number="41" hits="7" branch="False" />
+            <line number="42" hits="7" branch="False" />
+            <line number="43" hits="7" branch="False" />
+            <line number="44" hits="7" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.ComplianceService.Data.ComplianceDbContext" filename="FinancialPlatform.ComplianceService\Data\ComplianceDbContext.cs" line-rate="1" branch-rate="1" complexity="2">
+          <methods>
+            <method name="OnModelCreating" signature="(Microsoft.EntityFrameworkCore.ModelBuilder)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="47" hits="1" branch="False" />
+                <line number="48" hits="1" branch="False" />
+                <line number="49" hits="1" branch="False" />
+                <line number="50" hits="1" branch="False" />
+                <line number="51" hits="1" branch="False" />
+                <line number="52" hits="1" branch="False" />
+                <line number="53" hits="1" branch="False" />
+                <line number="54" hits="1" branch="False" />
+                <line number="55" hits="1" branch="False" />
+                <line number="56" hits="1" branch="False" />
+                <line number="57" hits="1" branch="False" />
+                <line number="58" hits="1" branch="False" />
+                <line number="59" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="False" />
+                <line number="62" hits="1" branch="False" />
+                <line number="63" hits="1" branch="False" />
+                <line number="64" hits="1" branch="False" />
+                <line number="65" hits="1" branch="False" />
+                <line number="66" hits="1" branch="False" />
+                <line number="67" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.EntityFrameworkCore.DbContextOptions`1&lt;FinancialPlatform.ComplianceService.Data.ComplianceDbContext&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="32" hits="14" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="47" hits="1" branch="False" />
+            <line number="48" hits="1" branch="False" />
+            <line number="49" hits="1" branch="False" />
+            <line number="50" hits="1" branch="False" />
+            <line number="51" hits="1" branch="False" />
+            <line number="52" hits="1" branch="False" />
+            <line number="53" hits="1" branch="False" />
+            <line number="54" hits="1" branch="False" />
+            <line number="55" hits="1" branch="False" />
+            <line number="56" hits="1" branch="False" />
+            <line number="57" hits="1" branch="False" />
+            <line number="58" hits="1" branch="False" />
+            <line number="59" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="False" />
+            <line number="62" hits="1" branch="False" />
+            <line number="63" hits="1" branch="False" />
+            <line number="64" hits="1" branch="False" />
+            <line number="65" hits="1" branch="False" />
+            <line number="66" hits="1" branch="False" />
+            <line number="67" hits="1" branch="False" />
+            <line number="32" hits="14" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.EventInfrastructure" line-rate="1" branch-rate="0.8" complexity="23">
+      <classes>
+        <class name="FinancialPlatform.EventInfrastructure.Sse.InMemorySseHub" filename="FinancialPlatform.EventInfrastructure\Sse\InMemorySseHub.cs" line-rate="1" branch-rate="1" complexity="4">
+          <methods>
+            <method name="get_ActiveConnections" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="69" hits="6" branch="False" />
+              </lines>
+            </method>
+            <method name="AddClient" signature="(System.String,Microsoft.AspNetCore.Http.HttpResponse)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="83" hits="7" branch="False" />
+                <line number="88" hits="7" branch="False" />
+                <line number="89" hits="7" branch="False" />
+              </lines>
+            </method>
+            <method name="RemoveClient" signature="(System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="97" hits="2" branch="False" />
+                <line number="98" hits="2" branch="False" />
+                <line number="99" hits="2" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Sse.InMemorySseHub&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="59" hits="7" branch="False" />
+                <line number="71" hits="7" branch="False" />
+                <line number="73" hits="7" branch="False" />
+                <line number="74" hits="7" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="69" hits="6" branch="False" />
+            <line number="83" hits="7" branch="False" />
+            <line number="88" hits="7" branch="False" />
+            <line number="89" hits="7" branch="False" />
+            <line number="97" hits="2" branch="False" />
+            <line number="98" hits="2" branch="False" />
+            <line number="99" hits="2" branch="False" />
+            <line number="59" hits="7" branch="False" />
+            <line number="71" hits="7" branch="False" />
+            <line number="73" hits="7" branch="False" />
+            <line number="74" hits="7" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.EventInfrastructure.Serialization.EventSerializer" filename="FinancialPlatform.EventInfrastructure\Serialization\EventSerializer.cs" line-rate="1" branch-rate="0.5" complexity="6">
+          <methods>
+            <method name="SerializeEnvelope" signature="(T)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="14" hits="7" branch="False" />
+                <line number="15" hits="7" branch="False" />
+              </lines>
+            </method>
+            <method name="DeserializeEnvelope" signature="(System.String)" line-rate="1" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="19" hits="8" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="12" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="20" hits="8" branch="False" />
+              </lines>
+            </method>
+            <method name="DeserializePayload" signature="(System.String,System.Type)" line-rate="1" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="23" hits="5" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="13" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="24" hits="5" branch="False" />
+              </lines>
+            </method>
+            <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="1" branch="False" />
+                <line number="8" hits="1" branch="False" />
+                <line number="9" hits="1" branch="False" />
+                <line number="10" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="14" hits="7" branch="False" />
+            <line number="15" hits="7" branch="False" />
+            <line number="19" hits="8" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="12" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="20" hits="8" branch="False" />
+            <line number="23" hits="5" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="13" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="24" hits="5" branch="False" />
+            <line number="7" hits="1" branch="False" />
+            <line number="8" hits="1" branch="False" />
+            <line number="9" hits="1" branch="False" />
+            <line number="10" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.EventInfrastructure.Serialization.EventTypeResolver" filename="FinancialPlatform.EventInfrastructure\Serialization\EventTypeResolver.cs" line-rate="1" branch-rate="1" complexity="3">
+          <methods>
+            <method name="Resolve" signature="(System.String)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="17" hits="5" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="13" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="18" hits="5" branch="False" />
+                <line number="19" hits="5" branch="False" />
+              </lines>
+            </method>
+            <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="7" hits="1" branch="False" />
+                <line number="8" hits="1" branch="False" />
+                <line number="9" hits="1" branch="False" />
+                <line number="10" hits="1" branch="False" />
+                <line number="11" hits="1" branch="False" />
+                <line number="12" hits="1" branch="False" />
+                <line number="13" hits="1" branch="False" />
+                <line number="14" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="17" hits="5" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="13" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="18" hits="5" branch="False" />
+            <line number="19" hits="5" branch="False" />
+            <line number="7" hits="1" branch="False" />
+            <line number="8" hits="1" branch="False" />
+            <line number="9" hits="1" branch="False" />
+            <line number="10" hits="1" branch="False" />
+            <line number="11" hits="1" branch="False" />
+            <line number="12" hits="1" branch="False" />
+            <line number="13" hits="1" branch="False" />
+            <line number="14" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.EventInfrastructure.Configuration.EventBusConnectionConfig" filename="FinancialPlatform.EventInfrastructure\Configuration\EventBusConnectionConfig.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="3" hits="46" branch="False" />
+                <line number="4" hits="46" branch="False" />
+                <line number="5" hits="46" branch="False" />
+                <line number="6" hits="46" branch="False" />
+                <line number="7" hits="46" branch="False" />
+                <line number="8" hits="46" branch="False" />
+                <line number="9" hits="46" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="3" hits="46" branch="False" />
+            <line number="4" hits="46" branch="False" />
+            <line number="5" hits="46" branch="False" />
+            <line number="6" hits="46" branch="False" />
+            <line number="7" hits="46" branch="False" />
+            <line number="8" hits="46" branch="False" />
+            <line number="9" hits="46" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.EventInfrastructure.Bus.AdaptiveEventBus" filename="FinancialPlatform.EventInfrastructure\Bus\AdaptiveEventBus.cs" line-rate="1" branch-rate="1" complexity="4">
+          <methods>
+            <method name="get_CurrentBackend" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="49" hits="8" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.AdaptiveEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.InMemoryEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.RedisEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.RabbitMQEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.KafkaEventBus&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="65" hits="36" branch="False" />
+                <line number="67" hits="36" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(FinancialPlatform.EventInfrastructure.Configuration.EventBusConnectionConfig,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.AdaptiveEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.InMemoryEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.RedisEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.RabbitMQEventBus&gt;,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.KafkaEventBus&gt;)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="41" hits="42" branch="False" />
+                <line number="42" hits="42" branch="False" />
+                <line number="70" hits="42" branch="False" />
+                <line number="71" hits="42" branch="False" />
+                <line number="72" hits="42" branch="False" />
+                <line number="73" hits="42" branch="False" />
+                <line number="74" hits="42" branch="False" />
+                <line number="75" hits="42" branch="False" />
+                <line number="76" hits="42" branch="False" />
+                <line number="78" hits="42" branch="False" />
+                <line number="79" hits="42" branch="False" />
+                <line number="84" hits="42" branch="False" />
+                <line number="85" hits="42" branch="False" />
+                <line number="86" hits="42" branch="False" />
+                <line number="87" hits="42" branch="False" />
+                <line number="88" hits="42" branch="False" />
+                <line number="89" hits="42" branch="False" />
+                <line number="90" hits="42" branch="False" />
+                <line number="95" hits="42" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="198" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="96" hits="42" branch="False" />
+                <line number="97" hits="42" branch="False" />
+                <line number="99" hits="42" branch="False" />
+                <line number="100" hits="42" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="49" hits="8" branch="False" />
+            <line number="65" hits="36" branch="False" />
+            <line number="67" hits="36" branch="False" />
+            <line number="41" hits="42" branch="False" />
+            <line number="42" hits="42" branch="False" />
+            <line number="70" hits="42" branch="False" />
+            <line number="71" hits="42" branch="False" />
+            <line number="72" hits="42" branch="False" />
+            <line number="73" hits="42" branch="False" />
+            <line number="74" hits="42" branch="False" />
+            <line number="75" hits="42" branch="False" />
+            <line number="76" hits="42" branch="False" />
+            <line number="78" hits="42" branch="False" />
+            <line number="79" hits="42" branch="False" />
+            <line number="84" hits="42" branch="False" />
+            <line number="85" hits="42" branch="False" />
+            <line number="86" hits="42" branch="False" />
+            <line number="87" hits="42" branch="False" />
+            <line number="88" hits="42" branch="False" />
+            <line number="89" hits="42" branch="False" />
+            <line number="90" hits="42" branch="False" />
+            <line number="95" hits="42" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="198" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="96" hits="42" branch="False" />
+            <line number="97" hits="42" branch="False" />
+            <line number="99" hits="42" branch="False" />
+            <line number="100" hits="42" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.EventInfrastructure.Bus.InMemoryEventBus" filename="FinancialPlatform.EventInfrastructure\Bus\InMemoryEventBus.cs" line-rate="1" branch-rate="1" complexity="5">
+          <methods>
+            <method name="SubscribeAsync" signature="(System.Func`2&lt;T,System.Threading.Tasks.Task&gt;)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="113" hits="25" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="36" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="117" hits="22" branch="False" />
+                <line number="118" hits="22" branch="False" />
+                <line number="128" hits="25" branch="False" />
+                <line number="133" hits="25" branch="False" />
+              </lines>
+            </method>
+            <method name="StartAsync" signature="(System.Threading.CancellationToken)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="142" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="StopAsync" signature="(System.Threading.CancellationToken)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="143" hits="2" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.EventInfrastructure.Bus.InMemoryEventBus&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="47" hits="41" branch="False" />
+                <line number="57" hits="41" branch="False" />
+                <line number="59" hits="41" branch="False" />
+                <line number="60" hits="41" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="113" hits="25" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="36" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="117" hits="22" branch="False" />
+            <line number="118" hits="22" branch="False" />
+            <line number="128" hits="25" branch="False" />
+            <line number="133" hits="25" branch="False" />
+            <line number="142" hits="1" branch="False" />
+            <line number="143" hits="2" branch="False" />
+            <line number="47" hits="41" branch="False" />
+            <line number="57" hits="41" branch="False" />
+            <line number="59" hits="41" branch="False" />
+            <line number="60" hits="41" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.PaymentService" line-rate="1" branch-rate="1" complexity="12">
+      <classes>
+        <class name="FinancialPlatform.PaymentService.Services.PaymentGateway" filename="FinancialPlatform.PaymentService\Services\PaymentGateway.cs" line-rate="1" branch-rate="1" complexity="9">
+          <methods>
+            <method name="Authorize" signature="(System.Decimal,System.Int32)" line-rate="1" branch-rate="1" complexity="8">
+              <lines>
+                <line number="34" hits="16" branch="False" />
+                <line number="40" hits="16" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="56" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="42" hits="1" branch="False" />
+                <line number="43" hits="1" branch="False" />
+                <line number="47" hits="15" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="104" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="49" hits="3" branch="False" />
+                <line number="50" hits="3" branch="False" />
+                <line number="55" hits="12" branch="True" condition-coverage="100% (4/4)">
+                  <conditions>
+                    <condition number="165" type="jump" coverage="100%" />
+                    <condition number="170" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="57" hits="2" branch="False" />
+                <line number="58" hits="2" branch="False" />
+                <line number="59" hits="2" branch="False" />
+                <line number="60" hits="2" branch="False" />
+                <line number="64" hits="10" branch="False" />
+                <line number="65" hits="10" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.PaymentService.Services.PaymentGateway&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="24" hits="17" branch="False" />
+                <line number="26" hits="17" branch="False" />
+                <line number="27" hits="17" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="34" hits="16" branch="False" />
+            <line number="40" hits="16" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="56" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="42" hits="1" branch="False" />
+            <line number="43" hits="1" branch="False" />
+            <line number="47" hits="15" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="104" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="49" hits="3" branch="False" />
+            <line number="50" hits="3" branch="False" />
+            <line number="55" hits="12" branch="True" condition-coverage="100% (4/4)">
+              <conditions>
+                <condition number="165" type="jump" coverage="100%" />
+                <condition number="170" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="57" hits="2" branch="False" />
+            <line number="58" hits="2" branch="False" />
+            <line number="59" hits="2" branch="False" />
+            <line number="60" hits="2" branch="False" />
+            <line number="64" hits="10" branch="False" />
+            <line number="65" hits="10" branch="False" />
+            <line number="24" hits="17" branch="False" />
+            <line number="26" hits="17" branch="False" />
+            <line number="27" hits="17" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PaymentService.Services.PaymentService" filename="FinancialPlatform.PaymentService\Services\PaymentService.cs" line-rate="1" branch-rate="1" complexity="3">
+          <methods>
+            <method name="RegisterTransaction" signature="(System.String,System.Decimal)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="64" hits="7" branch="False" />
+                <line number="66" hits="7" branch="False" />
+                <line number="67" hits="7" branch="False" />
+                <line number="68" hits="7" branch="False" />
+                <line number="69" hits="7" branch="False" />
+              </lines>
+            </method>
+            <method name="RecordPinVerification" signature="(System.String,System.Boolean)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="73" hits="3" branch="False" />
+                <line number="75" hits="3" branch="False" />
+                <line number="76" hits="3" branch="False" />
+                <line number="77" hits="3" branch="False" />
+                <line number="78" hits="3" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(FinancialPlatform.Shared.Interfaces.IEventBus,FinancialPlatform.PaymentService.Services.PaymentGateway,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.PaymentService.Services.PaymentService&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="37" hits="7" branch="False" />
+                <line number="39" hits="7" branch="False" />
+                <line number="44" hits="7" branch="False" />
+                <line number="46" hits="7" branch="False" />
+                <line number="48" hits="7" branch="False" />
+                <line number="50" hits="7" branch="False" />
+                <line number="51" hits="7" branch="False" />
+                <line number="52" hits="7" branch="False" />
+                <line number="53" hits="7" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="64" hits="7" branch="False" />
+            <line number="66" hits="7" branch="False" />
+            <line number="67" hits="7" branch="False" />
+            <line number="68" hits="7" branch="False" />
+            <line number="69" hits="7" branch="False" />
+            <line number="73" hits="3" branch="False" />
+            <line number="75" hits="3" branch="False" />
+            <line number="76" hits="3" branch="False" />
+            <line number="77" hits="3" branch="False" />
+            <line number="78" hits="3" branch="False" />
+            <line number="37" hits="7" branch="False" />
+            <line number="39" hits="7" branch="False" />
+            <line number="44" hits="7" branch="False" />
+            <line number="46" hits="7" branch="False" />
+            <line number="48" hits="7" branch="False" />
+            <line number="50" hits="7" branch="False" />
+            <line number="51" hits="7" branch="False" />
+            <line number="52" hits="7" branch="False" />
+            <line number="53" hits="7" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.PinEncryptionService" line-rate="0.9299" branch-rate="0.8717" complexity="104">
+      <classes>
+        <class name="FinancialPlatform.PinEncryptionService.Services.Iso8583Service" filename="FinancialPlatform.PinEncryptionService\Services\Iso8583Service.cs" line-rate="0.9629000000000001" branch-rate="0.8695" complexity="48">
+          <methods>
+            <method name="Parse" signature="(System.String)" line-rate="0.9393" branch-rate="0.875" complexity="16">
+              <lines>
+                <line number="97" hits="5" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="98" hits="1" branch="False" />
+                <line number="100" hits="3" branch="False" />
+                <line number="101" hits="3" branch="False" />
+                <line number="104" hits="3" branch="False" />
+                <line number="105" hits="3" branch="False" />
+                <line number="108" hits="3" branch="False" />
+                <line number="109" hits="3" branch="False" />
+                <line number="111" hits="3" branch="False" />
+                <line number="114" hits="3" branch="False" />
+                <line number="116" hits="3" branch="False" />
+                <line number="117" hits="3" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="84" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="119" hits="0" branch="False" />
+                <line number="120" hits="0" branch="False" />
+                <line number="124" hits="3" branch="False" />
+                <line number="127" hits="384" branch="True" condition-coverage="75% (3/4)">
+                  <conditions>
+                    <condition number="375" type="jump" coverage="100%" />
+                    <condition number="364" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="130" hits="189" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="131" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="131" hits="11" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="150" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="134" hits="11" branch="True" condition-coverage="100% (4/4)">
+                  <conditions>
+                    <condition number="176" type="jump" coverage="100%" />
+                    <condition number="190" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="138" hits="7" branch="False" />
+                <line number="139" hits="7" branch="False" />
+                <line number="140" hits="7" branch="False" />
+                <line number="145" hits="3" branch="False" />
+                <line number="146" hits="3" branch="False" />
+                <line number="147" hits="3" branch="False" />
+                <line number="148" hits="3" branch="False" />
+                <line number="149" hits="3" branch="False" />
+                <line number="155" hits="1" branch="False" />
+                <line number="156" hits="1" branch="False" />
+                <line number="157" hits="1" branch="False" />
+                <line number="158" hits="1" branch="False" />
+                <line number="163" hits="11" branch="False" />
+                <line number="166" hits="3" branch="False" />
+              </lines>
+            </method>
+            <method name="Build" signature="(FinancialPlatform.PinEncryptionService.Models.Iso8583Message)" line-rate="0.9166" branch-rate="0.8125" complexity="16">
+              <lines>
+                <line number="173" hits="8" branch="False" />
+                <line number="174" hits="8" branch="False" />
+                <line number="177" hits="8" branch="False" />
+                <line number="178" hits="8" branch="False" />
+                <line number="180" hits="8" branch="False" />
+                <line number="181" hits="8" branch="False" />
+                <line number="184" hits="8" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="128" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="185" hits="0" branch="False" />
+                <line number="188" hits="54" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="184" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="190" hits="19" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="157" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="191" hits="19" branch="False" />
+                <line number="194" hits="8" branch="False" />
+                <line number="195" hits="8" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="216" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="196" hits="0" branch="False" />
+                <line number="199" hits="54" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="476" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="201" hits="19" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="268" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="202" hits="19" branch="False" />
+                <line number="204" hits="19" branch="True" condition-coverage="100% (4/4)">
+                  <conditions>
+                    <condition number="309" type="jump" coverage="100%" />
+                    <condition number="323" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="208" hits="12" branch="False" />
+                <line number="209" hits="12" branch="False" />
+                <line number="212" hits="5" branch="False" />
+                <line number="213" hits="5" branch="False" />
+                <line number="216" hits="2" branch="False" />
+                <line number="221" hits="8" branch="False" />
+              </lines>
+            </method>
+            <method name="GetMtiDescription" signature="(System.String)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="226" hits="3" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="13" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name="GetFieldDefinitions" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="229" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="BuildBitset" signature="(System.Byte[],System.Byte[])" line-rate="1" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="235" hits="3" branch="False" />
+                <line number="236" hits="3" branch="False" />
+                <line number="237" hits="3" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="20" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="238" hits="3" branch="False" />
+              </lines>
+            </method>
+            <method name="SetBits" signature="(System.Boolean[],System.Byte[],System.Int32)" line-rate="1" branch-rate="1" complexity="6">
+              <lines>
+                <line number="246" hits="54" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="50" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="248" hits="432" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="40" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="250" hits="192" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="22" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="251" hits="11" branch="False" />
+                <line number="254" hits="3" branch="False" />
+              </lines>
+            </method>
+            <method name="BitsToHex" signature="(System.Boolean[])" line-rate="1" branch-rate="1" complexity="4">
+              <lines>
+                <line number="260" hits="8" branch="False" />
+                <line number="261" hits="1040" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="50" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="263" hits="512" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="14" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="264" hits="19" branch="False" />
+                <line number="266" hits="8" branch="False" />
+              </lines>
+            </method>
+            <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="55" hits="1" branch="False" />
+                <line number="56" hits="1" branch="False" />
+                <line number="57" hits="1" branch="False" />
+                <line number="58" hits="1" branch="False" />
+                <line number="59" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="False" />
+                <line number="62" hits="1" branch="False" />
+                <line number="63" hits="1" branch="False" />
+                <line number="64" hits="1" branch="False" />
+                <line number="65" hits="1" branch="False" />
+                <line number="66" hits="1" branch="False" />
+                <line number="67" hits="1" branch="False" />
+                <line number="68" hits="1" branch="False" />
+                <line number="69" hits="1" branch="False" />
+                <line number="70" hits="1" branch="False" />
+                <line number="71" hits="1" branch="False" />
+                <line number="72" hits="1" branch="False" />
+                <line number="73" hits="1" branch="False" />
+                <line number="74" hits="1" branch="False" />
+                <line number="75" hits="1" branch="False" />
+                <line number="78" hits="1" branch="False" />
+                <line number="79" hits="1" branch="False" />
+                <line number="80" hits="1" branch="False" />
+                <line number="81" hits="1" branch="False" />
+                <line number="82" hits="1" branch="False" />
+                <line number="83" hits="1" branch="False" />
+                <line number="84" hits="1" branch="False" />
+                <line number="85" hits="1" branch="False" />
+                <line number="86" hits="1" branch="False" />
+                <line number="87" hits="1" branch="False" />
+                <line number="88" hits="1" branch="False" />
+                <line number="89" hits="1" branch="False" />
+                <line number="90" hits="1" branch="False" />
+                <line number="91" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="97" hits="5" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="8" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="98" hits="1" branch="False" />
+            <line number="100" hits="3" branch="False" />
+            <line number="101" hits="3" branch="False" />
+            <line number="104" hits="3" branch="False" />
+            <line number="105" hits="3" branch="False" />
+            <line number="108" hits="3" branch="False" />
+            <line number="109" hits="3" branch="False" />
+            <line number="111" hits="3" branch="False" />
+            <line number="114" hits="3" branch="False" />
+            <line number="116" hits="3" branch="False" />
+            <line number="117" hits="3" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="84" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="119" hits="0" branch="False" />
+            <line number="120" hits="0" branch="False" />
+            <line number="124" hits="3" branch="False" />
+            <line number="127" hits="384" branch="True" condition-coverage="75% (3/4)">
+              <conditions>
+                <condition number="375" type="jump" coverage="100%" />
+                <condition number="364" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="130" hits="189" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="131" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="131" hits="11" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="150" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="134" hits="11" branch="True" condition-coverage="100% (4/4)">
+              <conditions>
+                <condition number="176" type="jump" coverage="100%" />
+                <condition number="190" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="138" hits="7" branch="False" />
+            <line number="139" hits="7" branch="False" />
+            <line number="140" hits="7" branch="False" />
+            <line number="145" hits="3" branch="False" />
+            <line number="146" hits="3" branch="False" />
+            <line number="147" hits="3" branch="False" />
+            <line number="148" hits="3" branch="False" />
+            <line number="149" hits="3" branch="False" />
+            <line number="155" hits="1" branch="False" />
+            <line number="156" hits="1" branch="False" />
+            <line number="157" hits="1" branch="False" />
+            <line number="158" hits="1" branch="False" />
+            <line number="163" hits="11" branch="False" />
+            <line number="166" hits="3" branch="False" />
+            <line number="173" hits="8" branch="False" />
+            <line number="174" hits="8" branch="False" />
+            <line number="177" hits="8" branch="False" />
+            <line number="178" hits="8" branch="False" />
+            <line number="180" hits="8" branch="False" />
+            <line number="181" hits="8" branch="False" />
+            <line number="184" hits="8" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="128" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="185" hits="0" branch="False" />
+            <line number="188" hits="54" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="184" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="190" hits="19" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="157" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="191" hits="19" branch="False" />
+            <line number="194" hits="8" branch="False" />
+            <line number="195" hits="8" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="216" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="196" hits="0" branch="False" />
+            <line number="199" hits="54" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="476" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="201" hits="19" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="268" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="202" hits="19" branch="False" />
+            <line number="204" hits="19" branch="True" condition-coverage="100% (4/4)">
+              <conditions>
+                <condition number="309" type="jump" coverage="100%" />
+                <condition number="323" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="208" hits="12" branch="False" />
+            <line number="209" hits="12" branch="False" />
+            <line number="212" hits="5" branch="False" />
+            <line number="213" hits="5" branch="False" />
+            <line number="216" hits="2" branch="False" />
+            <line number="221" hits="8" branch="False" />
+            <line number="226" hits="3" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="13" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="229" hits="1" branch="False" />
+            <line number="235" hits="3" branch="False" />
+            <line number="236" hits="3" branch="False" />
+            <line number="237" hits="3" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="20" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="238" hits="3" branch="False" />
+            <line number="246" hits="54" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="50" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="248" hits="432" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="40" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="250" hits="192" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="22" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="251" hits="11" branch="False" />
+            <line number="254" hits="3" branch="False" />
+            <line number="260" hits="8" branch="False" />
+            <line number="261" hits="1040" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="50" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="263" hits="512" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="14" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="264" hits="19" branch="False" />
+            <line number="266" hits="8" branch="False" />
+            <line number="55" hits="1" branch="False" />
+            <line number="56" hits="1" branch="False" />
+            <line number="57" hits="1" branch="False" />
+            <line number="58" hits="1" branch="False" />
+            <line number="59" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="False" />
+            <line number="62" hits="1" branch="False" />
+            <line number="63" hits="1" branch="False" />
+            <line number="64" hits="1" branch="False" />
+            <line number="65" hits="1" branch="False" />
+            <line number="66" hits="1" branch="False" />
+            <line number="67" hits="1" branch="False" />
+            <line number="68" hits="1" branch="False" />
+            <line number="69" hits="1" branch="False" />
+            <line number="70" hits="1" branch="False" />
+            <line number="71" hits="1" branch="False" />
+            <line number="72" hits="1" branch="False" />
+            <line number="73" hits="1" branch="False" />
+            <line number="74" hits="1" branch="False" />
+            <line number="75" hits="1" branch="False" />
+            <line number="78" hits="1" branch="False" />
+            <line number="79" hits="1" branch="False" />
+            <line number="80" hits="1" branch="False" />
+            <line number="81" hits="1" branch="False" />
+            <line number="82" hits="1" branch="False" />
+            <line number="83" hits="1" branch="False" />
+            <line number="84" hits="1" branch="False" />
+            <line number="85" hits="1" branch="False" />
+            <line number="86" hits="1" branch="False" />
+            <line number="87" hits="1" branch="False" />
+            <line number="88" hits="1" branch="False" />
+            <line number="89" hits="1" branch="False" />
+            <line number="90" hits="1" branch="False" />
+            <line number="91" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Services.PinBlockService" filename="FinancialPlatform.PinEncryptionService\Services\PinBlockService.cs" line-rate="1" branch-rate="0.875" complexity="21">
+          <methods>
+            <method name="BuildPinBlock" signature="(System.String)" line-rate="1" branch-rate="1" complexity="6">
+              <lines>
+                <line number="51" hits="17" branch="True" condition-coverage="100% (6/6)">
+                  <conditions>
+                    <condition number="7" type="jump" coverage="100%" />
+                    <condition number="17" type="jump" coverage="100%" />
+                    <condition number="52" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="52" hits="3" branch="False" />
+                <line number="56" hits="14" branch="False" />
+                <line number="57" hits="14" branch="False" />
+              </lines>
+            </method>
+            <method name="BuildPanBlock" signature="(System.String)" line-rate="1" branch-rate="0.75" complexity="4">
+              <lines>
+                <line number="66" hits="27" branch="False" />
+                <line number="67" hits="27" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="53" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="68" hits="1" branch="False" />
+                <line number="72" hits="26" branch="False" />
+                <line number="73" hits="26" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="97" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="74" hits="26" branch="False" />
+                <line number="75" hits="26" branch="False" />
+                <line number="77" hits="26" branch="False" />
+              </lines>
+            </method>
+            <method name="EncryptPin" signature="(System.String,System.String,System.Byte[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="85" hits="13" branch="False" />
+                <line number="86" hits="13" branch="False" />
+                <line number="87" hits="13" branch="False" />
+                <line number="88" hits="13" branch="False" />
+                <line number="89" hits="13" branch="False" />
+              </lines>
+            </method>
+            <method name="DecryptPin" signature="(System.String,System.String,System.Byte[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="96" hits="12" branch="False" />
+                <line number="97" hits="11" branch="False" />
+                <line number="98" hits="11" branch="False" />
+                <line number="99" hits="11" branch="False" />
+                <line number="100" hits="11" branch="False" />
+              </lines>
+            </method>
+            <method name="TranslatePin" signature="(System.String,System.Byte[],System.Byte[],System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="108" hits="3" branch="False" />
+                <line number="109" hits="3" branch="False" />
+              </lines>
+            </method>
+            <method name="CalculateKcv" signature="(System.Byte[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="117" hits="31" branch="False" />
+                <line number="118" hits="31" branch="False" />
+                <line number="119" hits="31" branch="False" />
+              </lines>
+            </method>
+            <method name="Xor8" signature="(System.Byte[],System.Byte[])" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="126" hits="24" branch="False" />
+                <line number="127" hits="432" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="28" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="128" hits="192" branch="False" />
+                <line number="129" hits="24" branch="False" />
+              </lines>
+            </method>
+            <method name="TripleDesEcb" signature="(System.Byte[],System.Byte[],System.Boolean)" line-rate="1" branch-rate="0.75" complexity="4">
+              <lines>
+                <line number="139" hits="55" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="5" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="142" hits="55" branch="False" />
+                <line number="143" hits="55" branch="False" />
+                <line number="144" hits="55" branch="False" />
+                <line number="145" hits="55" branch="False" />
+                <line number="147" hits="55" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="188" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="148" hits="55" branch="False" />
+                <line number="149" hits="55" branch="False" />
+              </lines>
+            </method>
+            <method name="ExtractPin" signature="(System.Byte[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="156" hits="11" branch="False" />
+                <line number="159" hits="11" branch="False" />
+                <line number="160" hits="11" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="51" hits="17" branch="True" condition-coverage="100% (6/6)">
+              <conditions>
+                <condition number="7" type="jump" coverage="100%" />
+                <condition number="17" type="jump" coverage="100%" />
+                <condition number="52" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="52" hits="3" branch="False" />
+            <line number="56" hits="14" branch="False" />
+            <line number="57" hits="14" branch="False" />
+            <line number="66" hits="27" branch="False" />
+            <line number="67" hits="27" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="53" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="68" hits="1" branch="False" />
+            <line number="72" hits="26" branch="False" />
+            <line number="73" hits="26" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="97" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="74" hits="26" branch="False" />
+            <line number="75" hits="26" branch="False" />
+            <line number="77" hits="26" branch="False" />
+            <line number="85" hits="13" branch="False" />
+            <line number="86" hits="13" branch="False" />
+            <line number="87" hits="13" branch="False" />
+            <line number="88" hits="13" branch="False" />
+            <line number="89" hits="13" branch="False" />
+            <line number="96" hits="12" branch="False" />
+            <line number="97" hits="11" branch="False" />
+            <line number="98" hits="11" branch="False" />
+            <line number="99" hits="11" branch="False" />
+            <line number="100" hits="11" branch="False" />
+            <line number="108" hits="3" branch="False" />
+            <line number="109" hits="3" branch="False" />
+            <line number="117" hits="31" branch="False" />
+            <line number="118" hits="31" branch="False" />
+            <line number="119" hits="31" branch="False" />
+            <line number="126" hits="24" branch="False" />
+            <line number="127" hits="432" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="28" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="128" hits="192" branch="False" />
+            <line number="129" hits="24" branch="False" />
+            <line number="139" hits="55" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="5" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="142" hits="55" branch="False" />
+            <line number="143" hits="55" branch="False" />
+            <line number="144" hits="55" branch="False" />
+            <line number="145" hits="55" branch="False" />
+            <line number="147" hits="55" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="188" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="148" hits="55" branch="False" />
+            <line number="149" hits="55" branch="False" />
+            <line number="156" hits="11" branch="False" />
+            <line number="159" hits="11" branch="False" />
+            <line number="160" hits="11" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Services.SoftwareHsmService" filename="FinancialPlatform.PinEncryptionService\Services\SoftwareHsmService.cs" line-rate="1" branch-rate="0.875" complexity="26">
+          <methods>
+            <method name="GenerateKey" signature="(FinancialPlatform.PinEncryptionService.Models.GenerateKeyRequest)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="81" hits="7" branch="False" />
+                <line number="82" hits="7" branch="False" />
+                <line number="83" hits="7" branch="False" />
+                <line number="85" hits="7" branch="False" />
+                <line number="87" hits="7" branch="False" />
+                <line number="88" hits="7" branch="False" />
+                <line number="90" hits="7" branch="False" />
+                <line number="91" hits="7" branch="False" />
+                <line number="93" hits="7" branch="False" />
+                <line number="94" hits="7" branch="False" />
+              </lines>
+            </method>
+            <method name="EncryptPin" signature="(FinancialPlatform.PinEncryptionService.Models.EncryptPinRequest)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="100" hits="6" branch="False" />
+                <line number="101" hits="4" branch="False" />
+                <line number="102" hits="4" branch="False" />
+                <line number="104" hits="4" branch="False" />
+                <line number="108" hits="4" branch="False" />
+                <line number="109" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="DecryptPin" signature="(FinancialPlatform.PinEncryptionService.Models.DecryptPinRequest)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="115" hits="2" branch="False" />
+                <line number="116" hits="2" branch="False" />
+                <line number="117" hits="2" branch="False" />
+                <line number="118" hits="2" branch="False" />
+              </lines>
+            </method>
+            <method name="TranslatePin" signature="(FinancialPlatform.PinEncryptionService.Models.TranslatePinRequest)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="124" hits="1" branch="False" />
+                <line number="125" hits="1" branch="False" />
+                <line number="126" hits="1" branch="False" />
+                <line number="127" hits="1" branch="False" />
+                <line number="128" hits="1" branch="False" />
+                <line number="129" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="VerifyPin" signature="(FinancialPlatform.PinEncryptionService.Models.VerifyPinRequest)" line-rate="1" branch-rate="1" complexity="4">
+              <lines>
+                <line number="135" hits="2" branch="False" />
+                <line number="136" hits="2" branch="False" />
+                <line number="137" hits="2" branch="False" />
+                <line number="139" hits="2" branch="False" />
+                <line number="140" hits="2" branch="False" />
+                <line number="141" hits="2" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="142" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="142" hits="2" branch="False" />
+                <line number="144" hits="2" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="164" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+            <method name="HasKey" signature="(System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="150" hits="10" branch="False" />
+                <line number="151" hits="5" branch="False" />
+              </lines>
+            </method>
+            <method name="ListKeyIds" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="157" hits="2" branch="False" />
+                <line number="158" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="RotateKey" signature="(FinancialPlatform.PinEncryptionService.Models.RotateKeyRequest)" line-rate="1" branch-rate="1" complexity="4">
+              <lines>
+                <line number="162" hits="3" branch="False" />
+                <line number="164" hits="3" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="36" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="165" hits="1" branch="False" />
+                <line number="167" hits="2" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="82" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="168" hits="1" branch="False" />
+                <line number="171" hits="1" branch="False" />
+                <line number="172" hits="1" branch="False" />
+                <line number="173" hits="1" branch="False" />
+                <line number="174" hits="1" branch="False" />
+                <line number="175" hits="1" branch="False" />
+                <line number="178" hits="1" branch="False" />
+                <line number="179" hits="1" branch="False" />
+                <line number="180" hits="1" branch="False" />
+                <line number="182" hits="1" branch="False" />
+                <line number="183" hits="1" branch="False" />
+                <line number="185" hits="1" branch="False" />
+                <line number="186" hits="1" branch="False" />
+                <line number="188" hits="1" branch="False" />
+                <line number="189" hits="1" branch="False" />
+                <line number="190" hits="1" branch="False" />
+                <line number="192" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name="ResolveKey" signature="(System.String,FinancialPlatform.PinEncryptionService.Models.HsmKeyType)" line-rate="1" branch-rate="1" complexity="4">
+              <lines>
+                <line number="200" hits="12" branch="False" />
+                <line number="204" hits="12" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="31" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="205" hits="1" branch="False" />
+                <line number="206" hits="11" branch="False" />
+                <line number="208" hits="11" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="74" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="209" hits="1" branch="False" />
+                <line number="210" hits="1" branch="False" />
+                <line number="212" hits="10" branch="False" />
+              </lines>
+            </method>
+            <method name="EncryptUnderLmk" signature="(System.Byte[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="219" hits="22" branch="False" />
+                <line number="220" hits="22" branch="False" />
+                <line number="222" hits="22" branch="False" />
+                <line number="223" hits="22" branch="False" />
+                <line number="224" hits="22" branch="False" />
+                <line number="225" hits="22" branch="False" />
+                <line number="226" hits="22" branch="False" />
+                <line number="227" hits="22" branch="False" />
+                <line number="228" hits="22" branch="False" />
+                <line number="230" hits="22" branch="False" />
+                <line number="231" hits="22" branch="False" />
+                <line number="232" hits="22" branch="False" />
+                <line number="233" hits="22" branch="False" />
+                <line number="234" hits="22" branch="False" />
+              </lines>
+            </method>
+            <method name="DecryptUnderLmk" signature="(System.Byte[])" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="240" hits="10" branch="False" />
+                <line number="241" hits="10" branch="False" />
+                <line number="243" hits="10" branch="False" />
+                <line number="244" hits="10" branch="False" />
+                <line number="245" hits="10" branch="False" />
+                <line number="246" hits="10" branch="False" />
+                <line number="247" hits="10" branch="False" />
+                <line number="248" hits="10" branch="False" />
+                <line number="249" hits="10" branch="False" />
+                <line number="250" hits="10" branch="False" />
+                <line number="251" hits="10" branch="False" />
+              </lines>
+            </method>
+            <method name="SeedDefaultKeys" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="258" hits="14" branch="False" />
+                <line number="259" hits="14" branch="False" />
+                <line number="260" hits="14" branch="False" />
+                <line number="262" hits="14" branch="False" />
+                <line number="263" hits="14" branch="False" />
+                <line number="265" hits="14" branch="False" />
+                <line number="266" hits="14" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(FinancialPlatform.PinEncryptionService.Services.PinBlockService,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.PinEncryptionService.Services.SoftwareHsmService&gt;,Microsoft.Extensions.Configuration.IConfiguration)" line-rate="1" branch-rate="0.5" complexity="4">
+              <lines>
+                <line number="55" hits="14" branch="False" />
+                <line number="56" hits="14" branch="False" />
+                <line number="58" hits="14" branch="False" />
+                <line number="59" hits="14" branch="False" />
+                <line number="60" hits="14" branch="False" />
+                <line number="61" hits="14" branch="False" />
+                <line number="63" hits="14" branch="False" />
+                <line number="64" hits="14" branch="False" />
+                <line number="68" hits="14" branch="False" />
+                <line number="69" hits="14" branch="True" condition-coverage="50% (2/4)">
+                  <conditions>
+                    <condition number="56" type="jump" coverage="50%" />
+                    <condition number="66" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="70" hits="14" branch="False" />
+                <line number="71" hits="14" branch="False" />
+                <line number="73" hits="14" branch="False" />
+                <line number="74" hits="14" branch="False" />
+              </lines>
+            </method>
+            <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="49" hits="1" branch="False" />
+                <line number="50" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="81" hits="7" branch="False" />
+            <line number="82" hits="7" branch="False" />
+            <line number="83" hits="7" branch="False" />
+            <line number="85" hits="7" branch="False" />
+            <line number="87" hits="7" branch="False" />
+            <line number="88" hits="7" branch="False" />
+            <line number="90" hits="7" branch="False" />
+            <line number="91" hits="7" branch="False" />
+            <line number="93" hits="7" branch="False" />
+            <line number="94" hits="7" branch="False" />
+            <line number="100" hits="6" branch="False" />
+            <line number="101" hits="4" branch="False" />
+            <line number="102" hits="4" branch="False" />
+            <line number="104" hits="4" branch="False" />
+            <line number="108" hits="4" branch="False" />
+            <line number="109" hits="4" branch="False" />
+            <line number="115" hits="2" branch="False" />
+            <line number="116" hits="2" branch="False" />
+            <line number="117" hits="2" branch="False" />
+            <line number="118" hits="2" branch="False" />
+            <line number="124" hits="1" branch="False" />
+            <line number="125" hits="1" branch="False" />
+            <line number="126" hits="1" branch="False" />
+            <line number="127" hits="1" branch="False" />
+            <line number="128" hits="1" branch="False" />
+            <line number="129" hits="1" branch="False" />
+            <line number="135" hits="2" branch="False" />
+            <line number="136" hits="2" branch="False" />
+            <line number="137" hits="2" branch="False" />
+            <line number="139" hits="2" branch="False" />
+            <line number="140" hits="2" branch="False" />
+            <line number="141" hits="2" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="142" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="142" hits="2" branch="False" />
+            <line number="144" hits="2" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="164" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="150" hits="10" branch="False" />
+            <line number="151" hits="5" branch="False" />
+            <line number="157" hits="2" branch="False" />
+            <line number="158" hits="1" branch="False" />
+            <line number="162" hits="3" branch="False" />
+            <line number="164" hits="3" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="36" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="165" hits="1" branch="False" />
+            <line number="167" hits="2" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="82" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="168" hits="1" branch="False" />
+            <line number="171" hits="1" branch="False" />
+            <line number="172" hits="1" branch="False" />
+            <line number="173" hits="1" branch="False" />
+            <line number="174" hits="1" branch="False" />
+            <line number="175" hits="1" branch="False" />
+            <line number="178" hits="1" branch="False" />
+            <line number="179" hits="1" branch="False" />
+            <line number="180" hits="1" branch="False" />
+            <line number="182" hits="1" branch="False" />
+            <line number="183" hits="1" branch="False" />
+            <line number="185" hits="1" branch="False" />
+            <line number="186" hits="1" branch="False" />
+            <line number="188" hits="1" branch="False" />
+            <line number="189" hits="1" branch="False" />
+            <line number="190" hits="1" branch="False" />
+            <line number="192" hits="1" branch="False" />
+            <line number="200" hits="12" branch="False" />
+            <line number="204" hits="12" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="31" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="205" hits="1" branch="False" />
+            <line number="206" hits="11" branch="False" />
+            <line number="208" hits="11" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="74" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="209" hits="1" branch="False" />
+            <line number="210" hits="1" branch="False" />
+            <line number="212" hits="10" branch="False" />
+            <line number="219" hits="22" branch="False" />
+            <line number="220" hits="22" branch="False" />
+            <line number="222" hits="22" branch="False" />
+            <line number="223" hits="22" branch="False" />
+            <line number="224" hits="22" branch="False" />
+            <line number="225" hits="22" branch="False" />
+            <line number="226" hits="22" branch="False" />
+            <line number="227" hits="22" branch="False" />
+            <line number="228" hits="22" branch="False" />
+            <line number="230" hits="22" branch="False" />
+            <line number="231" hits="22" branch="False" />
+            <line number="232" hits="22" branch="False" />
+            <line number="233" hits="22" branch="False" />
+            <line number="234" hits="22" branch="False" />
+            <line number="240" hits="10" branch="False" />
+            <line number="241" hits="10" branch="False" />
+            <line number="243" hits="10" branch="False" />
+            <line number="244" hits="10" branch="False" />
+            <line number="245" hits="10" branch="False" />
+            <line number="246" hits="10" branch="False" />
+            <line number="247" hits="10" branch="False" />
+            <line number="248" hits="10" branch="False" />
+            <line number="249" hits="10" branch="False" />
+            <line number="250" hits="10" branch="False" />
+            <line number="251" hits="10" branch="False" />
+            <line number="258" hits="14" branch="False" />
+            <line number="259" hits="14" branch="False" />
+            <line number="260" hits="14" branch="False" />
+            <line number="262" hits="14" branch="False" />
+            <line number="263" hits="14" branch="False" />
+            <line number="265" hits="14" branch="False" />
+            <line number="266" hits="14" branch="False" />
+            <line number="55" hits="14" branch="False" />
+            <line number="56" hits="14" branch="False" />
+            <line number="58" hits="14" branch="False" />
+            <line number="59" hits="14" branch="False" />
+            <line number="60" hits="14" branch="False" />
+            <line number="61" hits="14" branch="False" />
+            <line number="63" hits="14" branch="False" />
+            <line number="64" hits="14" branch="False" />
+            <line number="68" hits="14" branch="False" />
+            <line number="69" hits="14" branch="True" condition-coverage="50% (2/4)">
+              <conditions>
+                <condition number="56" type="jump" coverage="50%" />
+                <condition number="66" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="70" hits="14" branch="False" />
+            <line number="71" hits="14" branch="False" />
+            <line number="73" hits="14" branch="False" />
+            <line number="74" hits="14" branch="False" />
+            <line number="49" hits="1" branch="False" />
+            <line number="50" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.GenerateKeyResponse" filename="FinancialPlatform.PinEncryptionService\Models\HsmModels.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,FinancialPlatform.PinEncryptionService.Models.HsmKeyType,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="36" hits="7" branch="False" />
+                <line number="37" hits="7" branch="False" />
+                <line number="38" hits="7" branch="False" />
+                <line number="39" hits="7" branch="False" />
+                <line number="40" hits="7" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="36" hits="7" branch="False" />
+            <line number="37" hits="7" branch="False" />
+            <line number="38" hits="7" branch="False" />
+            <line number="39" hits="7" branch="False" />
+            <line number="40" hits="7" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.EncryptPinResponse" filename="FinancialPlatform.PinEncryptionService\Models\HsmModels.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="46" hits="4" branch="False" />
+                <line number="47" hits="4" branch="False" />
+                <line number="48" hits="4" branch="False" />
+                <line number="49" hits="4" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="46" hits="4" branch="False" />
+            <line number="47" hits="4" branch="False" />
+            <line number="48" hits="4" branch="False" />
+            <line number="49" hits="4" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.TranslatePinRequest" filename="FinancialPlatform.PinEncryptionService\Models\HsmModels.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="59" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="False" />
+                <line number="62" hits="1" branch="False" />
+                <line number="63" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="59" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="False" />
+            <line number="62" hits="1" branch="False" />
+            <line number="63" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.VerifyPinRequest" filename="FinancialPlatform.PinEncryptionService\Models\HsmModels.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="70" hits="2" branch="False" />
+                <line number="71" hits="2" branch="False" />
+                <line number="72" hits="2" branch="False" />
+                <line number="73" hits="2" branch="False" />
+                <line number="74" hits="2" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="70" hits="2" branch="False" />
+            <line number="71" hits="2" branch="False" />
+            <line number="72" hits="2" branch="False" />
+            <line number="73" hits="2" branch="False" />
+            <line number="74" hits="2" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.StoredKey" filename="FinancialPlatform.PinEncryptionService\Models\HsmModels.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,FinancialPlatform.PinEncryptionService.Models.HsmKeyType,System.Byte[],System.String,FinancialPlatform.PinEncryptionService.Models.KeyStatus,System.Nullable`1&lt;System.DateTime&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="82" hits="22" branch="False" />
+                <line number="83" hits="22" branch="False" />
+                <line number="84" hits="22" branch="False" />
+                <line number="85" hits="22" branch="False" />
+                <line number="86" hits="22" branch="False" />
+                <line number="87" hits="22" branch="False" />
+                <line number="88" hits="22" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="82" hits="22" branch="False" />
+            <line number="83" hits="22" branch="False" />
+            <line number="84" hits="22" branch="False" />
+            <line number="85" hits="22" branch="False" />
+            <line number="86" hits="22" branch="False" />
+            <line number="87" hits="22" branch="False" />
+            <line number="88" hits="22" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.RotateKeyResponse" filename="FinancialPlatform.PinEncryptionService\Models\HsmModels.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="97" hits="1" branch="False" />
+                <line number="98" hits="1" branch="False" />
+                <line number="99" hits="1" branch="False" />
+                <line number="100" hits="1" branch="False" />
+                <line number="101" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="97" hits="1" branch="False" />
+            <line number="98" hits="1" branch="False" />
+            <line number="99" hits="1" branch="False" />
+            <line number="100" hits="1" branch="False" />
+            <line number="101" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.ParseIso8583Response" filename="FinancialPlatform.PinEncryptionService\Models\Iso8583Models.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.Collections.Generic.Dictionary`2&lt;System.Int32,System.String&gt;,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="36" hits="0" branch="False" />
+                <line number="37" hits="0" branch="False" />
+                <line number="38" hits="0" branch="False" />
+                <line number="39" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="36" hits="0" branch="False" />
+            <line number="37" hits="0" branch="False" />
+            <line number="38" hits="0" branch="False" />
+            <line number="39" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.AuthorizeCardRequest" filename="FinancialPlatform.PinEncryptionService\Models\Iso8583Models.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String,System.Decimal,System.String,System.String,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="49" hits="0" branch="False" />
+                <line number="50" hits="0" branch="False" />
+                <line number="51" hits="0" branch="False" />
+                <line number="52" hits="0" branch="False" />
+                <line number="53" hits="0" branch="False" />
+                <line number="54" hits="0" branch="False" />
+                <line number="55" hits="0" branch="False" />
+                <line number="56" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="49" hits="0" branch="False" />
+            <line number="50" hits="0" branch="False" />
+            <line number="51" hits="0" branch="False" />
+            <line number="52" hits="0" branch="False" />
+            <line number="53" hits="0" branch="False" />
+            <line number="54" hits="0" branch="False" />
+            <line number="55" hits="0" branch="False" />
+            <line number="56" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.PinEncryptionService.Models.AuthorizeCardResponse" filename="FinancialPlatform.PinEncryptionService\Models\Iso8583Models.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.Boolean,System.String,System.String,System.String,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="60" hits="0" branch="False" />
+                <line number="61" hits="0" branch="False" />
+                <line number="62" hits="0" branch="False" />
+                <line number="63" hits="0" branch="False" />
+                <line number="64" hits="0" branch="False" />
+                <line number="65" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="60" hits="0" branch="False" />
+            <line number="61" hits="0" branch="False" />
+            <line number="62" hits="0" branch="False" />
+            <line number="63" hits="0" branch="False" />
+            <line number="64" hits="0" branch="False" />
+            <line number="65" hits="0" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.RiskService" line-rate="0.7714" branch-rate="0.875" complexity="18">
+      <classes>
+        <class name="FinancialPlatform.RiskService.Services.RiskEvaluationService" filename="FinancialPlatform.RiskService\Services\RiskEvaluationService.cs" line-rate="0.9642000000000001" branch-rate="0.875" complexity="17">
+          <methods>
+            <method name="CalculateRiskScore" signature="(FinancialPlatform.Shared.Events.TransactionCreatedEvent)" line-rate="1" branch-rate="0.9166" complexity="12">
+              <lines>
+                <line number="102" hits="7" branch="False" />
+                <line number="105" hits="11" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="23" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="106" hits="10" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="51" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="109" hits="7" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="70" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="112" hits="9" branch="True" condition-coverage="100% (6/6)">
+                  <conditions>
+                    <condition number="94" type="jump" coverage="100%" />
+                    <condition number="99" type="jump" coverage="100%" />
+                    <condition number="108" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="115" hits="7" branch="False" />
+              </lines>
+            </method>
+            <method name="RecordTransaction" signature="(System.String,System.DateTime)" line-rate="1" branch-rate="1" complexity="2">
+              <lines>
+                <line number="124" hits="7" branch="False" />
+                <line number="131" hits="7" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="37" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="133" hits="7" branch="False" />
+                <line number="134" hits="7" branch="False" />
+                <line number="137" hits="7" branch="False" />
+                <line number="141" hits="7" branch="False" />
+                <line number="145" hits="7" branch="False" />
+                <line number="146" hits="7" branch="False" />
+                <line number="147" hits="7" branch="False" />
+              </lines>
+            </method>
+            <method name="DetectVelocity" signature="(System.String)" line-rate="0.8571" branch-rate="0.5" complexity="2">
+              <lines>
+                <line number="154" hits="14" branch="False" />
+                <line number="156" hits="14" branch="True" condition-coverage="50% (1/2)">
+                  <conditions>
+                    <condition number="37" type="jump" coverage="50%" />
+                  </conditions>
+                </line>
+                <line number="157" hits="0" branch="False" />
+                <line number="159" hits="14" branch="False" />
+                <line number="163" hits="14" branch="False" />
+                <line number="164" hits="14" branch="False" />
+                <line number="166" hits="14" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(FinancialPlatform.Shared.Interfaces.IEventBus,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.RiskService.Services.RiskEvaluationService&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="38" hits="7" branch="False" />
+                <line number="43" hits="7" branch="False" />
+                <line number="45" hits="7" branch="False" />
+                <line number="47" hits="7" branch="False" />
+                <line number="48" hits="7" branch="False" />
+                <line number="49" hits="7" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="102" hits="7" branch="False" />
+            <line number="105" hits="11" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="23" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="106" hits="10" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="51" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="109" hits="7" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="70" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="112" hits="9" branch="True" condition-coverage="100% (6/6)">
+              <conditions>
+                <condition number="94" type="jump" coverage="100%" />
+                <condition number="99" type="jump" coverage="100%" />
+                <condition number="108" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="115" hits="7" branch="False" />
+            <line number="124" hits="7" branch="False" />
+            <line number="131" hits="7" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="37" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="133" hits="7" branch="False" />
+            <line number="134" hits="7" branch="False" />
+            <line number="137" hits="7" branch="False" />
+            <line number="141" hits="7" branch="False" />
+            <line number="145" hits="7" branch="False" />
+            <line number="146" hits="7" branch="False" />
+            <line number="147" hits="7" branch="False" />
+            <line number="154" hits="14" branch="False" />
+            <line number="156" hits="14" branch="True" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="37" type="jump" coverage="50%" />
+              </conditions>
+            </line>
+            <line number="157" hits="0" branch="False" />
+            <line number="159" hits="14" branch="False" />
+            <line number="163" hits="14" branch="False" />
+            <line number="164" hits="14" branch="False" />
+            <line number="166" hits="14" branch="False" />
+            <line number="38" hits="7" branch="False" />
+            <line number="43" hits="7" branch="False" />
+            <line number="45" hits="7" branch="False" />
+            <line number="47" hits="7" branch="False" />
+            <line number="48" hits="7" branch="False" />
+            <line number="49" hits="7" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.RiskService.Controllers.EvaluateRequest" filename="FinancialPlatform.RiskService\Controllers\RiskController.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.Decimal,System.String,System.Nullable`1&lt;System.DateTime&gt;)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="113" hits="0" branch="False" />
+                <line number="114" hits="0" branch="False" />
+                <line number="115" hits="0" branch="False" />
+                <line number="116" hits="0" branch="False" />
+                <line number="117" hits="0" branch="False" />
+                <line number="118" hits="0" branch="False" />
+                <line number="119" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="113" hits="0" branch="False" />
+            <line number="114" hits="0" branch="False" />
+            <line number="115" hits="0" branch="False" />
+            <line number="116" hits="0" branch="False" />
+            <line number="117" hits="0" branch="False" />
+            <line number="118" hits="0" branch="False" />
+            <line number="119" hits="0" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.Shared" line-rate="0.6724" branch-rate="1" complexity="7">
+      <classes>
+        <class name="FinancialPlatform.Shared.Events.AuditLoggedEvent" filename="FinancialPlatform.Shared\Events\AuditLoggedEvent.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.String,System.DateTime)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="18" hits="2" branch="False" />
+                <line number="19" hits="2" branch="False" />
+                <line number="20" hits="2" branch="False" />
+                <line number="21" hits="2" branch="False" />
+                <line number="22" hits="2" branch="False" />
+                <line number="23" hits="2" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="18" hits="2" branch="False" />
+            <line number="19" hits="2" branch="False" />
+            <line number="20" hits="2" branch="False" />
+            <line number="21" hits="2" branch="False" />
+            <line number="22" hits="2" branch="False" />
+            <line number="23" hits="2" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.Shared.Events.PaymentAuthorizedEvent" filename="FinancialPlatform.Shared\Events\PaymentAuthorizedEvent.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.Boolean,System.String,System.DateTime)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="17" hits="11" branch="False" />
+                <line number="18" hits="11" branch="False" />
+                <line number="19" hits="11" branch="False" />
+                <line number="20" hits="11" branch="False" />
+                <line number="21" hits="11" branch="False" />
+                <line number="22" hits="11" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="17" hits="11" branch="False" />
+            <line number="18" hits="11" branch="False" />
+            <line number="19" hits="11" branch="False" />
+            <line number="20" hits="11" branch="False" />
+            <line number="21" hits="11" branch="False" />
+            <line number="22" hits="11" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.Shared.Events.PinVerifiedEvent" filename="FinancialPlatform.Shared\Events\PinVerifiedEvent.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.Boolean,System.String,System.DateTime)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="22" hits="0" branch="False" />
+                <line number="23" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="25" hits="0" branch="False" />
+                <line number="26" hits="0" branch="False" />
+                <line number="27" hits="0" branch="False" />
+                <line number="28" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="22" hits="0" branch="False" />
+            <line number="23" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="27" hits="0" branch="False" />
+            <line number="28" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.Shared.Events.RiskEvaluatedEvent" filename="FinancialPlatform.Shared\Events\RiskEvaluatedEvent.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.Int32,System.String,System.Collections.Generic.List`1&lt;System.String&gt;,System.DateTime)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="17" hits="19" branch="False" />
+                <line number="18" hits="19" branch="False" />
+                <line number="19" hits="19" branch="False" />
+                <line number="20" hits="19" branch="False" />
+                <line number="21" hits="19" branch="False" />
+                <line number="22" hits="19" branch="False" />
+                <line number="23" hits="19" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="17" hits="19" branch="False" />
+            <line number="18" hits="19" branch="False" />
+            <line number="19" hits="19" branch="False" />
+            <line number="20" hits="19" branch="False" />
+            <line number="21" hits="19" branch="False" />
+            <line number="22" hits="19" branch="False" />
+            <line number="23" hits="19" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.Shared.Events.TransactionCreatedEvent" filename="FinancialPlatform.Shared\Events\TransactionCreatedEvent.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.Decimal,System.String,System.DateTime,System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="32" hits="32" branch="False" />
+                <line number="33" hits="32" branch="False" />
+                <line number="34" hits="32" branch="False" />
+                <line number="35" hits="32" branch="False" />
+                <line number="36" hits="32" branch="False" />
+                <line number="37" hits="32" branch="False" />
+                <line number="38" hits="32" branch="False" />
+                <line number="39" hits="32" branch="False" />
+                <line number="40" hits="32" branch="False" />
+                <line number="41" hits="32" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="32" hits="32" branch="False" />
+            <line number="33" hits="32" branch="False" />
+            <line number="34" hits="32" branch="False" />
+            <line number="35" hits="32" branch="False" />
+            <line number="36" hits="32" branch="False" />
+            <line number="37" hits="32" branch="False" />
+            <line number="38" hits="32" branch="False" />
+            <line number="39" hits="32" branch="False" />
+            <line number="40" hits="32" branch="False" />
+            <line number="41" hits="32" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.Shared.DTOs.CreateTransactionRequest" filename="FinancialPlatform.Shared\DTOs\TransactionDtos.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.Decimal,System.String,System.String,System.String,System.String,System.String,System.String)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="18" hits="15" branch="False" />
+                <line number="19" hits="15" branch="False" />
+                <line number="20" hits="15" branch="False" />
+                <line number="21" hits="15" branch="False" />
+                <line number="22" hits="15" branch="False" />
+                <line number="23" hits="15" branch="False" />
+                <line number="24" hits="15" branch="False" />
+                <line number="25" hits="15" branch="False" />
+                <line number="26" hits="15" branch="False" />
+                <line number="27" hits="15" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="18" hits="15" branch="False" />
+            <line number="19" hits="15" branch="False" />
+            <line number="20" hits="15" branch="False" />
+            <line number="21" hits="15" branch="False" />
+            <line number="22" hits="15" branch="False" />
+            <line number="23" hits="15" branch="False" />
+            <line number="24" hits="15" branch="False" />
+            <line number="25" hits="15" branch="False" />
+            <line number="26" hits="15" branch="False" />
+            <line number="27" hits="15" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.Shared.DTOs.TransactionResponse" filename="FinancialPlatform.Shared\DTOs\TransactionDtos.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(System.String,System.String,System.Decimal,System.String,System.String,System.DateTime,System.String,System.String,System.String,System.String)" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="34" hits="0" branch="False" />
+                <line number="35" hits="0" branch="False" />
+                <line number="36" hits="0" branch="False" />
+                <line number="37" hits="0" branch="False" />
+                <line number="38" hits="0" branch="False" />
+                <line number="39" hits="0" branch="False" />
+                <line number="40" hits="0" branch="False" />
+                <line number="41" hits="0" branch="False" />
+                <line number="42" hits="0" branch="False" />
+                <line number="43" hits="0" branch="False" />
+                <line number="44" hits="0" branch="False" />
+                <line number="45" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="34" hits="0" branch="False" />
+            <line number="35" hits="0" branch="False" />
+            <line number="36" hits="0" branch="False" />
+            <line number="37" hits="0" branch="False" />
+            <line number="38" hits="0" branch="False" />
+            <line number="39" hits="0" branch="False" />
+            <line number="40" hits="0" branch="False" />
+            <line number="41" hits="0" branch="False" />
+            <line number="42" hits="0" branch="False" />
+            <line number="43" hits="0" branch="False" />
+            <line number="44" hits="0" branch="False" />
+            <line number="45" hits="0" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="FinancialPlatform.TransactionService" line-rate="0.9787" branch-rate="1" complexity="5">
+      <classes>
+        <class name="FinancialPlatform.TransactionService.Services.TransactionService" filename="FinancialPlatform.TransactionService\Services\TransactionService.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(FinancialPlatform.TransactionService.Data.TransactionDbContext,FinancialPlatform.Shared.Interfaces.IEventBus,Microsoft.Extensions.Logging.ILogger`1&lt;FinancialPlatform.TransactionService.Services.TransactionService&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="40" hits="13" branch="False" />
+                <line number="41" hits="13" branch="False" />
+                <line number="42" hits="13" branch="False" />
+                <line number="43" hits="13" branch="False" />
+                <line number="45" hits="13" branch="False" />
+                <line number="46" hits="13" branch="False" />
+                <line number="47" hits="13" branch="False" />
+                <line number="48" hits="13" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="40" hits="13" branch="False" />
+            <line number="41" hits="13" branch="False" />
+            <line number="42" hits="13" branch="False" />
+            <line number="43" hits="13" branch="False" />
+            <line number="45" hits="13" branch="False" />
+            <line number="46" hits="13" branch="False" />
+            <line number="47" hits="13" branch="False" />
+            <line number="48" hits="13" branch="False" />
+          </lines>
+        </class>
+        <class name="FinancialPlatform.TransactionService.Data.TransactionDbContext" filename="FinancialPlatform.TransactionService\Data\TransactionDbContext.cs" line-rate="0.9743" branch-rate="1" complexity="4">
+          <methods>
+            <method name="get_Transactions" signature="()" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="39" hits="20" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Users" signature="()" line-rate="0" branch-rate="1" complexity="1">
+              <lines>
+                <line number="42" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="OnModelCreating" signature="(Microsoft.EntityFrameworkCore.ModelBuilder)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="51" hits="1" branch="False" />
+                <line number="55" hits="1" branch="False" />
+                <line number="56" hits="1" branch="False" />
+                <line number="57" hits="1" branch="False" />
+                <line number="58" hits="1" branch="False" />
+                <line number="59" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="False" />
+                <line number="62" hits="1" branch="False" />
+                <line number="63" hits="1" branch="False" />
+                <line number="64" hits="1" branch="False" />
+                <line number="65" hits="1" branch="False" />
+                <line number="66" hits="1" branch="False" />
+                <line number="67" hits="1" branch="False" />
+                <line number="68" hits="1" branch="False" />
+                <line number="69" hits="1" branch="False" />
+                <line number="70" hits="1" branch="False" />
+                <line number="71" hits="1" branch="False" />
+                <line number="72" hits="1" branch="False" />
+                <line number="73" hits="1" branch="False" />
+                <line number="74" hits="1" branch="False" />
+                <line number="75" hits="1" branch="False" />
+                <line number="76" hits="1" branch="False" />
+                <line number="77" hits="1" branch="False" />
+                <line number="79" hits="1" branch="False" />
+                <line number="80" hits="1" branch="False" />
+                <line number="81" hits="1" branch="False" />
+                <line number="82" hits="1" branch="False" />
+                <line number="83" hits="1" branch="False" />
+                <line number="84" hits="1" branch="False" />
+                <line number="85" hits="1" branch="False" />
+                <line number="86" hits="1" branch="False" />
+                <line number="87" hits="1" branch="False" />
+                <line number="88" hits="1" branch="False" />
+                <line number="89" hits="1" branch="False" />
+              </lines>
+            </method>
+            <method name=".ctor" signature="(Microsoft.EntityFrameworkCore.DbContextOptions`1&lt;FinancialPlatform.TransactionService.Data.TransactionDbContext&gt;)" line-rate="1" branch-rate="1" complexity="1">
+              <lines>
+                <line number="31" hits="13" branch="False" />
+                <line number="33" hits="13" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="39" hits="20" branch="False" />
+            <line number="42" hits="0" branch="False" />
+            <line number="51" hits="1" branch="False" />
+            <line number="55" hits="1" branch="False" />
+            <line number="56" hits="1" branch="False" />
+            <line number="57" hits="1" branch="False" />
+            <line number="58" hits="1" branch="False" />
+            <line number="59" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="False" />
+            <line number="62" hits="1" branch="False" />
+            <line number="63" hits="1" branch="False" />
+            <line number="64" hits="1" branch="False" />
+            <line number="65" hits="1" branch="False" />
+            <line number="66" hits="1" branch="False" />
+            <line number="67" hits="1" branch="False" />
+            <line number="68" hits="1" branch="False" />
+            <line number="69" hits="1" branch="False" />
+            <line number="70" hits="1" branch="False" />
+            <line number="71" hits="1" branch="False" />
+            <line number="72" hits="1" branch="False" />
+            <line number="73" hits="1" branch="False" />
+            <line number="74" hits="1" branch="False" />
+            <line number="75" hits="1" branch="False" />
+            <line number="76" hits="1" branch="False" />
+            <line number="77" hits="1" branch="False" />
+            <line number="79" hits="1" branch="False" />
+            <line number="80" hits="1" branch="False" />
+            <line number="81" hits="1" branch="False" />
+            <line number="82" hits="1" branch="False" />
+            <line number="83" hits="1" branch="False" />
+            <line number="84" hits="1" branch="False" />
+            <line number="85" hits="1" branch="False" />
+            <line number="86" hits="1" branch="False" />
+            <line number="87" hits="1" branch="False" />
+            <line number="88" hits="1" branch="False" />
+            <line number="89" hits="1" branch="False" />
+            <line number="31" hits="13" branch="False" />
+            <line number="33" hits="13" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

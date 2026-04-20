@@ -1,0 +1,1883 @@
+{
+	"info": {
+		"name": "Financial Platform API",
+		"description": "Complete API collection for the Adaptive Real-Time Financial Transaction Processing Platform.\n\nCovers all 6 microservices: API Gateway, Transaction Service, Risk Service, Payment Service, Compliance Service, and PIN Encryption Service.\n\nEvent flow: TransactionCreated → RiskEvaluated → PaymentAuthorized → AuditLogged\n\nCard transactions: TransactionCreated → PinVerified (parallel with RiskEvaluated) → PaymentAuthorized",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "1. Authentication",
+			"description": "JWT authentication endpoints. Register a user, then login to get a bearer token.",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has success message', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.message).to.include('successfully');",
+									"});",
+									"pm.test('Has userId', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.userId).to.be.a('string');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_gateway}}/api/auth/register",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"testuser_{{$randomInt}}\",\n\t\"password\": \"Test@12345\",\n\t\"role\": \"User\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Register Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200 or 409', () => {",
+									"    pm.expect([200, 409]).to.include(pm.response.code);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_gateway}}/api/auth/register",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin123\",\n\t\"role\": \"Admin\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Login (Admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has token', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.token).to.be.a('string').and.not.empty;",
+									"});",
+									"pm.test('Has role', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.role).to.eql('Admin');",
+									"});",
+									"pm.test('Has expiresAt', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.expiresAt).to.be.a('string');",
+									"});",
+									"// Save token for subsequent requests",
+									"const json = pm.response.json();",
+									"pm.environment.set('auth_token', json.token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_gateway}}/api/auth/login",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin123\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Login - Invalid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 401', () => pm.response.to.have.status(401));",
+									"pm.test('Has error message', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.message).to.include('Invalid');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_gateway}}/api/auth/login",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"wrongpassword\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Register - Invalid Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 400', () => pm.response.to.have.status(400));",
+									"pm.test('Has error message about roles', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.message).to.include('Invalid role');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_gateway}}/api/auth/register",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"hacker\",\n\t\"password\": \"pass\",\n\t\"role\": \"SuperAdmin\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Gateway",
+			"description": "API Gateway endpoints for health checks and system status.",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has status Healthy', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.eql('Healthy');",
+									"});",
+									"pm.test('Has services object', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.services).to.be.an('object');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_gateway}}/api/gateway/health",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "System Status (Authenticated)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has activeSseConnections', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('activeSseConnections');",
+									"});",
+									"pm.test('Has eventBusBackend', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('eventBusBackend');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_gateway}}/api/gateway/status",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"status"
+							]
+						}
+					}
+				},
+				{
+					"name": "Status Without Auth - Should Be 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 401', () => pm.response.to.have.status(401));"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_gateway}}/api/gateway/status",
+							"host": [
+								"{{base_url_gateway}}"
+							],
+							"path": [
+								"api",
+								"gateway",
+								"status"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Transactions",
+			"description": "Transaction CRUD operations. Creating a transaction triggers the full event pipeline.",
+			"item": [
+				{
+					"name": "Create Transaction (Small Amount - LOW Risk)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 201', () => pm.response.to.have.status(201));",
+									"pm.test('Has transaction id', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.id).to.be.a('string').and.not.empty;",
+									"});",
+									"pm.test('Status is Pending', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.eql('Pending');",
+									"});",
+									"pm.test('Amount matches', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.amount).to.eql(100.00);",
+									"});",
+									"// Save transaction ID for later requests",
+									"const json = pm.response.json();",
+									"pm.environment.set('transaction_id', json.id);",
+									"pm.environment.set('user_id', json.userId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"user_postman\",\n\t\"amount\": 100.00,\n\t\"currency\": \"USD\",\n\t\"description\": \"Postman test - small amount\",\n\t\"counterparty\": \"test_merchant\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Create Transaction (Large Amount - HIGH Risk)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 201', () => pm.response.to.have.status(201));",
+									"pm.test('Amount is 12000', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.amount).to.eql(12000.00);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"user_postman\",\n\t\"amount\": 12000.00,\n\t\"currency\": \"EUR\",\n\t\"description\": \"Postman test - large amount\",\n\t\"counterparty\": \"high_value_partner\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Create Transaction - Zero Amount (Invalid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 400', () => pm.response.to.have.status(400));",
+									"pm.test('Has error message', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.include('greater than zero');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"user_postman\",\n\t\"amount\": 0,\n\t\"currency\": \"USD\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Get All Transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns array', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});",
+									"pm.test('Has at least 1 transaction', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.length).to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Transaction By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has matching id', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.id).to.eql(pm.environment.get('transaction_id'));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions/{{transaction_id}}",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"{{transaction_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Transaction - Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 404', () => pm.response.to.have.status(404));",
+									"pm.test('Has error message', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.include('not found');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions/nonexistent-id-12345",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"nonexistent-id-12345"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Transactions By User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns array', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});",
+									"pm.test('All transactions belong to user', () => {",
+									"    const json = pm.response.json();",
+									"    json.forEach(tx => pm.expect(tx.userId).to.eql('user_postman'));",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_transaction}}/api/transactions/user/user_postman",
+							"host": [
+								"{{base_url_transaction}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"user",
+								"user_postman"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Risk Service",
+			"description": "Risk evaluation endpoints. The risk engine scores transactions based on amount, velocity, and time-of-day.",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Service is RiskService', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.service).to.eql('RiskService');",
+									"});",
+									"pm.test('Status is Healthy', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.eql('Healthy');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_risk}}/api/risk/health",
+							"host": [
+								"{{base_url_risk}}"
+							],
+							"path": [
+								"api",
+								"risk",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Evaluate Risk (Small Amount)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 202', () => pm.response.to.have.status(202));",
+									"pm.test('Has transactionId', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.transactionId).to.be.a('string');",
+									"});",
+									"pm.test('Message says initiated', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.message).to.include('initiated');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_risk}}/api/risk/evaluate",
+							"host": [
+								"{{base_url_risk}}"
+							],
+							"path": [
+								"api",
+								"risk",
+								"evaluate"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"transactionId\": \"tx_risk_test_001\",\n\t\"userId\": \"user_postman\",\n\t\"amount\": 500.00,\n\t\"currency\": \"USD\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Evaluate Risk (Large Amount)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 202', () => pm.response.to.have.status(202));"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_risk}}/api/risk/evaluate",
+							"host": [
+								"{{base_url_risk}}"
+							],
+							"path": [
+								"api",
+								"risk",
+								"evaluate"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"transactionId\": \"tx_risk_large_001\",\n\t\"userId\": \"user_postman\",\n\t\"amount\": 8000.00,\n\t\"currency\": \"EUR\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Evaluate Risk - Missing Fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 400', () => pm.response.to.have.status(400));",
+									"pm.test('Has error message', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.error).to.include('required');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_risk}}/api/risk/evaluate",
+							"host": [
+								"{{base_url_risk}}"
+							],
+							"path": [
+								"api",
+								"risk",
+								"evaluate"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"transactionId\": \"\",\n\t\"userId\": \"\",\n\t\"amount\": 100\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Payment Service",
+			"description": "Payment authorization endpoints. The gateway evaluates amount limits and risk score thresholds.",
+			"item": [
+				{
+					"name": "Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Service is PaymentService', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.service).to.eql('PaymentService');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_payment}}/api/payment/health",
+							"host": [
+								"{{base_url_payment}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "Authorize - Low Risk (Approved)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Authorized is true', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.authorized).to.be.true;",
+									"});",
+									"pm.test('Reason is Authorized', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.reason).to.eql('Authorized');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_payment}}/api/payment/authorize",
+							"host": [
+								"{{base_url_payment}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"authorize"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 100.00,\n\t\"riskScore\": 20\n}"
+						}
+					}
+				},
+				{
+					"name": "Authorize - High Risk (Rejected)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Authorized is false', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.authorized).to.be.false;",
+									"});",
+									"pm.test('Reason mentions risk', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.reason.toLowerCase()).to.include('risk');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_payment}}/api/payment/authorize",
+							"host": [
+								"{{base_url_payment}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"authorize"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 5000.00,\n\t\"riskScore\": 85\n}"
+						}
+					}
+				},
+				{
+					"name": "Authorize - Exceeds Daily Limit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Authorized is false', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.authorized).to.be.false;",
+									"});",
+									"pm.test('Reason mentions daily limit', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.reason.toLowerCase()).to.include('daily limit');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_payment}}/api/payment/authorize",
+							"host": [
+								"{{base_url_payment}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"authorize"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 60000.00,\n\t\"riskScore\": 10\n}"
+						}
+					}
+				},
+				{
+					"name": "Authorize - High Amount Elevated Risk",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Authorized is false', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.authorized).to.be.false;",
+									"});",
+									"pm.test('Reason mentions elevated risk', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.reason.toLowerCase()).to.include('elevated');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url_payment}}/api/payment/authorize",
+							"host": [
+								"{{base_url_payment}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"authorize"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 7500.00,\n\t\"riskScore\": 55\n}"
+						}
+					}
+				},
+				{
+					"name": "Payment Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has transactionId', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('transactionId');",
+									"});",
+									"pm.test('Has status', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('status');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_payment}}/api/payment/status/{{transaction_id}}",
+							"host": [
+								"{{base_url_payment}}"
+							],
+							"path": [
+								"api",
+								"payment",
+								"status",
+								"{{transaction_id}}"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Compliance / Audit",
+			"description": "Audit trail endpoints with SHA-256 hash chain integrity. Every event in the system is logged immutably.",
+			"item": [
+				{
+					"name": "Get Audit Logs (Paginated)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has data array', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.data).to.be.an('array');",
+									"});",
+									"pm.test('Has pagination info', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('page');",
+									"    pm.expect(json).to.have.property('pageSize');",
+									"    pm.expect(json).to.have.property('total');",
+									"    pm.expect(json).to.have.property('totalPages');",
+									"});",
+									"// Save first audit log ID for later requests",
+									"const json = pm.response.json();",
+									"if (json.data && json.data.length > 0) {",
+									"    pm.environment.set('audit_id', json.data[0].id);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_compliance}}/api/audit?page=1&pageSize=10",
+							"host": [
+								"{{base_url_compliance}}"
+							],
+							"path": [
+								"api",
+								"audit"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Audit Log By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const auditId = pm.environment.get('audit_id');",
+									"if (auditId && auditId.length > 0) {",
+									"    pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"    pm.test('Has hash', () => {",
+									"        const json = pm.response.json();",
+									"        pm.expect(json.hash).to.be.a('string');",
+									"    });",
+									"    pm.test('Hash is 64 chars (SHA-256)', () => {",
+									"        const json = pm.response.json();",
+									"        pm.expect(json.hash).to.have.length(64);",
+									"    });",
+									"} else {",
+									"    pm.test('Audit log lookup skipped (no logs yet)', () => pm.response.to.have.status(200));",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_compliance}}/api/audit/{{audit_id}}",
+							"host": [
+								"{{base_url_compliance}}"
+							],
+							"path": [
+								"api",
+								"audit",
+								"{{audit_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Verify Hash Chain Integrity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has valid property', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('valid');",
+									"});",
+									"pm.test('Chain is valid', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.valid).to.be.true;",
+									"});",
+									"pm.test('Has checkedCount', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('checkedCount');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_compliance}}/api/audit/verify",
+							"host": [
+								"{{base_url_compliance}}"
+							],
+							"path": [
+								"api",
+								"audit",
+								"verify"
+							]
+						}
+					}
+				},
+				{
+					"name": "Audit Statistics",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has totalCount', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('totalCount');",
+									"});",
+									"pm.test('Has byEventType array', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.byEventType).to.be.an('array');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_compliance}}/api/audit/stats",
+							"host": [
+								"{{base_url_compliance}}"
+							],
+							"path": [
+								"api",
+								"audit",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Audit Log - Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 404', () => pm.response.to.have.status(404));"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_compliance}}/api/audit/nonexistent-id-99999",
+							"host": [
+								"{{base_url_compliance}}"
+							],
+							"path": [
+								"api",
+								"audit",
+								"nonexistent-id-99999"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "7. PIN Encryption Service",
+			"description": "ISO 9564 PIN block operations, simulated HSM (AES-256 key store), ISO 8583 message parser/builder, and card authorization.",
+			"item": [
+				{
+					"name": "HSM Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Has status field', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('status');",
+									"});",
+									"pm.test('Status is Healthy', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.eql('Healthy');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/health",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"health"
+							]
+						}
+					}
+				},
+				{
+					"name": "List HSM Keys",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns keyIds array', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('keyIds');",
+									"    pm.expect(json.keyIds).to.be.an('array');",
+									"});",
+									"const body = pm.response.json();",
+									"if (body.keyIds && body.keyIds.length > 0) {",
+									"    pm.collectionVariables.set('hsm_key_id', body.keyIds[0]);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/keys",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"keys"
+							]
+						}
+					}
+				},
+				{
+					"name": "Generate HSM Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns keyId', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('keyId');",
+									"});",
+									"pm.test('Returns keyType', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('keyType');",
+									"});",
+									"pm.collectionVariables.set('hsm_key_id', pm.response.json().keyId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"keyType\": 1,\n\t\"keyId\": \"ci-test-zpk\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/keys/generate",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"keys",
+								"generate"
+							]
+						}
+					}
+				},
+				{
+					"name": "Encrypt PIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns encryptedPinBlock', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('encryptedPinBlock');",
+									"});",
+									"pm.test('Returns keyCheckValue', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('keyCheckValue');",
+									"});",
+									"pm.environment.set('encrypted_pin_block', pm.response.json().encryptedPinBlock);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pin\": \"1234\",\n\t\"pan\": \"4111111111111111\",\n\t\"zpkId\": \"{{hsm_key_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/pin/encrypt",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"pin",
+								"encrypt"
+							]
+						}
+					}
+				},
+				{
+					"name": "Decrypt PIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns pin', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('pin');",
+									"});",
+									"pm.test('Decrypted PIN matches original', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.pin).to.eql('1234');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"encryptedPinBlock\": \"{{encrypted_pin_block}}\",\n\t\"pan\": \"4111111111111111\",\n\t\"zpkId\": \"{{hsm_key_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/pin/decrypt",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"pin",
+								"decrypt"
+							]
+						}
+					}
+				},
+				{
+					"name": "Verify PIN - Correct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns verified true', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('verified');",
+									"    pm.expect(json.verified).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"encryptedPinBlock\": \"{{encrypted_pin_block}}\",\n\t\"pan\": \"4111111111111111\",\n\t\"zpkId\": \"{{hsm_key_id}}\",\n\t\"expectedPin\": \"1234\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/pin/verify",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"pin",
+								"verify"
+							]
+						}
+					}
+				},
+				{
+					"name": "Verify PIN - Incorrect",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns verified false', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('verified');",
+									"    pm.expect(json.verified).to.be.false;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"encryptedPinBlock\": \"{{encrypted_pin_block}}\",\n\t\"pan\": \"4111111111111111\",\n\t\"zpkId\": \"{{hsm_key_id}}\",\n\t\"expectedPin\": \"9999\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/pin/verify",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"pin",
+								"verify"
+							]
+						}
+					}
+				},
+				{
+					"name": "Translate PIN Block",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns translated encryptedPinBlock', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('encryptedPinBlock');",
+									"});",
+									"pm.test('Translated block differs from source', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.encryptedPinBlock).to.not.eql(pm.environment.get('encrypted_pin_block'));",
+									"});",
+									"pm.collectionVariables.set('translated_pin_block', pm.response.json().encryptedPinBlock);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"encryptedPinBlock\": \"{{encrypted_pin_block}}\",\n\t\"sourceZpkId\": \"{{hsm_key_id}}\",\n\t\"destZpkId\": \"default-zpk\",\n\t\"pan\": \"4111111111111111\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/hsm/pin/translate",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"hsm",
+								"pin",
+								"translate"
+							]
+						}
+					}
+				},
+				{
+					"name": "ISO 8583 - Parse Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns parsed fields', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('mti');",
+									"    pm.expect(json).to.have.property('fields');",
+									"});",
+									"pm.test('MTI is 0100', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.mti).to.eql('0100');",
+									"});",
+									"pm.test('Has PAN in field 2', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.fields).to.have.property('2');",
+									"    pm.expect(json.fields['2']).to.eql('4111111111111111');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"isoMessage\": \"010040000000000000001641111111111111112345600000001000\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/iso8583/parse",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"iso8583",
+								"parse"
+							]
+						}
+					}
+				},
+				{
+					"name": "ISO 8583 - Build Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns isoMessage', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('isoMessage');",
+									"});",
+									"pm.test('Message starts with MTI', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.isoMessage).to.match(/^0100/);",
+									"});",
+									"pm.collectionVariables.set('iso8583_message', pm.response.json().isoMessage);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"mti\": \"0100\",\n\t\"fields\": {\n\t\t\"2\": \"4111111111111111\",\n\t\t\"4\": \"000000001000\",\n\t\t\"49\": \"840\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/iso8583/build",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"iso8583",
+								"build"
+							]
+						}
+					}
+				},
+				{
+					"name": "ISO 8583 - Authorize (Approve)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns authorization', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('approved');",
+									"});",
+									"pm.test('Transaction is approved', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.approved).to.be.true;",
+									"});",
+									"pm.test('Has authorizationId', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('authorizationId');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pan\": \"4111111111111111\",\n\t\"encryptedPinBlock\": \"{{encrypted_pin_block}}\",\n\t\"zpkId\": \"{{hsm_key_id}}\",\n\t\"amount\": 10,\n\t\"currency\": \"840\",\n\t\"terminalId\": \"TERM001\",\n\t\"merchantId\": \"MERCHANT001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/iso8583/authorize",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"iso8583",
+								"authorize"
+							]
+						}
+					}
+				},
+				{
+					"name": "ISO 8583 - Authorize (Deny - Blocklisted PAN)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status is 200', () => pm.response.to.have.status(200));",
+									"pm.test('Returns authorization', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('approved');",
+									"});",
+									"pm.test('Transaction is denied', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.approved).to.be.false;",
+									"});",
+									"pm.test('Has denial responseCode', () => {",
+									"    const json = pm.response.json();",
+									"    pm.expect(json).to.have.property('responseCode');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pan\": \"4999111111111111\",\n\t\"encryptedPinBlock\": \"{{encrypted_pin_block}}\",\n\t\"zpkId\": \"{{hsm_key_id}}\",\n\t\"amount\": 10,\n\t\"currency\": \"840\",\n\t\"terminalId\": \"TERM001\",\n\t\"merchantId\": \"MERCHANT001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_pin}}/api/iso8583/authorize",
+							"host": [
+								"{{base_url_pin}}"
+							],
+							"path": [
+								"api",
+								"iso8583",
+								"authorize"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_token",
+			"value": ""
+		},
+		{
+			"key": "transaction_id",
+			"value": ""
+		},
+		{
+			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "audit_id",
+			"value": ""
+		},
+		{
+			"key": "hsm_key_id",
+			"value": ""
+		},
+		{
+			"key": "encrypted_pin_block",
+			"value": ""
+		},
+		{
+			"key": "translated_pin_block",
+			"value": ""
+		},
+		{
+			"key": "iso8583_message",
+			"value": ""
+		}
+	]
+}

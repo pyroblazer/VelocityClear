@@ -1,0 +1,80 @@
+groups:
+  - name: platform_service_health
+    rules:
+      - alert: ServiceDown
+        expr: up{job=~".+-service|api-gateway"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Service {{ $labels.job }} on target {{ $labels.instance }} has been down for more than 2 minutes."
+
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{status_code=~"5.."}[5m])) by (job)
+            / sum(rate(http_requests_total[5m])) by (job)
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate on {{ $labels.job }}"
+          description: "Service {{ $labels.job }} error rate is {{ $value | humanizePercentage }} (threshold: 5%)."
+
+      - alert: HighLatencyP95
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (job, le)
+          ) > 2.0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High latency on {{ $labels.job }}"
+          description: "Service {{ $labels.job }} P95 latency is {{ $value }}s (threshold: 2.0s)."
+
+  - name: platform_security
+    rules:
+      - alert: JwtAuthFailureSpike
+        expr: rate(jwt_auth_attempts_total{result="failure"}[5m]) > 5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "JWT authentication failure spike detected"
+          description: "Authentication failures are occurring at {{ $value }} per second. Possible brute-force attack."
+
+      - alert: SseConnectionLimit
+        expr: sse_active_connections > 500
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "SSE connection count approaching limit"
+          description: "Active SSE connections: {{ $value }} (threshold: 500)."
+
+  - name: platform_business
+    rules:
+      - alert: HighRiskTransactionRate
+        expr: rate(risk_evaluations_total{risk_level="HIGH"}[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate of HIGH-risk transactions"
+          description: "HIGH-risk evaluations occurring at {{ $value }} per second. Review for fraud patterns."
+
+      - alert: PaymentRejectionSpike
+        expr: |
+          (
+            sum(rate(payment_authorizations_total{result="rejected"}[5m]))
+            / sum(rate(payment_authorizations_total[5m]))
+          ) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Payment rejection rate above 50%"
+          description: "Payment rejection rate is {{ $value | humanizePercentage }}. Investigate risk scoring rules."
