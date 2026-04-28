@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Shield, AlertTriangle, CheckCircle, Clock, Server } from 'lucide-react';
-import { kycApi, amlApi, approvalApi, complaintApi, socApi } from '../lib/complianceApi';
+import { amlApi, approvalApi, complaintApi, socApi } from '../lib/complianceApi';
 
 const card = (accent = '#3B82F6') => ({
   background: '#141414',

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Shield, CheckCircle, XCircle, Eye, Search } from 'lucide-react';
+import { Shield, Eye, Search } from 'lucide-react';
 import { kycApi } from '../lib/complianceApi';
 
 const card = { background: '#141414', border: '1px solid #2A2A2A', borderRadius: 12, padding: 20 };
@@ -69,7 +69,7 @@ export default function KycPage() {
       </div>
 
       {/* Profile result */}
-      {lookupId && !isLoading && profile && (
+      {!!lookupId && !isLoading && profile != null && (
         <div style={card}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
             <h2 style={{ color: '#FFF', fontSize: 15, margin: 0 }}>Profile: {(profile as any).userId}</h2>
@@ -81,7 +81,7 @@ export default function KycPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
             <div style={{ fontSize: 12, color: '#A1A1AA' }}>
               <div>Liveness Checked: <span style={{ color: (profile as any).livenessChecked ? '#22C55E' : '#EF4444' }}>{(profile as any).livenessChecked ? '✓' : '✗'}</span></div>
-              <div>Liveness Confidence: <span style={{ color: '#FFF' }}>{((profile as any).livenessConfidence * 100).toFixed(1)}%</span></div>
+              <div>Liveness Confidence: <span style={{ color: '#FFF' }}>{(((profile as any).livenessConfidence ?? 0) * 100).toFixed(1)}%</span></div>
             </div>
             <div style={{ fontSize: 12, color: '#A1A1AA' }}>
               <div>Watchlist Screened: <span style={{ color: (profile as any).watchlistScreened ? '#22C55E' : '#F59E0B' }}>{(profile as any).watchlistScreened ? '✓' : 'Pending'}</span></div>
@@ -102,7 +102,7 @@ export default function KycPage() {
         </div>
       )}
 
-      {lookupId && !isLoading && !profile && (
+      {!!lookupId && !isLoading && profile == null && (
         <div style={{ ...card, color: '#A1A1AA', fontSize: 13 }}>No KYC profile found for user "{lookupId}".</div>
       )}
     </div>
