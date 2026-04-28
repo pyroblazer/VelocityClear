@@ -1,5 +1,7 @@
+import type { LucideIcon } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Shield, AlertTriangle, CheckCircle, Clock, Server } from 'lucide-react';
+import type { AmlAlertResponse, ApprovalResponse, ComplaintResponse, SocDashboardResponse } from '../lib/complianceApi';
 import { amlApi, approvalApi, complaintApi, socApi } from '../lib/complianceApi';
 
 const card = (accent = '#3B82F6') => ({
@@ -12,7 +14,7 @@ const card = (accent = '#3B82F6') => ({
   gap: 8,
 });
 
-function StatCard({ label, value, icon: Icon, accent }: { label: string; value: number | string; icon: any; accent: string }) {
+function StatCard({ label, value, icon: Icon, accent }: { label: string; value: number | string; icon: LucideIcon; accent: string }) {
   return (
     <div style={card(accent)}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -24,16 +26,23 @@ function StatCard({ label, value, icon: Icon, accent }: { label: string; value: 
   );
 }
 
+const severityColor: Record<string, string> = { Low: '#A1A1AA', Medium: '#F59E0B', High: '#EF4444', Critical: '#DC2626' };
+
 export default function ComplianceDashboardPage() {
   const { data: amlAlerts } = useQuery({ queryKey: ['aml-alerts'], queryFn: () => amlApi.listAlerts() });
   const { data: pendingApprovals } = useQuery({ queryKey: ['approvals-pending'], queryFn: () => approvalApi.list('PendingApproval') });
   const { data: complaints } = useQuery({ queryKey: ['complaints-all'], queryFn: () => complaintApi.list() });
   const { data: socDash } = useQuery({ queryKey: ['soc-dashboard'], queryFn: () => socApi.dashboard() });
 
-  const openAlerts = Array.isArray(amlAlerts) ? amlAlerts.filter((a: any) => a.status === 'Open').length : 0;
-  const pendingCount = Array.isArray(pendingApprovals) ? pendingApprovals.length : 0;
-  const slaBreach = Array.isArray(complaints) ? complaints.filter((c: any) => c.slaBreach).length : 0;
-  const openIncidents = (socDash as any)?.openIncidents ?? 0;
+  const alerts = amlAlerts ?? [];
+  const approvals = pendingApprovals ?? [];
+  const complaintList = complaints ?? [];
+  const dash = socDash as SocDashboardResponse | undefined;
+
+  const openAlerts = alerts.filter(a => a.status === 'Open').length;
+  const pendingCount = approvals.length;
+  const slaBreach = complaintList.filter(c => c.slaBreach).length;
+  const openIncidents = dash?.openIncidents ?? 0;
 
   return (
     <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -52,15 +61,15 @@ export default function ComplianceDashboardPage() {
         {/* Recent AML Alerts */}
         <div style={{ background: '#141414', border: '1px solid #2A2A2A', borderRadius: 12, padding: 20 }}>
           <h2 style={{ color: '#FFF', fontSize: 15, margin: '0 0 16px' }}>Recent AML Alerts</h2>
-          {Array.isArray(amlAlerts) && amlAlerts.slice(0, 5).map((a: any) => (
+          {alerts.slice(0, 5).map((a: AmlAlertResponse) => (
             <div key={a.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #1A1A1A', fontSize: 12 }}>
               <span style={{ color: '#FFF' }}>{a.ruleTriggered}</span>
-              <span style={{ color: { Low: '#A1A1AA', Medium: '#F59E0B', High: '#EF4444', Critical: '#DC2626' }[a.severity as string] ?? '#FFF' }}>
+              <span style={{ color: severityColor[a.severity] ?? '#FFF' }}>
                 {a.severity}
               </span>
             </div>
           ))}
-          {(!amlAlerts || (amlAlerts as any[]).length === 0) && (
+          {alerts.length === 0 && (
             <p style={{ color: '#A1A1AA', fontSize: 12 }}>No AML alerts.</p>
           )}
         </div>
@@ -68,13 +77,13 @@ export default function ComplianceDashboardPage() {
         {/* Pending Approvals */}
         <div style={{ background: '#141414', border: '1px solid #2A2A2A', borderRadius: 12, padding: 20 }}>
           <h2 style={{ color: '#FFF', fontSize: 15, margin: '0 0 16px' }}>Pending Approvals</h2>
-          {Array.isArray(pendingApprovals) && pendingApprovals.slice(0, 5).map((a: any) => (
+          {approvals.slice(0, 5).map((a: ApprovalResponse) => (
             <div key={a.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #1A1A1A', fontSize: 12 }}>
               <span style={{ color: '#FFF' }}>{a.approvalType}</span>
               <span style={{ color: '#F59E0B' }}>Requested by {a.requestedBy}</span>
             </div>
           ))}
-          {(!pendingApprovals || (pendingApprovals as any[]).length === 0) && (
+          {approvals.length === 0 && (
             <p style={{ color: '#A1A1AA', fontSize: 12 }}>No pending approvals.</p>
           )}
         </div>
@@ -83,7 +92,7 @@ export default function ComplianceDashboardPage() {
       {/* Complaints with SLA */}
       <div style={{ background: '#141414', border: '1px solid #2A2A2A', borderRadius: 12, padding: 20 }}>
         <h2 style={{ color: '#FFF', fontSize: 15, margin: '0 0 16px' }}>Customer Complaints (SLA)</h2>
-        {Array.isArray(complaints) && complaints.slice(0, 6).map((c: any) => (
+        {complaintList.slice(0, 6).map((c: ComplaintResponse) => (
           <div key={c.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #1A1A1A', fontSize: 12 }}>
             <div>
               <span style={{ color: '#FFF', marginRight: 8 }}>{c.subject}</span>
@@ -95,7 +104,7 @@ export default function ComplianceDashboardPage() {
             </div>
           </div>
         ))}
-        {(!complaints || (complaints as any[]).length === 0) && (
+        {complaintList.length === 0 && (
           <p style={{ color: '#A1A1AA', fontSize: 12 }}>No complaints.</p>
         )}
       </div>

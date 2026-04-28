@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Shield, Eye, Search } from 'lucide-react';
+import type { KycProfileResponse } from '../lib/complianceApi';
 import { kycApi } from '../lib/complianceApi';
 
 const card = { background: '#141414', border: '1px solid #2A2A2A', borderRadius: 12, padding: 20 };
@@ -30,8 +31,10 @@ export default function KycPage() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['kyc'] }),
   });
 
+  const p = profile as KycProfileResponse | undefined;
+
   const screenMut = useMutation({
-    mutationFn: (kycProfileId: string) => kycApi.screen(kycProfileId, { kycProfileId, fullName: (profile as any)?.fullName ?? '', idNumber: null }),
+    mutationFn: (kycProfileId: string) => kycApi.screen(kycProfileId, { kycProfileId, fullName: p?.fullName ?? '', idNumber: null }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['kyc'] }),
   });
 
@@ -69,32 +72,32 @@ export default function KycPage() {
       </div>
 
       {/* Profile result */}
-      {!!lookupId && !isLoading && profile != null && (
+      {!!lookupId && !isLoading && p != null && (
         <div style={card}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-            <h2 style={{ color: '#FFF', fontSize: 15, margin: 0 }}>Profile: {(profile as any).userId}</h2>
-            <span style={{ color: statusColor((profile as any).status), fontSize: 12, fontWeight: 600, background: `${statusColor((profile as any).status)}18`, padding: '4px 10px', borderRadius: 20 }}>
-              {(profile as any).status}
+            <h2 style={{ color: '#FFF', fontSize: 15, margin: 0 }}>Profile: {p.userId}</h2>
+            <span style={{ color: statusColor(p.status), fontSize: 12, fontWeight: 600, background: `${statusColor(p.status)}18`, padding: '4px 10px', borderRadius: 20 }}>
+              {p.status}
             </span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
             <div style={{ fontSize: 12, color: '#A1A1AA' }}>
-              <div>Liveness Checked: <span style={{ color: (profile as any).livenessChecked ? '#22C55E' : '#EF4444' }}>{(profile as any).livenessChecked ? '✓' : '✗'}</span></div>
-              <div>Liveness Confidence: <span style={{ color: '#FFF' }}>{(((profile as any).livenessConfidence ?? 0) * 100).toFixed(1)}%</span></div>
+              <div>Liveness Checked: <span style={{ color: p.livenessChecked ? '#22C55E' : '#EF4444' }}>{p.livenessChecked ? '✓' : '✗'}</span></div>
+              <div>Liveness Confidence: <span style={{ color: '#FFF' }}>{((p.livenessConfidence ?? 0) * 100).toFixed(1)}%</span></div>
             </div>
             <div style={{ fontSize: 12, color: '#A1A1AA' }}>
-              <div>Watchlist Screened: <span style={{ color: (profile as any).watchlistScreened ? '#22C55E' : '#F59E0B' }}>{(profile as any).watchlistScreened ? '✓' : 'Pending'}</span></div>
-              <div>Watchlist Hit: <span style={{ color: (profile as any).watchlistHit ? '#EF4444' : '#22C55E' }}>{(profile as any).watchlistHit ? 'HIT' : 'Clean'}</span></div>
+              <div>Watchlist Screened: <span style={{ color: p.watchlistScreened ? '#22C55E' : '#F59E0B' }}>{p.watchlistScreened ? '✓' : 'Pending'}</span></div>
+              <div>Watchlist Hit: <span style={{ color: p.watchlistHit ? '#EF4444' : '#22C55E' }}>{p.watchlistHit ? 'HIT' : 'Clean'}</span></div>
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 10 }}>
-            <button style={btn('#F59E0B')} onClick={() => livenessMut.mutate((profile as any).id)}>
+            <button style={btn('#F59E0B')} onClick={() => livenessMut.mutate(p.id)}>
               <Eye size={13} style={{ marginRight: 6 }} />
               {livenessMut.isPending ? 'Checking…' : 'Run Liveness Check'}
             </button>
-            <button style={btn('#8B5CF6')} onClick={() => screenMut.mutate((profile as any).id)}>
+            <button style={btn('#8B5CF6')} onClick={() => screenMut.mutate(p.id)}>
               <Search size={13} style={{ marginRight: 6 }} />
               {screenMut.isPending ? 'Screening…' : 'Screen Watchlist'}
             </button>
@@ -102,8 +105,8 @@ export default function KycPage() {
         </div>
       )}
 
-      {!!lookupId && !isLoading && profile == null && (
-        <div style={{ ...card, color: '#A1A1AA', fontSize: 13 }}>No KYC profile found for user "{lookupId}".</div>
+      {!!lookupId && !isLoading && p == null && (
+        <div style={{ ...card, color: '#A1A1AA', fontSize: 13 }}>No KYC profile found for user &quot;{lookupId}&quot;.</div>
       )}
     </div>
   );

@@ -61,7 +61,7 @@ export default function ConsentPage() {
           <p style={{ color: '#A1A1AA', fontSize: 12, marginTop: 12 }}>No consent records.</p>
         )}
 
-        {Array.isArray(consents) && consents.map((c: any) => (
+        {Array.isArray(consents) && consents.map((c) => (
           <div key={c.id} style={{ marginTop: 12, padding: 12, background: '#0A0A0A', borderRadius: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <span style={{ color: '#FFF', fontSize: 13, fontWeight: 600 }}>{c.consentType}</span>
