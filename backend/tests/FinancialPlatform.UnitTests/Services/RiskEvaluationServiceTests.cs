@@ -29,7 +29,8 @@ public class RiskEvaluationServiceTests
         RiskEvaluatedEvent? captured = null;
         await bus.SubscribeAsync<RiskEvaluatedEvent>(e => { captured = e; return Task.CompletedTask; });
 
-        var service = new RiskEvaluationService(bus, _loggerMock.Object);
+        var amlEngine = new AmlRuleEngine(Mock.Of<ILogger<AmlRuleEngine>>());
+        var service = new RiskEvaluationService(bus, amlEngine, _loggerMock.Object);
         await service.EvaluateAsync(evt);
 
         return (bus, captured);

@@ -1,10 +1,13 @@
 import { Routes, Route, Navigate, NavLink } from 'react-router-dom';
-import { Zap, Settings, Shield, FileText, CreditCard, Activity } from 'lucide-react';
+import { Zap, Settings, Shield, FileText, CreditCard, Activity, UserCheck, FileCheck, LayoutDashboard } from 'lucide-react';
 import TransactionsPage from './pages/TransactionsPage';
 import AdminPage from './pages/AdminPage';
 import RiskPage from './pages/RiskPage';
 import AuditPage from './pages/AuditPage';
 import CardOperationsPage from './pages/CardOperationsPage';
+import KycPage from './pages/KycPage';
+import ConsentPage from './pages/ConsentPage';
+import ComplianceDashboardPage from './pages/ComplianceDashboardPage';
 
 const navItems = [
   { to: '/transactions', label: 'Transactions', Icon: Zap, accent: '#3B82F6' },
@@ -12,6 +15,9 @@ const navItems = [
   { to: '/risk', label: 'Risk Monitor', Icon: Shield, accent: '#EF4444' },
   { to: '/audit', label: 'Audit Trail', Icon: FileText, accent: '#A855F7' },
   { to: '/cards', label: 'Card Operations', Icon: CreditCard, accent: '#22C55E' },
+  { to: '/compliance', label: 'Compliance', Icon: LayoutDashboard, accent: '#3B82F6' },
+  { to: '/kyc', label: 'KYC', Icon: UserCheck, accent: '#F59E0B' },
+  { to: '/consent', label: 'Consent', Icon: FileCheck, accent: '#22C55E' },
 ];
 
 export default function App() {
@@ -102,6 +108,9 @@ export default function App() {
             <Route path="/risk" element={<RiskPage />} />
             <Route path="/audit" element={<AuditPage />} />
             <Route path="/cards" element={<CardOperationsPage />} />
+            <Route path="/compliance" element={<ComplianceDashboardPage />} />
+            <Route path="/kyc" element={<KycPage />} />
+            <Route path="/consent" element={<ConsentPage />} />
           </Routes>
         </main>
       </div>

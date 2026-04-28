@@ -73,11 +73,21 @@ try
     // -- SSE Hub (Singleton) --
     builder.Services.AddSingleton<ISseHub, InMemorySseHub>();
 
-    // -- Application Service (Scoped) --
-    // AuditService is registered as Scoped because it depends on ComplianceDbContext
-    // (which is also Scoped). A Singleton can't depend on a Scoped service directly,
-    // so the background EventSubscriber uses IServiceScopeFactory to create scopes.
+    // -- Application Services --
     builder.Services.AddScoped<AuditService>();
+    builder.Services.AddScoped<KycService>();
+    builder.Services.AddScoped<ConsentService>();
+    builder.Services.AddScoped<AmlMonitoringService>();
+    builder.Services.AddScoped<SarService>();
+    builder.Services.AddScoped<ApprovalService>();
+    builder.Services.AddScoped<AccessControlService>();
+    builder.Services.AddScoped<ReportingService>();
+    builder.Services.AddScoped<ComplaintService>();
+    builder.Services.AddScoped<DigitalSignatureService>();
+    builder.Services.AddScoped<SocService>();
+    builder.Services.AddScoped<InfrastructureComplianceService>();
+    builder.Services.AddScoped<DataMaskingService>();
+    builder.Services.AddSingleton<WormStorageService>();
 
     // -- Prometheus Metrics --
     // AddMetrics() registers the Prometheus metrics infrastructure.

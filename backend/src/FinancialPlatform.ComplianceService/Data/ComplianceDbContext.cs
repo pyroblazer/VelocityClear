@@ -16,6 +16,7 @@
 //     primary keys, columns, and database indexes respectively.
 // ============================================================================
 
+using FinancialPlatform.Shared.Enums;
 using FinancialPlatform.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,23 @@ public class ComplianceDbContext : DbContext
     // "get; set;" defines a standard auto-property with getter and setter.
     // (Compare with TransactionDbContext which uses expression-bodied "=>" syntax.)
     public DbSet<AuditLog> AuditLogs { get; set; }
+    public DbSet<KycProfile> KycProfiles { get; set; }
+    public DbSet<ConsentRecord> ConsentRecords { get; set; }
+    public DbSet<DataClassification> DataClassifications { get; set; }
+    public DbSet<WatchlistEntry> WatchlistEntries { get; set; }
+    public DbSet<SuspiciousActivityReport> SuspiciousActivityReports { get; set; }
+    public DbSet<AmlAlert> AmlAlerts { get; set; }
+    public DbSet<ApprovalRequest> ApprovalRequests { get; set; }
+    public DbSet<RoleAssignment> RoleAssignments { get; set; }
+    public DbSet<OjkReport> OjkReports { get; set; }
+    public DbSet<AuditRetentionPolicy> AuditRetentionPolicies { get; set; }
+    public DbSet<ComplaintTicket> ComplaintTickets { get; set; }
+    public DbSet<ComplaintNote> ComplaintNotes { get; set; }
+    public DbSet<SignedDocument> SignedDocuments { get; set; }
+    public DbSet<SecurityIncident> SecurityIncidents { get; set; }
+    public DbSet<DrpBcpStatus> DrpBcpStatuses { get; set; }
+    public DbSet<DataResidencyCheck> DataResidencyChecks { get; set; }
+    public DbSet<VendorAuditEntry> VendorAuditEntries { get; set; }
 
     // OnModelCreating is called once when the DbContext is first used. It's the
     // place to configure how your C# entity classes map to database schema.
@@ -64,5 +82,121 @@ public class ComplianceDbContext : DbContext
             entity.HasIndex(e => e.EventType);
             entity.HasIndex(e => e.CreatedAt);
         });
+
+        modelBuilder.Entity<KycProfile>(e =>
+        {
+            e.HasKey(k => k.Id);
+            e.Property(k => k.UserId).IsRequired().HasMaxLength(100);
+            e.HasIndex(k => k.UserId);
+            e.HasIndex(k => k.Status);
+        });
+
+        modelBuilder.Entity<ConsentRecord>(e =>
+        {
+            e.HasKey(c => c.Id);
+            e.Property(c => c.UserId).IsRequired().HasMaxLength(100);
+            e.HasIndex(c => new { c.UserId, c.ConsentType });
+        });
+
+        modelBuilder.Entity<DataClassification>(e =>
+        {
+            e.HasKey(d => d.Id);
+            e.HasIndex(d => new { d.EntityName, d.FieldName }).IsUnique();
+        });
+
+        modelBuilder.Entity<WatchlistEntry>(e =>
+        {
+            e.HasKey(w => w.Id);
+            e.HasIndex(w => w.Category);
+            e.HasIndex(w => w.IsActive);
+        });
+
+        modelBuilder.Entity<SuspiciousActivityReport>(e =>
+        {
+            e.HasKey(s => s.Id);
+            e.HasIndex(s => s.Status);
+            e.HasIndex(s => s.TransactionId);
+        });
+
+        modelBuilder.Entity<AmlAlert>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasIndex(a => a.Status);
+            e.HasIndex(a => a.TransactionId);
+        });
+
+        modelBuilder.Entity<ApprovalRequest>(e =>
+        {
+            e.HasKey(a => a.Id);
+            e.HasIndex(a => a.Status);
+            e.HasIndex(a => a.RequestedBy);
+        });
+
+        modelBuilder.Entity<RoleAssignment>(e =>
+        {
+            e.HasKey(r => r.Id);
+            e.HasIndex(r => new { r.UserId, r.IsActive });
+        });
+
+        modelBuilder.Entity<OjkReport>(e =>
+        {
+            e.HasKey(r => r.Id);
+            e.HasIndex(r => r.ReportType);
+            e.HasIndex(r => r.Status);
+        });
+
+        modelBuilder.Entity<ComplaintTicket>(e =>
+        {
+            e.HasKey(c => c.Id);
+            e.HasIndex(c => c.UserId);
+            e.HasIndex(c => c.Status);
+        });
+
+        modelBuilder.Entity<ComplaintNote>(e =>
+        {
+            e.HasKey(n => n.Id);
+            e.HasIndex(n => n.ComplaintId);
+        });
+
+        modelBuilder.Entity<SignedDocument>(e =>
+        {
+            e.HasKey(d => d.Id);
+            e.HasIndex(d => d.DocumentId);
+        });
+
+        modelBuilder.Entity<SecurityIncident>(e =>
+        {
+            e.HasKey(i => i.Id);
+            e.HasIndex(i => i.Status);
+            e.HasIndex(i => i.Severity);
+        });
+
+        modelBuilder.Entity<DrpBcpStatus>(e =>
+        {
+            e.HasKey(d => d.Id);
+            e.HasIndex(d => d.PlanName).IsUnique();
+        });
+
+        // Seed watchlist entries
+        modelBuilder.Entity<WatchlistEntry>().HasData(
+            new WatchlistEntry { Id = "wl-001", FullName = "Test Sanctioned Person", Category = WatchlistCategory.Sanction, Source = "OFAC-Seed", IsActive = true, AddedAt = new DateTime(2024, 1, 1) },
+            new WatchlistEntry { Id = "wl-002", FullName = "Test PEP Individual", Category = WatchlistCategory.PEP, Source = "Local-Seed", IsActive = true, AddedAt = new DateTime(2024, 1, 1) }
+        );
+
+        // Seed data classifications
+        modelBuilder.Entity<DataClassification>().HasData(
+            new DataClassification { Id = "dc-001", EntityName = "User", FieldName = "IdNumber", Level = DataClassificationLevel.SensitivePII, MaskingRule = "Partial", RetentionRequired = true, RetentionYears = 10, CreatedAt = new DateTime(2024, 1, 1) },
+            new DataClassification { Id = "dc-002", EntityName = "User", FieldName = "FullName", Level = DataClassificationLevel.PII, MaskingRule = "Partial", RetentionRequired = true, RetentionYears = 10, CreatedAt = new DateTime(2024, 1, 1) },
+            new DataClassification { Id = "dc-003", EntityName = "Transaction", FieldName = "Amount", Level = DataClassificationLevel.Confidential, MaskingRule = "Full", RetentionRequired = true, RetentionYears = 7, CreatedAt = new DateTime(2024, 1, 1) },
+            new DataClassification { Id = "dc-004", EntityName = "User", FieldName = "Email", Level = DataClassificationLevel.PII, MaskingRule = "Email", RetentionRequired = true, RetentionYears = 10, CreatedAt = new DateTime(2024, 1, 1) },
+            new DataClassification { Id = "dc-005", EntityName = "User", FieldName = "PhoneNumber", Level = DataClassificationLevel.PII, MaskingRule = "Phone", RetentionRequired = true, RetentionYears = 10, CreatedAt = new DateTime(2024, 1, 1) }
+        );
+
+        // Seed audit retention policies
+        modelBuilder.Entity<AuditRetentionPolicy>().HasData(
+            new AuditRetentionPolicy { Id = "rp-001", EventType = "TransactionCreatedEvent", RetentionYears = 10, Regulation = "POJK No.6/POJK.07/2022", IsActive = true, CreatedAt = new DateTime(2024, 1, 1) },
+            new AuditRetentionPolicy { Id = "rp-002", EventType = "PaymentAuthorizedEvent", RetentionYears = 10, Regulation = "POJK No.6/POJK.07/2022", IsActive = true, CreatedAt = new DateTime(2024, 1, 1) },
+            new AuditRetentionPolicy { Id = "rp-003", EventType = "KycStatusChangedEvent", RetentionYears = 5, Regulation = "POJK No.12/POJK.01/2017", IsActive = true, CreatedAt = new DateTime(2024, 1, 1) }
+        );
     }
 }

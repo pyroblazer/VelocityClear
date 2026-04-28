@@ -38,7 +38,7 @@ public class EventFlowTests
         var (bus, db) = await CreateInfrastructure();
 
         // Setup risk service subscriber
-        var riskService = new RiskEvaluationService(bus, Mock.Of<ILogger<RiskEvaluationService>>());
+        var riskService = new RiskEvaluationService(bus, new AmlRuleEngine(Mock.Of<ILogger<AmlRuleEngine>>()), Mock.Of<ILogger<RiskEvaluationService>>());
         await bus.SubscribeAsync<TransactionCreatedEvent>(e => riskService.EvaluateAsync(e));
 
         // Setup payment service subscriber
@@ -80,7 +80,7 @@ public class EventFlowTests
     {
         var (bus, db) = await CreateInfrastructure();
 
-        var riskService = new RiskEvaluationService(bus, Mock.Of<ILogger<RiskEvaluationService>>());
+        var riskService = new RiskEvaluationService(bus, new AmlRuleEngine(Mock.Of<ILogger<AmlRuleEngine>>()), Mock.Of<ILogger<RiskEvaluationService>>());
         await bus.SubscribeAsync<TransactionCreatedEvent>(e => riskService.EvaluateAsync(e));
 
         PaymentAuthorizedEvent? paymentEvent = null;
@@ -107,7 +107,7 @@ public class EventFlowTests
     {
         var (bus, _) = await CreateInfrastructure();
 
-        var riskService = new RiskEvaluationService(bus, Mock.Of<ILogger<RiskEvaluationService>>());
+        var riskService = new RiskEvaluationService(bus, new AmlRuleEngine(Mock.Of<ILogger<AmlRuleEngine>>()), Mock.Of<ILogger<RiskEvaluationService>>());
         await bus.SubscribeAsync<TransactionCreatedEvent>(e => riskService.EvaluateAsync(e));
 
         PaymentAuthorizedEvent? paymentEvent = null;

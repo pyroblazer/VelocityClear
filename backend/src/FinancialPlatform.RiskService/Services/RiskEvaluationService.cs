@@ -27,6 +27,7 @@ namespace FinancialPlatform.RiskService.Services;
 public class RiskEvaluationService
 {
     private readonly IEventBus _eventBus;
+    private readonly AmlRuleEngine _amlRuleEngine;
     private readonly ILogger<RiskEvaluationService> _logger;
 
     // Dictionary<string, List<DateTime>> is a nested generic collection:
@@ -42,9 +43,10 @@ public class RiskEvaluationService
     // ensures no external code can lock on the same object.
     private readonly object _velocityLock = new();
 
-    public RiskEvaluationService(IEventBus eventBus, ILogger<RiskEvaluationService> logger)
+    public RiskEvaluationService(IEventBus eventBus, AmlRuleEngine amlRuleEngine, ILogger<RiskEvaluationService> logger)
     {
         _eventBus = eventBus;
+        _amlRuleEngine = amlRuleEngine;
         _logger = logger;
     }
 
@@ -84,6 +86,12 @@ public class RiskEvaluationService
         // "is < 6 or > 22" uses C# pattern matching with the "or" combinator.
         // It checks if the hour is before 6 AM or after 10 PM (odd hours).
         if (evt.Timestamp.Hour is < 6 or > 22) flags.Add("ODD_HOUR");
+
+        // AML rules
+        var amlResults = _amlRuleEngine.Evaluate(evt.TransactionId, evt.UserId, evt.Amount,
+            evt.Currency, evt.Timestamp);
+        foreach (var r in amlResults)
+            flags.Add(r.Rule);
 
         // Structured logging with multiple placeholders. string.Join() concatenates
         // the flags with ", " as a separator.

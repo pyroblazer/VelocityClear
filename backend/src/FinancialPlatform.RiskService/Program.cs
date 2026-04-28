@@ -72,6 +72,7 @@ try
     // Registered as Singleton because it holds in-memory state (the velocity
     // tracker dictionary) that must persist across all incoming events. If it
     // were Scoped, each HTTP request would get a new instance and lose history.
+    builder.Services.AddSingleton<AmlRuleEngine>();
     builder.Services.AddSingleton<RiskEvaluationService>();
 
     // AddControllers() enables the MVC controller infrastructure.
