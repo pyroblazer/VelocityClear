@@ -2,9 +2,9 @@
 # Docker Compose - Full Platform Stack
 #
 # USAGE:
-#   docker compose up --build --force-recreate --remove-orphans
-#                                     # Build images, recreate all containers, clean slate
-#   docker compose up --build -d      # Build and start in background (detached)
+#   start.bat                          # Windows: clean restart (down + build + up)
+#   ./start.sh                         # Linux/Mac: clean restart (down + build + up)
+#   docker compose up --build          # Incremental rebuild (keeps running containers)
 #   docker compose logs -f api-gateway # Follow logs for one service
 #
 # PREREQUISITE: Docker Desktop (or Docker Engine + Compose plugin) installed.
