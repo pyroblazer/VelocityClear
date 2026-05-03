@@ -1,13 +1,21 @@
 # =============================================================================
 # Docker Compose - Full Platform Stack
 #
-# USAGE:
-#   start.bat                          # Windows: clean restart (down + build + up)
-#   ./start.sh                         # Linux/Mac: clean restart (down + build + up)
-#   docker compose up --build          # Incremental rebuild (keeps running containers)
-#   docker compose logs -f api-gateway # Follow logs for one service
+# USAGE (run from this directory):
+#   docker compose up --build --force-recreate --remove-orphans
+#       Full clean restart — stops old containers, rebuilds images, starts fresh.
+#       This is the equivalent of `down` + `up` in a single command.
 #
-# PREREQUISITE: Docker Desktop (or Docker Engine + Compose plugin) installed.
+#   docker compose up --build
+#       Incremental — only recreates containers whose images changed.
+#
+#   docker compose up --build -d
+#       Same as above but runs in the background (detached).
+#
+#   docker compose logs -f api-gateway
+#       Follow logs for a specific service.
+#
+# PREREQUISITE: Docker Desktop installed (includes Docker Compose v2).
 #
 # SERVICE PORTS:
 #   API Gateway      → http://localhost:5000   (OpenAPI at /openapi)
