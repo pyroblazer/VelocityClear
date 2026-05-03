@@ -2,10 +2,10 @@
 # Docker Compose - Full Platform Stack
 #
 # USAGE:
-#   docker-compose up --build          # Build images and start everything
-#   docker-compose up -d               # Run in background (detached mode)
-#   docker-compose down -v             # Stop and remove containers + volumes
-#   docker-compose logs -f api-gateway # Follow logs for one service
+#   docker compose up --build --force-recreate --remove-orphans
+#                                     # Build images, recreate all containers, clean slate
+#   docker compose up --build -d      # Build and start in background (detached)
+#   docker compose logs -f api-gateway # Follow logs for one service
 #
 # PREREQUISITE: Docker Desktop (or Docker Engine + Compose plugin) installed.
 #
@@ -20,12 +20,13 @@
 #   RabbitMQ         → localhost:5672  (Management UI: http://localhost:15672)
 #   Kafka            → localhost:9092
 #   Prometheus       → http://localhost:9090
-#   Grafana          → http://localhost:3000   (admin/admin)
+#   Grafana          → http://localhost:3100   (admin/admin)
 #   Transaction UI   → http://localhost:3001
 #   Admin Dashboard  → http://localhost:3002
 #   Risk Dashboard   → http://localhost:3003
 #   Audit Dashboard  → http://localhost:3004
 #   Superapp         → http://localhost:3000   (all dashboards in one)
+#   Integration Demo → http://localhost:3006   (third-party API integration guide)
 #
 # NOTE ON EVENT FLOW:
 #   Cross-service events use Redis Streams as the default transport. Each
@@ -113,7 +114,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - platform-net
+      - backend-net
 
   # ---------------------------------------------------------------------------
   # APACHE KAFKA - high-throughput event streaming, used at CPU >= 75%.
@@ -127,10 +128,11 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "9092:9092"
+      - "9092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
@@ -159,6 +161,7 @@ services:
       - ServiceUrls__PaymentService=http://payment-service:5003
       - ServiceUrls__ComplianceService=http://compliance-service:5004
       - ServiceUrls__PinEncryptionService=http://pin-encryption-service:5005
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=FinancialPlatform_Gateway;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -176,6 +179,7 @@ services:
       context: ..
       dockerfile: backend/src/FinancialPlatform.TransactionService/Dockerfile
     container_name: financial_transaction_svc
+    restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
@@ -254,6 +258,7 @@ services:
       context: ..
       dockerfile: backend/src/FinancialPlatform.ComplianceService/Dockerfile
     container_name: financial_compliance_svc
+    restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
@@ -320,7 +325,7 @@ services:
     image: grafana/grafana:10.2.0
     container_name: financial_grafana
     ports:
-      - "3000:3000"
+      - "3100:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD}
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -333,6 +338,7 @@ services:
       - prometheus
     networks:
       - frontend-net
+      - backend-net
 
   # ---------------------------------------------------------------------------
   # FRONTEND - TRANSACTION UI (port 3001)
@@ -410,6 +416,7 @@ services:
       - pin-encryption-service
     networks:
       - frontend-net
+      - backend-net
 
   # ---------------------------------------------------------------------------
   # DB SEED
@@ -454,6 +461,26 @@ services:
       - pin-encryption-service
     networks:
       - frontend-net
+      - backend-net
+
+  # ---------------------------------------------------------------------------
+  # INTEGRATION DEMO (port 3006)
+  # Standalone app demonstrating third-party API integration using JWT and
+  # API keys. Serves as a developer guide for integrating with the platform.
+  # ---------------------------------------------------------------------------
+  integration-demo:
+    build:
+      context: ..
+      dockerfile: frontend/apps/integration-demo/Dockerfile
+    container_name: financial_integration_demo
+    ports:
+      - "3006:80"
+    depends_on:
+      - api-gateway
+      - transaction-service
+    networks:
+      - frontend-net
+      - backend-net
 
 # =============================================================================
 # NETWORKS
@@ -467,7 +494,7 @@ networks:
     driver: bridge
   backend-net:
     driver: bridge
-    internal: true
+    # internal: true  # disabled for local dev — .NET services on host need access
 
 # =============================================================================
 # NAMED VOLUMES

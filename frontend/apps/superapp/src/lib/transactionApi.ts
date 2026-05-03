@@ -1,8 +1,7 @@
-const BASE = '/api';
+import { getJson, postJson } from './apiClient';
 
 export async function fetchTransactions() {
-  const res = await fetch(`${BASE}/transactions`);
-  return res.json();
+  return getJson<unknown[]>('/api/transactions');
 }
 
 export async function createTransaction(data: {
@@ -11,11 +10,9 @@ export async function createTransaction(data: {
   currency: string;
   description?: string;
   counterparty?: string;
+  pan?: string;
+  pinBlock?: string;
+  cardType?: string;
 }) {
-  const res = await fetch(`${BASE}/transactions`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  return res.json();
+  return postJson<unknown>('/api/transactions', data);
 }

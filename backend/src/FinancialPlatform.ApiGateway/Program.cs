@@ -15,12 +15,14 @@
 // "using" statements import namespaces, similar to "import" in Java/Python
 // or "#include" in C++. They make types available without fully qualifying them.
 using System.Text;
+using FinancialPlatform.ApiGateway.Data;
 using FinancialPlatform.ApiGateway.Middleware;
 using FinancialPlatform.ApiGateway.Services;
 using FinancialPlatform.EventInfrastructure.Bus;
 using FinancialPlatform.EventInfrastructure.Sse;
 using FinancialPlatform.Shared.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Prometheus;
 using Serilog;
@@ -145,6 +147,12 @@ try
     builder.Services.Configure<RateLimitingOptions>(
         builder.Configuration.GetSection("RateLimiting"));
 
+    // API Key database (GatewayDbContext)
+    builder.Services.AddDbContext<GatewayDbContext>(options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is not configured.")));
+
     // Build the Application Pipeline
     // ----------------------------------------------------------------------
     // builder.Build() creates the WebApplication from all the registered
@@ -152,6 +160,17 @@ try
     // everything after this configures the HTTP request pipeline.
     // ----------------------------------------------------------------------
     var app = builder.Build();
+
+    // Auto-migrate Gateway database
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<GatewayDbContext>();
+        if (db.Database.IsRelational())
+            await db.Database.MigrateAsync();
+    }
+
+    // API Key authentication middleware (runs before JWT auth)
+    app.UseMiddleware<ApiKeyMiddleware>();
 
     // Swagger UI available in all environments (not just Development) so that
     // Docker deployments can also use interactive API documentation.

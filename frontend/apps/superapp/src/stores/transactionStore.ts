@@ -9,6 +9,8 @@ interface Transaction {
   timestamp: string;
   description?: string;
   counterparty?: string;
+  pan?: string;
+  cardType?: string;
 }
 
 interface TransactionStore {

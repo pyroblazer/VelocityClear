@@ -1,5 +1,5 @@
-import { Routes, Route, Navigate, NavLink } from 'react-router-dom';
-import { Zap, Settings, Shield, FileText, CreditCard, Activity, UserCheck, FileCheck, LayoutDashboard } from 'lucide-react';
+import { Routes, Route, Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Zap, Shield, FileText, CreditCard, Activity, UserCheck, FileCheck, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import TransactionsPage from './pages/TransactionsPage';
 import AdminPage from './pages/AdminPage';
 import RiskPage from './pages/RiskPage';
@@ -8,22 +8,59 @@ import CardOperationsPage from './pages/CardOperationsPage';
 import KycPage from './pages/KycPage';
 import ConsentPage from './pages/ConsentPage';
 import ComplianceDashboardPage from './pages/ComplianceDashboardPage';
+import SettingsPage from './pages/SettingsPage';
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useAuthStore } from './stores/authStore';
 
 const navItems = [
   { to: '/transactions', label: 'Transactions', Icon: Zap, accent: '#3B82F6' },
-  { to: '/admin', label: 'Admin', Icon: Settings, accent: '#A1A1AA' },
+  { to: '/admin', label: 'Admin', Icon: Shield, accent: '#A1A1AA' },
   { to: '/risk', label: 'Risk Monitor', Icon: Shield, accent: '#EF4444' },
   { to: '/audit', label: 'Audit Trail', Icon: FileText, accent: '#A855F7' },
   { to: '/cards', label: 'Card Operations', Icon: CreditCard, accent: '#22C55E' },
   { to: '/compliance', label: 'Compliance', Icon: LayoutDashboard, accent: '#3B82F6' },
   { to: '/kyc', label: 'KYC', Icon: UserCheck, accent: '#F59E0B' },
   { to: '/consent', label: 'Consent', Icon: FileCheck, accent: '#22C55E' },
+  { to: '/settings', label: 'Settings', Icon: Settings, accent: '#A1A1AA' },
 ];
 
 export default function App() {
+  const logout = useAuthStore((s) => s.logout);
+  const role = useAuthStore((s) => s.role);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0A0A0A' }}>
-      {/* Top header */}
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<AppShell logout={handleLogout} role={role} />}>
+            <Route index element={<Navigate to="/transactions" replace />} />
+            <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/risk" element={<RiskPage />} />
+            <Route path="/audit" element={<AuditPage />} />
+            <Route path="/cards" element={<CardOperationsPage />} />
+            <Route path="/compliance" element={<ComplianceDashboardPage />} />
+            <Route path="/kyc" element={<KycPage />} />
+            <Route path="/consent" element={<ConsentPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    </div>
+  );
+}
+
+function AppShell({ logout, role }: { logout: () => void; role: string | null }) {
+  return (
+    <>
       <header
         data-testid="app-header"
         style={{
@@ -45,17 +82,28 @@ export default function App() {
         <span style={{ marginLeft: 8, fontSize: 12, color: '#A1A1AA', borderLeft: '1px solid #2A2A2A', paddingLeft: 12 }}>
           Adaptive Real-Time Financial Platform
         </span>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#22C55E' }}>
-          <span
-            style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', animation: 'pulse-dot 2s infinite' }}
-          />
-          <Activity size={13} />
-          Live
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#22C55E' }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', animation: 'pulse-dot 2s infinite' }} />
+            <Activity size={13} />
+            Live
+          </div>
+          {role && (
+            <span style={{ fontSize: 12, color: '#A1A1AA', borderLeft: '1px solid #2A2A2A', paddingLeft: 12 }}>
+              {role}
+            </span>
+          )}
+          <button
+            onClick={logout}
+            title="Sign out"
+            style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12 }}
+          >
+            <LogOut size={14} />
+          </button>
         </div>
       </header>
 
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-        {/* Sidebar */}
         <nav
           data-testid="sidebar"
           style={{
@@ -99,21 +147,10 @@ export default function App() {
           ))}
         </nav>
 
-        {/* Main content */}
         <main style={{ flex: 1, overflowY: 'auto' }}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/transactions" replace />} />
-            <Route path="/transactions" element={<TransactionsPage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/risk" element={<RiskPage />} />
-            <Route path="/audit" element={<AuditPage />} />
-            <Route path="/cards" element={<CardOperationsPage />} />
-            <Route path="/compliance" element={<ComplianceDashboardPage />} />
-            <Route path="/kyc" element={<KycPage />} />
-            <Route path="/consent" element={<ConsentPage />} />
-          </Routes>
+          <Outlet />
         </main>
       </div>
-    </div>
+    </>
   );
 }

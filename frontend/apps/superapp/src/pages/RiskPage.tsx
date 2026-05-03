@@ -60,18 +60,18 @@ function RiskGauge({ score }: { score: number }) {
   const angle = (score / 100) * 180;
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-56 h-28 overflow-hidden">
-        <div className="absolute w-56 h-56 rounded-full border-[12px] border-[#2A2A2A]" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0 50%)' }} />
-        <svg className="absolute inset-0 w-56 h-28" viewBox="0 0 224 112">
-          <path d="M 12 100 A 100 100 0 0 1 212 100" fill="none" stroke={color} strokeWidth="12" strokeDasharray={`${(angle / 180) * 314.16} 314.16`} strokeLinecap="round" />
+      <div className="relative w-72 h-36 overflow-hidden">
+        <div className="absolute w-72 h-72 rounded-full border-[12px] border-[#2A2A2A]" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0 50%)' }} />
+        <svg className="absolute inset-0 w-72 h-36" viewBox="0 0 288 144">
+          <path d="M 16 128 A 120 120 0 0 1 272 128" fill="none" stroke={color} strokeWidth="12" strokeDasharray={`${(angle / 180) * 376.99} 376.99`} strokeLinecap="round" />
         </svg>
-        <svg className="absolute inset-0 w-56 h-28" viewBox="0 0 224 112">
-          <line x1="112" y1="100" x2={112 + 90 * Math.cos(Math.PI - (angle * Math.PI) / 180)} y2={100 - 90 * Math.sin((angle * Math.PI) / 180)} stroke={color} strokeWidth="2" strokeLinecap="round" />
-          <circle cx="112" cy="100" r="6" fill={color} />
+        <svg className="absolute inset-0 w-72 h-36" viewBox="0 0 288 144">
+          <line x1="144" y1="128" x2={144 + 110 * Math.cos(Math.PI - (angle * Math.PI) / 180)} y2={128 - 110 * Math.sin((angle * Math.PI) / 180)} stroke={color} strokeWidth="2" strokeLinecap="round" />
+          <circle cx="144" cy="128" r="7" fill={color} />
         </svg>
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2"><span className="text-3xl font-bold" style={{ color }}>{score}</span></div>
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2"><span className="text-4xl font-bold" style={{ color }}>{score}</span></div>
       </div>
-      <div className="flex justify-between w-56 mt-1 text-xs text-[#A1A1AA]"><span>0</span><span>50</span><span>100</span></div>
+      <div className="flex justify-between w-72 mt-2 text-xs text-[#A1A1AA]"><span>0</span><span>50</span><span>100</span></div>
     </div>
   );
 }
@@ -94,14 +94,14 @@ export default function RiskPage() {
         </div>
       )}
 
-      <section className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <section className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-5">
           <h2 className="text-base font-semibold mb-4 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-[#3B82F6]" />Current Risk Score</h2>
           <RiskGauge score={currentScore} />
         </div>
         <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-5">
           <h2 className="text-base font-semibold mb-4">Risk Distribution</h2>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={280}>
             <PieChart>
               <Pie data={riskDistribution} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={4} dataKey="value" label={({ name, value }) => `${name}: ${value}`}>
                 {riskDistribution.map((entry) => <Cell key={entry.name} fill={entry.color} />)}
@@ -113,7 +113,7 @@ export default function RiskPage() {
         </div>
       </section>
 
-      <section className="mb-6">
+      <section className="mb-8">
         <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-5">
           <h2 className="text-base font-semibold mb-4 flex items-center gap-2"><Activity className="w-4 h-4 text-[#3B82F6]" />Risk Trend (24h)</h2>
           <ResponsiveContainer width="100%" height={240}>
