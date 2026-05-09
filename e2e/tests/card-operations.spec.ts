@@ -2,6 +2,17 @@ import { test, expect, type Page } from '@playwright/test';
 
 const BASE_URL = '/cards';
 
+async function authenticate(page: Page) {
+  await page.goto('/login');
+  await page.evaluate(() => {
+    localStorage.setItem('vc_auth', JSON.stringify({
+      token: 'e2e-test-token',
+      role: 'Admin',
+      expiresAt: new Date(Date.now() + 3600000).toISOString(),
+    }));
+  });
+}
+
 const mockHsmHealth = {
   service: 'PinEncryptionService',
   status: 'Healthy',
@@ -9,7 +20,7 @@ const mockHsmHealth = {
   timestamp: new Date().toISOString(),
 };
 
-const mockKeys = { keyIds: ['default-zpk'] };
+const mockKeys = ['default-zpk'];
 
 const mockEncryptResult = {
   encryptedPinBlock: 'AABBCCDDEEFF0011',
@@ -158,6 +169,7 @@ async function setupMocks(page: Page) {
 test.describe('Card Operations - page structure', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto(BASE_URL);
   });
 
@@ -190,6 +202,7 @@ test.describe('Card Operations - page structure', () => {
 test.describe('Card Operations - HSM key management', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto(BASE_URL);
   });
 
@@ -215,6 +228,7 @@ test.describe('Card Operations - HSM key management', () => {
 test.describe('Card Operations - PIN operations', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto(BASE_URL);
   });
 
@@ -256,6 +270,7 @@ test.describe('Card Operations - PIN operations', () => {
 test.describe('Card Operations - ISO 8583 tools', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto(BASE_URL);
   });
 
@@ -294,6 +309,7 @@ test.describe('Card Operations - error states', () => {
     await page.route('**/api/iso8583/**', async (route) => {
       await route.fulfill({ status: 500, body: 'Internal Server Error' });
     });
+    await authenticate(page);
     await page.goto(BASE_URL);
     await expect(page.getByText(/Failed to connect to HSM/i).first()).toBeVisible({ timeout: 15_000 });
   });

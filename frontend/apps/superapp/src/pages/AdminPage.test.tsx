@@ -27,9 +27,9 @@ function renderPage() {
 const mockHealth = {
   status: 'Healthy',
   services: {
-    'Transaction Service': { status: 'Healthy', url: 'http://localhost:5001', responseTime: 12 },
-    'Risk Service': { status: 'Healthy', url: 'http://localhost:5002', responseTime: 8 },
-    'Payment Service': { status: 'Degraded', url: 'http://localhost:5003', responseTime: 45 },
+    'Transaction Service': { name: 'Transaction Service', status: 'Healthy', url: 'http://localhost:5001', responseTime: 12 },
+    'Risk Service': { name: 'Risk Service', status: 'Healthy', url: 'http://localhost:5002', responseTime: 8 },
+    'Payment Service': { name: 'Payment Service', status: 'Degraded', url: 'http://localhost:5003', responseTime: 45 },
   },
 };
 

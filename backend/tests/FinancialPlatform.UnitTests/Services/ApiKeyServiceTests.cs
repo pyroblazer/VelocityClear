@@ -117,8 +117,13 @@ public class ApiKeyServiceTests
     {
         var apiKey = new FinancialPlatform.Shared.Models.ApiKey
         {
-            Id = "del-test", Name = "Delete Me", KeyHash = "hash", KeyPrefix = "vc_live_xx",
-            Permissions = "[]", CreatedAt = DateTime.UtcNow, IsActive = true
+            Id = "del-test",
+            Name = "Delete Me",
+            KeyHash = "hash",
+            KeyPrefix = "vc_live_xx",
+            Permissions = "[]",
+            CreatedAt = DateTime.UtcNow,
+            IsActive = true
         };
         _db.ApiKeys.Add(apiKey);
         await _db.SaveChangesAsync();

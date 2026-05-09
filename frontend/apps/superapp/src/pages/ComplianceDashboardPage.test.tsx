@@ -39,7 +39,7 @@ describe('ComplianceDashboardPage', () => {
     vi.mocked(amlApi.listAlerts).mockResolvedValue([]);
     vi.mocked(approvalApi.list).mockResolvedValue([]);
     vi.mocked(complaintApi.list).mockResolvedValue([]);
-    vi.mocked(socApi.dashboard).mockResolvedValue({ openIncidents: 0, totalIncidents: 0 });
+    vi.mocked(socApi.dashboard).mockResolvedValue({ openIncidents: 0 });
   });
 
   it('renders compliance header and stat cards', async () => {

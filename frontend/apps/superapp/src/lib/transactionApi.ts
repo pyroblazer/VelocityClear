@@ -1,7 +1,21 @@
 import { getJson, postJson } from './apiClient';
 
+interface Transaction {
+  id: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  status: string;
+  timestamp: string;
+  description?: string;
+  counterparty?: string;
+  pan?: string;
+  cardType?: string;
+  error?: string;
+}
+
 export async function fetchTransactions() {
-  return getJson<unknown[]>('/api/transactions');
+  return getJson<Transaction[]>('/api/transactions');
 }
 
 export async function createTransaction(data: {
@@ -14,5 +28,5 @@ export async function createTransaction(data: {
   pinBlock?: string;
   cardType?: string;
 }) {
-  return postJson<unknown>('/api/transactions', data);
+  return postJson<Transaction>('/api/transactions', data);
 }

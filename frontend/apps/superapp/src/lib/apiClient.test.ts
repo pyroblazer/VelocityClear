@@ -24,7 +24,7 @@ describe('apiClient', () => {
     useAuthStore.setState({ token: 'will-expire', role: 'User', expiresAt: new Date(Date.now() + 3600000), isAuthenticated: true });
     vi.stubGlobal('fetch', () => Promise.resolve(new Response('', { status: 401 })));
 
-    try { await getJson('/api/protected'); } catch {}
+    try { await getJson('/api/protected'); } catch { /* expected 401 */ }
     expect(useAuthStore.getState().isAuthenticated).toBe(false);
     expect(useAuthStore.getState().token).toBeNull();
   });

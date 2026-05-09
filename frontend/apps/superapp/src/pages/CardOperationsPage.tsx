@@ -17,7 +17,7 @@ export default function CardOperationsPage() {
   });
 
   useEffect(() => {
-    if (data?.keyIds) setKeys(data.keyIds);
+    if (data) setKeys(data);
     if (isError) setError('Failed to connect to HSM service');
   }, [data, isError, setKeys, setError]);
 

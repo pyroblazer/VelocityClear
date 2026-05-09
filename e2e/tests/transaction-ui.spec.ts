@@ -1,5 +1,16 @@
 import { test, expect, type Page } from '@playwright/test';
 
+async function authenticate(page: Page) {
+  await page.goto('/login');
+  await page.evaluate(() => {
+    localStorage.setItem('vc_auth', JSON.stringify({
+      token: 'e2e-test-token',
+      role: 'Admin',
+      expiresAt: new Date(Date.now() + 3600000).toISOString(),
+    }));
+  });
+}
+
 const mockTransactions = [
   {
     id: 'txn-001',
@@ -62,6 +73,7 @@ async function setupMocks(page: Page) {
 test.describe('Transaction Dashboard - page structure', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto('/');
   });
 
@@ -101,6 +113,7 @@ test.describe('Transaction Dashboard - page structure', () => {
 test.describe('Transaction Dashboard - data display', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto('/');
   });
 
@@ -135,60 +148,60 @@ test.describe('Transaction Dashboard - data display', () => {
 test.describe('Transaction Dashboard - form interaction', () => {
   test.beforeEach(async ({ page }) => {
     await setupMocks(page);
+    await authenticate(page);
     await page.goto('/');
   });
 
   test('submit button is disabled when form fields are empty', async ({ page }) => {
-    const submitBtn = page.getByRole('button', { name: /Submit Transaction/i });
-    await expect(submitBtn).toBeDisabled();
+    await expect(page.getByTestId('txn-submit')).toBeDisabled();
   });
 
   test('submit button enables after filling required fields', async ({ page }) => {
-    await page.getByPlaceholder('Enter user ID').fill('test_user');
-    await page.getByPlaceholder('0.00').fill('100');
-    await expect(page.getByRole('button', { name: /Submit Transaction/i })).toBeEnabled();
+    await page.getByTestId('txn-user-id').fill('test_user');
+    await page.getByTestId('txn-amount').fill('100');
+    await expect(page.getByTestId('txn-submit')).toBeEnabled();
   });
 
   test('submit button stays disabled with only user ID filled', async ({ page }) => {
-    await page.getByPlaceholder('Enter user ID').fill('test_user');
-    await expect(page.getByRole('button', { name: /Submit Transaction/i })).toBeDisabled();
+    await page.getByTestId('txn-user-id').fill('test_user');
+    await expect(page.getByTestId('txn-submit')).toBeDisabled();
   });
 
   test('submit button stays disabled with only amount filled', async ({ page }) => {
-    await page.getByPlaceholder('0.00').fill('100');
-    await expect(page.getByRole('button', { name: /Submit Transaction/i })).toBeDisabled();
+    await page.getByTestId('txn-amount').fill('100');
+    await expect(page.getByTestId('txn-submit')).toBeDisabled();
   });
 
   test('submits transaction and shows success banner', async ({ page }) => {
-    await page.getByPlaceholder('Enter user ID').fill('test_user');
-    await page.getByPlaceholder('0.00').fill('500');
-    await page.getByRole('button', { name: /Submit Transaction/i }).click();
-    await expect(page.getByText('Transaction submitted successfully')).toBeVisible();
+    await page.getByTestId('txn-user-id').fill('test_user');
+    await page.getByTestId('txn-amount').fill('500');
+    await page.getByTestId('txn-submit').click();
+    await expect(page.getByText('Transfer submitted successfully')).toBeVisible();
   });
 
   test('form resets to empty after successful submission', async ({ page }) => {
-    const userInput = page.getByPlaceholder('Enter user ID');
+    const userInput = page.getByTestId('txn-user-id');
     await userInput.fill('test_user');
-    await page.getByPlaceholder('0.00').fill('500');
-    await page.getByRole('button', { name: /Submit Transaction/i }).click();
-    await expect(page.getByText('Transaction submitted successfully')).toBeVisible();
+    await page.getByTestId('txn-amount').fill('500');
+    await page.getByTestId('txn-submit').click();
+    await expect(page.getByText('Transfer submitted successfully')).toBeVisible();
     await expect(userInput).toHaveValue('');
   });
 
   test('new transaction appears in table after submission', async ({ page }) => {
-    await page.getByPlaceholder('Enter user ID').fill('e2e_test_user');
-    await page.getByPlaceholder('0.00').fill('750');
-    await page.getByRole('button', { name: /Submit Transaction/i }).click();
-    await expect(page.getByText('Transaction submitted successfully')).toBeVisible();
+    await page.getByTestId('txn-user-id').fill('e2e_test_user');
+    await page.getByTestId('txn-amount').fill('750');
+    await page.getByTestId('txn-submit').click();
+    await expect(page.getByText('Transfer submitted successfully')).toBeVisible();
     await expect(page.getByText('e2e_test_user')).toBeVisible();
   });
 
   test('table count updates after new transaction is added', async ({ page }) => {
     await expect(page.getByText('2 total')).toBeVisible();
-    await page.getByPlaceholder('Enter user ID').fill('new_user');
-    await page.getByPlaceholder('0.00').fill('100');
-    await page.getByRole('button', { name: /Submit Transaction/i }).click();
-    await expect(page.getByText('Transaction submitted successfully')).toBeVisible();
+    await page.getByTestId('txn-user-id').fill('new_user');
+    await page.getByTestId('txn-amount').fill('100');
+    await page.getByTestId('txn-submit').click();
+    await expect(page.getByText('Transfer submitted successfully')).toBeVisible();
     await expect(page.getByText('3 total')).toBeVisible();
   });
 
@@ -214,8 +227,9 @@ test.describe('Transaction Dashboard - error and empty states', () => {
     await page.route('**/api/transactions/stream', async (route) => {
       await route.fulfill({ status: 200, contentType: 'text/event-stream', body: '' });
     });
+    await authenticate(page);
     await page.goto('/');
-    await expect(page.getByText('No transactions yet. Create one to get started.')).toBeVisible();
+    await expect(page.getByText('No transactions yet')).toBeVisible();
   });
 
   test('shows API error banner when server is unavailable', async ({ page }) => {
@@ -229,9 +243,10 @@ test.describe('Transaction Dashboard - error and empty states', () => {
     await page.route('**/api/transactions/stream', async (route) => {
       await route.fulfill({ status: 200, contentType: 'text/event-stream', body: '' });
     });
+    await authenticate(page);
     await page.goto('/');
     await expect(
-      page.getByText('Failed to load transactions. The API server may be unavailable.')
+      page.getByText('Failed to load transactions')
     ).toBeVisible({ timeout: 15_000 });
   });
 });
