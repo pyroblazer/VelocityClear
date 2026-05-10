@@ -242,13 +242,26 @@ jobs:
       - name: Smoke test frontend apps
         working-directory: infrastructure
         run: |
-          for port in 3000 3001 3002 3003 3004 3005 3006; do
-            STATUS=$(curl -sf -o /dev/null -w "%{http_code}" http://localhost:$port/)
-            if [ "$STATUS" != "200" ]; then
-              echo "Frontend on port $port returned $STATUS"
+          for i in $(seq 1 30); do
+            ALL_OK=true
+            for port in 3000 3001 3002 3003 3004 3005 3006; do
+              STATUS=$(curl -sf -o /dev/null -w "%{http_code}" --max-time 3 http://localhost:$port/ 2>/dev/null || echo "000")
+              if [ "$STATUS" != "200" ]; then
+                ALL_OK=false
+                if [ "$i" -eq 30 ]; then
+                  echo "::error::Frontend on port $port returned $STATUS"
+                fi
+              fi
+            done
+            if [ "$ALL_OK" = true ]; then
+              echo "All frontends OK"
+              break
+            fi
+            if [ "$i" -eq 30 ]; then
+              docker compose logs --tail 30
               exit 1
             fi
-            echo "Frontend :$port OK"
+            sleep 2
           done
 
       - name: Collect logs on failure
