@@ -147,6 +147,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create .env for docker compose
+        working-directory: infrastructure
+        run: |
+          cat > .env <<'EOF'
+          SA_PASSWORD=YourStrong!Passw0rd
+          JWT_SECRET_KEY=CI_Test_Secret_Key_Minimum_32_Characters!
+          GF_ADMIN_PASSWORD=admin
+          EOF
+
       - name: Build and start all services
         working-directory: infrastructure
         run: docker compose up --build --force-recreate --remove-orphans -d --wait || (docker compose logs && exit 1)
