@@ -188,6 +188,8 @@ services:
       dockerfile: backend/src/FinancialPlatform.TransactionService/Dockerfile
     container_name: financial_transaction_svc
     restart: unless-stopped
+    ports:
+      - "5001:5001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
@@ -216,6 +218,8 @@ services:
       context: ..
       dockerfile: backend/src/FinancialPlatform.RiskService/Dockerfile
     container_name: financial_risk_svc
+    ports:
+      - "5002:5002"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
@@ -241,6 +245,8 @@ services:
       context: ..
       dockerfile: backend/src/FinancialPlatform.PaymentService/Dockerfile
     container_name: financial_payment_svc
+    ports:
+      - "5003:5003"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
@@ -267,6 +273,8 @@ services:
       dockerfile: backend/src/FinancialPlatform.ComplianceService/Dockerfile
     container_name: financial_compliance_svc
     restart: unless-stopped
+    ports:
+      - "5004:5004"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
@@ -295,6 +303,8 @@ services:
       context: ..
       dockerfile: backend/src/FinancialPlatform.PinEncryptionService/Dockerfile
     container_name: financial_pin_encryption_svc
+    ports:
+      - "5005:5005"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - Jwt__SecretKey=${JWT_SECRET_KEY}
