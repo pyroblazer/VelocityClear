@@ -156,11 +156,20 @@ jobs:
           GF_ADMIN_PASSWORD=admin
           EOF
 
-      - name: Build and start all services
+      - name: Build all images
         working-directory: infrastructure
-        run: docker compose up --build --force-recreate --remove-orphans -d --wait || (docker compose logs && exit 1)
+        run: docker compose build --progress=plain 2>&1
+
+      - name: Start all services
+        working-directory: infrastructure
+        run: docker compose up --force-recreate --remove-orphans -d
+
+      - name: Show container status
+        working-directory: infrastructure
+        run: docker compose ps -a
 
       - name: Wait for backend services
+        working-directory: infrastructure
         run: |
           declare -A HEALTH_PATHS=(
             [5000]="/api/gateway/health"
@@ -180,7 +189,7 @@ jobs:
               fi
               if [ "$i" -eq 60 ]; then
                 echo "Port $port did not respond in time"
-                docker compose -f infrastructure/docker-compose.yml logs
+                docker compose logs
                 exit 1
               fi
               sleep 2
