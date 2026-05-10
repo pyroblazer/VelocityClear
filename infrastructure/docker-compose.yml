@@ -359,7 +359,7 @@ services:
       dockerfile: frontend/apps/transaction-ui/Dockerfile
     container_name: financial_transaction_ui
     ports:
-      - "3001:80"
+      - "3001:8080"
     depends_on:
       - api-gateway
     networks:
@@ -376,7 +376,7 @@ services:
       dockerfile: frontend/apps/admin-dashboard/Dockerfile
     container_name: financial_admin_dashboard
     ports:
-      - "3002:80"
+      - "3002:8080"
     networks:
       - frontend-net
 
@@ -390,7 +390,7 @@ services:
       dockerfile: frontend/apps/risk-dashboard/Dockerfile
     container_name: financial_risk_dashboard
     ports:
-      - "3003:80"
+      - "3003:8080"
     networks:
       - frontend-net
 
@@ -404,7 +404,7 @@ services:
       dockerfile: frontend/apps/audit-dashboard/Dockerfile
     container_name: financial_audit_dashboard
     ports:
-      - "3004:80"
+      - "3004:8080"
     networks:
       - frontend-net
 
@@ -419,7 +419,7 @@ services:
       dockerfile: frontend/apps/card-operations/Dockerfile
     container_name: financial_card_operations
     ports:
-      - "3005:80"
+      - "3005:8080"
     depends_on:
       - pin-encryption-service
     networks:
@@ -463,7 +463,7 @@ services:
       dockerfile: frontend/apps/superapp/Dockerfile
     container_name: financial_superapp
     ports:
-      - "3000:80"
+      - "3000:8080"
     depends_on:
       - api-gateway
       - pin-encryption-service
@@ -482,7 +482,7 @@ services:
       dockerfile: frontend/apps/integration-demo/Dockerfile
     container_name: financial_integration_demo
     ports:
-      - "3006:80"
+      - "3006:8080"
     depends_on:
       - api-gateway
       - transaction-service

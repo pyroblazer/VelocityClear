@@ -153,11 +153,19 @@ jobs:
 
       - name: Wait for backend services
         run: |
+          declare -A HEALTH_PATHS=(
+            [5000]="/api/gateway/health"
+            [5001]="/api/health"
+            [5002]="/api/risk/health"
+            [5003]="/api/payment/health"
+            [5004]="/api/health"
+            [5005]="/api/hsm/health"
+          )
           for port in 5000 5001 5002 5003 5004 5005; do
             echo "Waiting for port $port..."
+            health_path="${HEALTH_PATHS[$port]}"
             for i in $(seq 1 60); do
-              if curl -sf http://localhost:$port/api/gateway/health > /dev/null 2>&1 || \
-                 curl -sf http://localhost:$port/ -o /dev/null 2>&1; then
+              if curl -sf "http://localhost:$port${health_path}" > /dev/null 2>&1; then
                 echo "Port $port ready"
                 break
               fi

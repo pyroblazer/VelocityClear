@@ -5,10 +5,13 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text;
 using FinancialPlatform.ApiGateway;
+using FinancialPlatform.ApiGateway.Data;
 using FinancialPlatform.ApiGateway.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
@@ -23,11 +26,28 @@ public class SecurityTests : IDisposable
 
     public SecurityTests()
     {
+        var dbName = $"SecurityTestDb_{Guid.NewGuid()}";
         _factory = new WebApplicationFactory<TestEntry>()
             .WithWebHostBuilder(builder =>
             {
                 builder.UseSetting("Jwt:SecretKey", JwtSecretKey);
                 builder.UseSetting("Jwt:Issuer", JwtIssuer);
+                builder.UseSetting("ConnectionStrings:DefaultConnection", "unused");
+                builder.ConfigureServices(services =>
+                {
+                    var toRemove = services
+                        .Where(d => d.ServiceType.FullName != null &&
+                                    (d.ServiceType.FullName.Contains("DbContext") ||
+                                     d.ServiceType.FullName.Contains("DbContextOptions")))
+                        .ToList();
+                    foreach (var d in toRemove)
+                        services.Remove(d);
+
+                    services.AddDbContext<GatewayDbContext>(
+                        options => options.UseInMemoryDatabase(dbName),
+                        ServiceLifetime.Scoped,
+                        ServiceLifetime.Singleton);
+                });
             });
         _client = _factory.CreateClient();
     }

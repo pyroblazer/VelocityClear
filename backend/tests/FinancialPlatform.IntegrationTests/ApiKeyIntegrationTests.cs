@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using FinancialPlatform.ApiGateway;
 using FinancialPlatform.ApiGateway.Data;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +17,28 @@ public class ApiKeyIntegrationTests : IDisposable
 
     public ApiKeyIntegrationTests()
     {
+        var dbName = $"ApiKeyTestDb_{Guid.NewGuid()}";
         _factory = new WebApplicationFactory<TestEntry>()
             .WithWebHostBuilder(builder =>
             {
                 builder.UseSetting("Jwt:SecretKey", "TestSecretKey_MustBe32CharsOrMore!!");
                 builder.UseSetting("Jwt:Issuer", "TestIssuer");
+                builder.UseSetting("ConnectionStrings:DefaultConnection", "unused");
+                builder.ConfigureServices(services =>
+                {
+                    var toRemove = services
+                        .Where(d => d.ServiceType.FullName != null &&
+                                    (d.ServiceType.FullName.Contains("DbContext") ||
+                                     d.ServiceType.FullName.Contains("DbContextOptions")))
+                        .ToList();
+                    foreach (var d in toRemove)
+                        services.Remove(d);
+
+                    services.AddDbContext<GatewayDbContext>(
+                        options => options.UseInMemoryDatabase(dbName),
+                        ServiceLifetime.Scoped,
+                        ServiceLifetime.Singleton);
+                });
             });
         _client = _factory.CreateClient();
     }
