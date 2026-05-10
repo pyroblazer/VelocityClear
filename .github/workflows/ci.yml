@@ -185,27 +185,36 @@ jobs:
             [5004]="/api/health"
             [5005]="/api/hsm/health"
           )
-          FAILED=""
-          for port in 5000 5001 5002 5003 5004 5005; do
-            echo "::notice::Waiting for port $port..."
-            health_path="${HEALTH_PATHS[$port]}"
-            for i in $(seq 1 90); do
-              if curl -sf --max-time 3 "http://localhost:$port${health_path}" > /dev/null 2>&1; then
-                echo "::notice::Port $port ready (attempt $i)"
-                break
+          declare -A READY
+          PORTS="5000 5001 5002 5003 5004 5005"
+          for i in $(seq 1 60); do
+            ALL_READY=true
+            for port in $PORTS; do
+              if [ -z "${READY[$port]}" ]; then
+                if curl -sf --max-time 3 "http://localhost:$port${HEALTH_PATHS[$port]}" > /dev/null 2>&1; then
+                  echo "::notice::Port $port ready (attempt $i)"
+                  READY[$port]=1
+                else
+                  ALL_READY=false
+                fi
               fi
-              if [ "$i" -eq 90 ]; then
-                echo "::error::Port $port (${health_path}) did not respond in time (180s)"
-                FAILED="$FAILED $port"
-                docker compose logs --tail 30
-              fi
-              sleep 2
             done
+            if [ "$ALL_READY" = true ]; then
+              echo "All backend services healthy"
+              break
+            fi
+            if [ "$i" -eq 60 ]; then
+              echo "::error::Timed out waiting for backend services"
+              for port in $PORTS; do
+                if [ -z "${READY[$port]}" ]; then
+                  echo "::error::Port $port (${HEALTH_PATHS[$port]}) never responded"
+                fi
+              done
+              docker compose logs --tail 50
+              exit 1
+            fi
+            sleep 3
           done
-          if [ -n "$FAILED" ]; then
-            echo "::error::Failed ports:$FAILED"
-            exit 1
-          fi
 
       - name: Smoke test API Gateway health
         working-directory: infrastructure

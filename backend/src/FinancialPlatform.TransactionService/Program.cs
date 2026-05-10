@@ -195,7 +195,11 @@ try
         FinancialPlatform.TransactionService.ServiceMetrics.EventBusCurrentBackend.Set((double)adaptiveBus.CurrentBackend);
         adaptiveBus.BackendChanged += (_, backend) => FinancialPlatform.TransactionService.ServiceMetrics.EventBusCurrentBackend.Set((double)backend);
     }
-    await eventBus.StartAsync();
+
+    app.Lifetime.ApplicationStarted.Register(() =>
+    {
+        _ = Task.Run(async () => await eventBus.StartAsync());
+    });
 
     Log.Information("Transaction Service listening on port 5001");
 
