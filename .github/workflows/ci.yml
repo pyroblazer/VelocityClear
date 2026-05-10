@@ -166,7 +166,13 @@ jobs:
 
       - name: Show container status
         working-directory: infrastructure
-        run: docker compose ps -a
+        run: |
+          docker compose ps -a
+          echo "--- Backend service logs (last 50 lines each) ---"
+          for svc in api-gateway transaction-service risk-service payment-service compliance-service pin-encryption-service; do
+            echo "=== $svc ==="
+            docker compose logs --tail 50 "$svc" 2>&1 || true
+          done
 
       - name: Wait for backend services
         working-directory: infrastructure
@@ -179,34 +185,41 @@ jobs:
             [5004]="/api/health"
             [5005]="/api/hsm/health"
           )
+          FAILED=""
           for port in 5000 5001 5002 5003 5004 5005; do
-            echo "Waiting for port $port..."
+            echo "::notice::Waiting for port $port..."
             health_path="${HEALTH_PATHS[$port]}"
-            for i in $(seq 1 60); do
-              if curl -sf "http://localhost:$port${health_path}" > /dev/null 2>&1; then
-                echo "Port $port ready"
+            for i in $(seq 1 90); do
+              if curl -sf --max-time 3 "http://localhost:$port${health_path}" > /dev/null 2>&1; then
+                echo "::notice::Port $port ready (attempt $i)"
                 break
               fi
-              if [ "$i" -eq 60 ]; then
-                echo "Port $port did not respond in time"
-                docker compose logs
-                exit 1
+              if [ "$i" -eq 90 ]; then
+                echo "::error::Port $port (${health_path}) did not respond in time (180s)"
+                FAILED="$FAILED $port"
+                docker compose logs --tail 30
               fi
               sleep 2
             done
           done
+          if [ -n "$FAILED" ]; then
+            echo "::error::Failed ports:$FAILED"
+            exit 1
+          fi
 
       - name: Smoke test API Gateway health
+        working-directory: infrastructure
         run: |
           STATUS=$(curl -sf http://localhost:5000/api/gateway/health | jq -r '.status // empty')
           if [ "$STATUS" != "Healthy" ]; then
             echo "Gateway health check failed: $STATUS"
-            docker compose -f infrastructure/docker-compose.yml logs api-gateway
+            docker compose logs api-gateway
             exit 1
           fi
           echo "Gateway healthy"
 
       - name: Smoke test API Gateway auth
+        working-directory: infrastructure
         run: |
           TOKEN=$(curl -sf -X POST http://localhost:5000/api/auth/login \
             -H "Content-Type: application/json" \
@@ -218,6 +231,7 @@ jobs:
           echo "Auth OK"
 
       - name: Smoke test frontend apps
+        working-directory: infrastructure
         run: |
           for port in 3000 3001 3002 3003 3004 3005 3006; do
             STATUS=$(curl -sf -o /dev/null -w "%{http_code}" http://localhost:$port/)
