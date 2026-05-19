@@ -8,6 +8,7 @@
     <Project Path="src/FinancialPlatform.Shared/FinancialPlatform.Shared.csproj" />
     <Project Path="src/FinancialPlatform.TransactionService/FinancialPlatform.TransactionService.csproj" />
     <Project Path="src/FinancialPlatform.PinEncryptionService/FinancialPlatform.PinEncryptionService.csproj" />
+    <Project Path="src/FinancialPlatform.AllServices/FinancialPlatform.AllServices.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FinancialPlatform.IntegrationTests/FinancialPlatform.IntegrationTests.csproj" />

@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { Zap, Shield, FileText, CreditCard, Activity, UserCheck, FileCheck, LayoutDashboard, LogOut, Settings } from 'lucide-react';
+import { Zap, Shield, FileText, CreditCard, Activity, UserCheck, FileCheck, LayoutDashboard, LogOut, Settings, Code } from 'lucide-react';
 import TransactionsPage from './pages/TransactionsPage';
 import AdminPage from './pages/AdminPage';
 import RiskPage from './pages/RiskPage';
@@ -9,6 +9,7 @@ import KycPage from './pages/KycPage';
 import ConsentPage from './pages/ConsentPage';
 import ComplianceDashboardPage from './pages/ComplianceDashboardPage';
 import SettingsPage from './pages/SettingsPage';
+import IntegrationDemoPage from './pages/IntegrationDemoPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuthStore } from './stores/authStore';
@@ -23,6 +24,7 @@ const navItems = [
   { to: '/kyc', label: 'KYC', Icon: UserCheck, accent: '#F59E0B' },
   { to: '/consent', label: 'Consent', Icon: FileCheck, accent: '#22C55E' },
   { to: '/settings', label: 'Settings', Icon: Settings, accent: '#A1A1AA' },
+  { to: '/integration', label: 'API Guide', Icon: Code, accent: '#F59E0B' },
 ];
 
 export default function App() {
@@ -51,6 +53,7 @@ export default function App() {
             <Route path="/kyc" element={<KycPage />} />
             <Route path="/consent" element={<ConsentPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/integration" element={<IntegrationDemoPage />} />
           </Route>
         </Route>
       </Routes>

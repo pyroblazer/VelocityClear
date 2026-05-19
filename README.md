@@ -16,16 +16,18 @@ A distributed, real-time financial transaction processing platform built with **
 8. [API Reference](#api-reference)
 9. [Event Flow and Business Rules](#event-flow-and-business-rules)
 10. [Frontend Applications](#frontend-applications)
-11. [Swagger UI (Interactive API Docs)](#swagger-ui-interactive-api-docs)
-12. [Postman Collection](#postman-collection)
-13. [Event Bus Backends](#event-bus-backends)
-14. [Observability (Prometheus + Grafana)](#observability-prometheus--grafana)
-15. [Database](#database)
-16. [Testing](#testing)
-17. [Running in Visual Studio](#running-in-visual-studio)
-18. [Project Structure](#project-structure)
-19. [Environment Variables](#environment-variables)
-20. [Troubleshooting](#troubleshooting)
+11. [Superapp Dashboard](#superapp-dashboard-http-localhost3000)
+12. [API Keys - Integrating the Payment System](#api-keys---integrating-the-payment-system)
+13. [Swagger UI (Interactive API Docs)](#swagger-ui-interactive-api-docs)
+14. [Postman Collection](#postman-collection)
+15. [Event Bus Backends](#event-bus-backends)
+16. [Observability (Prometheus + Grafana)](#observability-prometheus--grafana)
+17. [Database](#database)
+18. [Testing](#testing)
+19. [Running in Visual Studio](#running-in-visual-studio)
+20. [Project Structure](#project-structure)
+21. [Environment Variables](#environment-variables)
+22. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -34,9 +36,10 @@ A distributed, real-time financial transaction processing platform built with **
 ```
                          ┌──────────────────────────────────────────────┐
                          │         FRONTEND (React)                     │
+                         │  Superapp (unified, port 3000)               │
                          │  Transaction UI  Admin Dashboard             │
                          │  Risk Dashboard  Audit Dashboard             │
-                         │  Card Operations                              │
+                         │  Card Operations  Integration Demo           │
                          └──────────────┬───────────────────────────────┘
                                         │ HTTP / SSE
                          ┌──────────────▼───────────────────────────────┐
@@ -204,18 +207,20 @@ docker-compose logs -f transaction-service
 
 | Service | URL | Description |
 |---------|-----|-------------|
+| **Superapp** | http://localhost:3000 | Unified dashboard — all views in one app (login required) |
 | **Transaction UI** | http://localhost:3001 | Submit transactions, view dashboard |
 | **Admin Dashboard** | http://localhost:3002 | Service health monitoring |
 | **Risk Dashboard** | http://localhost:3003 | Risk score visualization |
 | **Audit Dashboard** | http://localhost:3004 | Audit trail and hash chain |
 | **Card Operations** | http://localhost:3005 | HSM key management, PIN operations, ISO 8583 tools |
+| **Integration Demo** | http://localhost:3006 | Step-by-step API integration guide for third-party developers |
 | API Gateway | http://localhost:5000/swagger | Interactive Swagger UI |
 | Transaction Service | http://localhost:5001/swagger | Interactive Swagger UI |
 | Risk Service | http://localhost:5002/swagger | Interactive Swagger UI |
 | Payment Service | http://localhost:5003/swagger | Interactive Swagger UI |
 | Compliance Service | http://localhost:5004/swagger | Interactive Swagger UI |
 | PIN Encryption Service | http://localhost:5005/swagger | HSM & ISO 8583 API |
-| Grafana | http://localhost:3000 | admin/admin |
+| Grafana | http://localhost:3100 | admin/admin |
 | Prometheus | http://localhost:9090 | Metrics browser |
 | RabbitMQ Management | http://localhost:15672 | guest/guest |
 
@@ -230,7 +235,7 @@ docker-compose down -v       # Stop containers AND delete database data
 
 ```bash
 # Start only SQL Server and the database-dependent services
-docker-compose up sqlserver transaction-service compliance-service
+docker-compose up sqlserver transaction-se`rvi`ce compliance-service
 
 # Start only infrastructure (no .NET services, no frontends)
 docker-compose up sqlserver redis rabbitmq kafka prometheus grafana
@@ -303,6 +308,12 @@ cd frontend/apps/audit-dashboard && npm install && npm run dev
 
 # Card Operations (port 3005)
 cd frontend/apps/card-operations && npm install && npm run dev
+
+# Superapp (port 3000) — unified dashboard
+cd frontend/apps/superapp && npm install && npm run dev
+
+# Integration Demo (port 3006) — third-party API guide
+cd frontend/apps/integration-demo && npm install && npm run dev
 ```
 
 ---
@@ -625,7 +636,38 @@ Events are streamed in real time as transactions flow through the pipeline. The 
 
 ### Step 13: Use the Frontend Dashboards
 
-All five frontends are single-page applications with a dark theme (black background, white text). Each runs on its own port and can be opened independently in any browser. No login is required for any frontend.
+All frontends share a dark theme (black background, white text) and run on their own ports. The **Superapp** (port 3000) is the primary unified interface and requires a login. The individual dashboards (3001–3005) can be opened independently without authentication.
+
+---
+
+#### Superapp (http://localhost:3000)
+
+The Superapp is the primary unified interface, combining all five dashboards behind a single URL with a persistent sidebar and shared authentication session. It is served by a dedicated nginx container in Docker — **no separate command needed** when you run `docker-compose up --build`.
+
+**Login**
+
+Navigate to http://localhost:3000 and you will be redirected to the login page. Use any seeded account:
+
+| Username | Password | Role |
+|----------|----------|------|
+| `admin` | `admin123` | Admin |
+| `trader1` | `trader1pass` | User |
+| `auditor1` | `auditor1pass` | Auditor |
+| `testuser` | `testuser1pass` | User |
+
+**Sidebar pages**
+
+| Route | Description |
+|-------|-------------|
+| `/transactions` | Create transactions and watch the live SSE event feed |
+| `/admin` | Platform metrics and service health |
+| `/risk` | Real-time risk monitoring |
+| `/audit` | Audit trail with SHA-256 hash chain |
+| `/cards` | HSM key management, PIN encrypt/decrypt/verify, ISO 8583 tools |
+| `/compliance` | OJK compliance dashboard (KYC, AML, consent, reports) |
+| `/kyc` | Know Your Customer management |
+| `/consent` | Consent management |
+| `/settings` | **API key management** — generate and revoke keys for third-party integration |
 
 ---
 
@@ -834,13 +876,15 @@ This section explains what each key type does internally, in terms a developer c
 
 #### Quick navigation reference
 
-| URL | App | Connected to | Live data |
-|-----|-----|-------------|-----------|
-| http://localhost:3001 | Transaction UI | API Gateway (5000) | Yes (SSE + polling) |
-| http://localhost:3002 | Admin Dashboard | None (mock data) | No |
-| http://localhost:3003 | Risk Dashboard | None (mock data) | No |
-| http://localhost:3004 | Audit Dashboard | None (mock data) | No |
-| http://localhost:3005 | Card Operations | PIN Encryption Service (5005) | Yes (polling) |
+| URL | App | Connected to | Live data | Auth |
+|-----|-----|-------------|-----------|------|
+| http://localhost:3000 | **Superapp** | All backend services | Yes (SSE + polling) | Required |
+| http://localhost:3001 | Transaction UI | API Gateway (5000) | Yes (SSE + polling) | No |
+| http://localhost:3002 | Admin Dashboard | None (mock data) | No | No |
+| http://localhost:3003 | Risk Dashboard | None (mock data) | No | No |
+| http://localhost:3004 | Audit Dashboard | None (mock data) | No | No |
+| http://localhost:3005 | Card Operations | PIN Encryption Service (5005) | Yes (polling) | No |
+| http://localhost:3006 | Integration Demo | API Gateway (5000) | Yes (live calls) | No |
 
 ---
 
@@ -986,17 +1030,134 @@ Hash(n) = SHA256(Payload(n) + Hash(n-1))
 
 ## Frontend Applications
 
-Each frontend is an independent Vite + React + TypeScript application with a high-contrast dark theme (`#0A0A0A` background, `#FFFFFF` text) using Tailwind CSS v4. All apps are single-page applications with no routing -- everything is visible on one scrollable page.
+Each frontend is an independent Vite + React + TypeScript application with a high-contrast dark theme (`#0A0A0A` background, `#FFFFFF` text). All are built and served as static files by nginx inside Docker — no separate build step needed after `docker-compose up --build`.
 
-| App | URL | Data Source | Description |
-|-----|-----|-------------|-------------|
-| **Transaction UI** | http://localhost:3001 | Live API (API Gateway :5000) | Submit transactions, KPI cards, SSE live feed, transaction table |
-| **Admin Dashboard** | http://localhost:3002 | Mock data | Service health cards, event bus status, SSE connections, quick actions |
-| **Risk Dashboard** | http://localhost:3003 | Mock data | Risk score gauge, distribution pie chart, 24h trend line, events table |
-| **Audit Dashboard** | http://localhost:3004 | Mock data | Hash chain timeline, event filters, search, chain link diagram |
-| **Card Operations** | http://localhost:3005 | Live API (PIN Encryption Service :5005) | HSM key management, PIN encrypt/decrypt/verify, ISO 8583 tools, card authorization |
+| App | URL | Data Source | Auth | Description |
+|-----|-----|-------------|------|-------------|
+| **Superapp** | http://localhost:3000 | All backend services | Required | Unified dashboard: all pages below in one app with sidebar navigation and API key management |
+| **Transaction UI** | http://localhost:3001 | Live API (API Gateway :5000) | No | Submit transactions, KPI cards, SSE live feed, transaction table |
+| **Admin Dashboard** | http://localhost:3002 | Mock data | No | Service health cards, event bus status, SSE connections, quick actions |
+| **Risk Dashboard** | http://localhost:3003 | Mock data | No | Risk score gauge, distribution pie chart, 24h trend line, events table |
+| **Audit Dashboard** | http://localhost:3004 | Mock data | No | Hash chain timeline, event filters, search, chain link diagram |
+| **Card Operations** | http://localhost:3005 | Live API (PIN Encryption Service :5005) | No | HSM key management, PIN encrypt/decrypt/verify, ISO 8583 tools, card authorization |
+| **Integration Demo** | http://localhost:3006 | Live API (API Gateway :5000) | No | Interactive step-by-step guide for third-party developers integrating the payment API |
 
 For detailed instructions on how to navigate and use each app, see **Step 13: Use the Frontend Dashboards** above.
+
+---
+
+## Superapp Dashboard (http://localhost:3000)
+
+The Superapp is the recommended starting point for exploring the platform. It runs entirely inside Docker and is accessible as soon as `docker-compose up --build` finishes. No extra commands needed.
+
+### Starting the Superapp with Docker
+
+```bash
+cd infrastructure
+docker-compose up --build
+```
+
+Wait for all services to be healthy (roughly 30–60 seconds), then open http://localhost:3000. You will be redirected to the login page automatically.
+
+### Default Credentials
+
+| Username | Password | Role | What you can do |
+|----------|----------|------|-----------------|
+| `admin` | `admin123` | Admin | Full access to all pages and API key management |
+| `trader1` | `trader1pass` | User | Transactions, compliance views |
+| `auditor1` | `auditor1pass` | Auditor | Read-only audit and compliance data |
+| `testuser` | `testuser1pass` | User | General transactions |
+
+### Pages
+
+After logging in, the left sidebar provides navigation to:
+
+| Sidebar Item | URL | What it shows |
+|--------------|-----|---------------|
+| Transactions | `/transactions` | Submit new transactions; live SSE event feed; transaction table with status badges |
+| Admin | `/admin` | Platform metrics, service health, event bus backend status |
+| Risk Monitor | `/risk` | Risk score gauge, distribution chart, 24-hour trend, flagged events |
+| Audit Trail | `/audit` | Immutable SHA-256 hash-chained audit log with search and filters |
+| Card Operations | `/cards` | HSM key management, PIN encrypt/decrypt/verify, ISO 8583 parser/builder, card authorization |
+| Compliance | `/compliance` | OJK compliance overview: KYC status, AML flags, consent summary, SOC reports |
+| KYC | `/kyc` | Know Your Customer record management |
+| Consent | `/consent` | Data consent management for customers |
+| **Settings** | `/settings` | **Generate and revoke API keys for third-party integration** |
+
+---
+
+## API Keys - Integrating the Payment System
+
+The platform supports API key authentication as an alternative to JWT for server-to-server integrations. API keys are scoped to specific permissions and do not expire unless manually revoked.
+
+### Generating an API Key
+
+1. Open the Superapp at http://localhost:3000 and log in (Admin account recommended).
+2. Click **Settings** in the left sidebar.
+3. Click **Generate New Key**.
+4. Enter a descriptive **Key Name** (e.g., `Production Integration`).
+5. Select the **permissions** your integration needs:
+
+| Permission | What it allows |
+|------------|----------------|
+| `transactions:read` | List and fetch transaction records |
+| `transactions:write` | Create new transactions |
+| `payments:authorize` | Call the payment authorization endpoint |
+| `audit:read` | Read audit logs and verify hash chain |
+| `compliance:read` | Read compliance and KYC data |
+
+6. Click **Generate Key**.
+7. **Copy the key immediately** — it is only shown once and cannot be retrieved again. The key looks like `vc_live_...`.
+
+### Using an API Key
+
+Send the key in the `X-API-Key` request header instead of a `Bearer` token:
+
+```bash
+curl -X POST http://localhost:5000/api/transactions \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: vc_live_your_key_here" \
+  -d '{
+    "userId": "external-user-001",
+    "amount": 150.00,
+    "currency": "USD",
+    "description": "Payment for order #123"
+  }'
+```
+
+Or in JavaScript:
+
+```javascript
+const response = await fetch('http://localhost:5000/api/transactions', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': 'vc_live_your_key_here',
+  },
+  body: JSON.stringify({
+    userId: 'external-user-001',
+    amount: 150.00,
+    currency: 'USD',
+    description: 'Payment for order #123',
+  }),
+});
+const transaction = await response.json();
+```
+
+### Revoking an API Key
+
+In the Settings page, find the key in the table and click the trash icon. A confirmation prompt appears before the key is revoked. Revoked keys are shown with a red **Revoked** badge and cannot be re-activated.
+
+### Interactive Integration Guide
+
+For a hands-on walkthrough with live API calls, open the **Integration Demo** at http://localhost:3006. It walks you through:
+
+1. **Authenticate** — obtain a JWT token via `POST /api/auth/login`
+2. **Create a transaction** — use the JWT token in `Authorization: Bearer <token>`
+3. **Check transaction status** — poll `GET /api/transactions/{id}`
+4. **Use an API key** — paste a key generated from the Settings page and make a call using `X-API-Key`
+
+Each step shows the exact code and a **Run This** button that executes the call live against the running backend.
 
 ---
 
@@ -1207,7 +1368,7 @@ Query examples:
 
 ### Grafana
 
-Access at http://localhost:3000 (admin/admin). Pre-configured with:
+Access at http://localhost:3100 (admin/admin). Pre-configured with:
 
 - Prometheus as an auto-provisioned data source
 - A dashboard with 8 panels (service health, request rates, latency, etc.)
@@ -1401,11 +1562,13 @@ adaptive-realtime-financial-transaction-platform/
 │       └── FinancialPlatform.IntegrationTests/     # 29 integration tests
 ├── frontend/
 │   └── apps/
+│       ├── superapp/                       # Unified dashboard with auth + API key mgmt (3000)
 │       ├── transaction-ui/                 # Transaction submission + KPI dashboard (3001)
 │       ├── admin-dashboard/                # Service health monitoring (3002)
 │       ├── risk-dashboard/                 # Risk scoring visualization (3003)
 │       ├── audit-dashboard/                # Audit trail + hash chain (3004)
-│       └── card-operations/                # HSM keys, PIN ops, ISO 8583 tools (3005)
+│       ├── card-operations/                # HSM keys, PIN ops, ISO 8583 tools (3005)
+│       └── integration-demo/               # Third-party API integration guide (3006)
 ├── infrastructure/
 │   ├── docker-compose.yml                  # Full platform stack
 │   ├── prometheus/prometheus.yml           # Prometheus scrape config

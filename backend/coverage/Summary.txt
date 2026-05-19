@@ -1,30 +1,45 @@
 Summary
-  Generated on: 23/04/2026 - 08:24:59
-  Coverage date: 23/04/2026 - 08:24:53
-  Parser: Cobertura
+  Generated on: 09/05/2026 - 19:56:21
+  Coverage date: 23/04/2026 - 08:24:53 - 09/05/2026 - 19:55:51
+  Parser: MultiReport (2x Cobertura)
   Assemblies: 8
-  Classes: 34
-  Files: 26
-  Line coverage: 91.9%
-  Covered lines: 571
-  Uncovered lines: 50
-  Coverable lines: 621
-  Total lines: 2692
-  Branch coverage: 87.5% (105 of 120)
-  Covered branches: 105
-  Total branches: 120
-  Method coverage: 91.8% (79 of 86)
-  Full method coverage: 88.3% (76 of 86)
-  Covered methods: 79
-  Fully covered methods: 76
-  Total methods: 86
+  Classes: 90
+  Files: 58
+  Line coverage: 84.8%
+  Covered lines: 1172
+  Uncovered lines: 210
+  Coverable lines: 1382
+  Total lines: 4640
+  Branch coverage: 71.5% (166 of 232)
+  Covered branches: 166
+  Total branches: 232
+  Method coverage: 85.9% (159 of 185)
+  Full method coverage: 82.7% (153 of 185)
+  Covered methods: 159
+  Fully covered methods: 153
+  Total methods: 185
 
-FinancialPlatform.ApiGateway                                                      100%
+FinancialPlatform.ApiGateway                                                     78.9%
+  FinancialPlatform.ApiGateway.Data.GatewayDbContext                              100%
+  FinancialPlatform.ApiGateway.Middleware.ApiKeyMiddleware                          0%
   FinancialPlatform.ApiGateway.Services.JwtService                                100%
 
-FinancialPlatform.ComplianceService                                               100%
+FinancialPlatform.ComplianceService                                              74.7%
   FinancialPlatform.ComplianceService.Data.ComplianceDbContext                    100%
+  FinancialPlatform.ComplianceService.Services.AccessControlService                 0%
+  FinancialPlatform.ComplianceService.Services.AmlMonitoringService               100%
+  FinancialPlatform.ComplianceService.Services.ApprovalService                   52.9%
   FinancialPlatform.ComplianceService.Services.AuditService                       100%
+  FinancialPlatform.ComplianceService.Services.ComplaintService                   100%
+  FinancialPlatform.ComplianceService.Services.ConsentService                     100%
+  FinancialPlatform.ComplianceService.Services.DataMaskingService                 100%
+  FinancialPlatform.ComplianceService.Services.DigitalSignatureService            100%
+  FinancialPlatform.ComplianceService.Services.InfrastructureComplianceService    100%
+  FinancialPlatform.ComplianceService.Services.KycService                        38.4%
+  FinancialPlatform.ComplianceService.Services.ReportingService                     0%
+  FinancialPlatform.ComplianceService.Services.SarService                         100%
+  FinancialPlatform.ComplianceService.Services.SocService                         100%
+  FinancialPlatform.ComplianceService.Services.WormStorageService                 100%
 
 FinancialPlatform.EventInfrastructure                                             100%
   FinancialPlatform.EventInfrastructure.Bus.AdaptiveEventBus                      100%
@@ -52,18 +67,59 @@ FinancialPlatform.PinEncryptionService                                          
   FinancialPlatform.PinEncryptionService.Services.PinBlockService                 100%
   FinancialPlatform.PinEncryptionService.Services.SoftwareHsmService              100%
 
-FinancialPlatform.RiskService                                                    77.1%
+FinancialPlatform.RiskService                                                    81.8%
   FinancialPlatform.RiskService.Controllers.EvaluateRequest                         0%
-  FinancialPlatform.RiskService.Services.RiskEvaluationService                   96.4%
+  FinancialPlatform.RiskService.Services.AmlRuleEngine                           79.3%
+  FinancialPlatform.RiskService.Services.RiskEvaluationService                     96%
 
-FinancialPlatform.Shared                                                         67.2%
+FinancialPlatform.Shared                                                         83.1%
+  FinancialPlatform.Shared.DTOs.AddComplaintNoteRequest                             0%
+  FinancialPlatform.Shared.DTOs.AlertResponse                                     100%
+  FinancialPlatform.Shared.DTOs.ApprovalResponse                                  100%
+  FinancialPlatform.Shared.DTOs.AssignRoleRequest                                   0%
+  FinancialPlatform.Shared.DTOs.ComplaintResponse                                 100%
+  FinancialPlatform.Shared.DTOs.ConsentResponse                                   100%
+  FinancialPlatform.Shared.DTOs.CreateApprovalRequest                             100%
+  FinancialPlatform.Shared.DTOs.CreateComplaintRequest                            100%
+  FinancialPlatform.Shared.DTOs.CreateIncidentRequest                             100%
   FinancialPlatform.Shared.DTOs.CreateTransactionRequest                          100%
+  FinancialPlatform.Shared.DTOs.DataClassificationResponse                          0%
+  FinancialPlatform.Shared.DTOs.DataResidencyResponse                             100%
+  FinancialPlatform.Shared.DTOs.DrpStatusResponse                                 100%
+  FinancialPlatform.Shared.DTOs.GenerateReportRequest                               0%
+  FinancialPlatform.Shared.DTOs.GrantConsentRequest                               100%
+  FinancialPlatform.Shared.DTOs.IncidentResponse                                  100%
+  FinancialPlatform.Shared.DTOs.InitiateKycRequest                                100%
+  FinancialPlatform.Shared.DTOs.KycProfileResponse                                100%
+  FinancialPlatform.Shared.DTOs.LivenessCheckResponse                             100%
+  FinancialPlatform.Shared.DTOs.MaskDataRequest                                   100%
+  FinancialPlatform.Shared.DTOs.MaskDataResponse                                  100%
+  FinancialPlatform.Shared.DTOs.ProcessApprovalRequest                            100%
+  FinancialPlatform.Shared.DTOs.ReportResponse                                      0%
+  FinancialPlatform.Shared.DTOs.SarFilingRequest                                  100%
+  FinancialPlatform.Shared.DTOs.SarResponse                                       100%
+  FinancialPlatform.Shared.DTOs.SignatureResponse                                 100%
+  FinancialPlatform.Shared.DTOs.SignDocumentRequest                               100%
+  FinancialPlatform.Shared.DTOs.SocDashboardResponse                              100%
   FinancialPlatform.Shared.DTOs.TransactionResponse                                 0%
+  FinancialPlatform.Shared.DTOs.UpdateIncidentRequest                             100%
+  FinancialPlatform.Shared.DTOs.VendorAuditResponse                               100%
+  FinancialPlatform.Shared.DTOs.VerifySignatureRequest                            100%
+  FinancialPlatform.Shared.DTOs.WatchlistScreenResponse                           100%
+  FinancialPlatform.Shared.DTOs.WithdrawConsentRequest                            100%
+  FinancialPlatform.Shared.Events.AmlAlertTriggeredEvent                          100%
+  FinancialPlatform.Shared.Events.ApprovalCompletedEvent                          100%
+  FinancialPlatform.Shared.Events.ApprovalRequestedEvent                          100%
   FinancialPlatform.Shared.Events.AuditLoggedEvent                                100%
+  FinancialPlatform.Shared.Events.ConsentGrantedEvent                             100%
+  FinancialPlatform.Shared.Events.ConsentWithdrawnEvent                           100%
+  FinancialPlatform.Shared.Events.KycStatusChangedEvent                           100%
   FinancialPlatform.Shared.Events.PaymentAuthorizedEvent                          100%
   FinancialPlatform.Shared.Events.PinVerifiedEvent                                  0%
   FinancialPlatform.Shared.Events.RiskEvaluatedEvent                              100%
+  FinancialPlatform.Shared.Events.SarFiledEvent                                   100%
   FinancialPlatform.Shared.Events.TransactionCreatedEvent                         100%
+  FinancialPlatform.Shared.Events.WatchlistHitDetectedEvent                         0%
 
 FinancialPlatform.TransactionService                                             97.8%
   FinancialPlatform.TransactionService.Data.TransactionDbContext                 97.4%

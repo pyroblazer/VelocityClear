@@ -1,0 +1,30 @@
+{
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
+  "rewrites": [
+    { "source": "/api/hsm/:path*", "destination": "https://velocityclear.runasp.net/api/hsm/:path*" },
+    { "source": "/api/iso8583/:path*", "destination": "https://velocityclear.runasp.net/api/iso8583/:path*" },
+    { "source": "/api/transactions/:path*", "destination": "https://velocityclear.runasp.net/api/transactions/:path*" },
+    { "source": "/api/risk/:path*", "destination": "https://velocityclear.runasp.net/api/risk/:path*" },
+    { "source": "/api/payment/:path*", "destination": "https://velocityclear.runasp.net/api/payment/:path*" },
+    { "source": "/api/audit/:path*", "destination": "https://velocityclear.runasp.net/api/audit/:path*" },
+    { "source": "/api/kyc/:path*", "destination": "https://velocityclear.runasp.net/api/kyc/:path*" },
+    { "source": "/api/consent/:path*", "destination": "https://velocityclear.runasp.net/api/consent/:path*" },
+    { "source": "/api/aml/:path*", "destination": "https://velocityclear.runasp.net/api/aml/:path*" },
+    { "source": "/api/approvals/:path*", "destination": "https://velocityclear.runasp.net/api/approvals/:path*" },
+    { "source": "/api/complaints/:path*", "destination": "https://velocityclear.runasp.net/api/complaints/:path*" },
+    { "source": "/api/soc/:path*", "destination": "https://velocityclear.runasp.net/api/soc/:path*" },
+    { "source": "/api/reports/:path*", "destination": "https://velocityclear.runasp.net/api/reports/:path*" },
+    { "source": "/api/digital-signature/:path*", "destination": "https://velocityclear.runasp.net/api/digital-signature/:path*" },
+    { "source": "/api/data-masking/:path*", "destination": "https://velocityclear.runasp.net/api/data-masking/:path*" },
+    { "source": "/api/access-control/:path*", "destination": "https://velocityclear.runasp.net/api/access-control/:path*" },
+    { "source": "/api/infrastructure-compliance/:path*", "destination": "https://velocityclear.runasp.net/api/infrastructure-compliance/:path*" },
+    { "source": "/api/auth/:path*", "destination": "https://velocityclear.runasp.net/api/auth/:path*" },
+    { "source": "/api/apikeys/:path*", "destination": "https://velocityclear.runasp.net/api/apikeys/:path*" },
+    { "source": "/api/gateway/:path*", "destination": "https://velocityclear.runasp.net/api/gateway/:path*" },
+    { "source": "/api/sse/:path*", "destination": "https://velocityclear.runasp.net/api/sse/:path*" },
+    { "source": "/api/:path*", "destination": "https://velocityclear.runasp.net/api/:path*" }
+  ]
+}

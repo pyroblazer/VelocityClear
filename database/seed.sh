@@ -18,9 +18,9 @@ until $SQLCMD $CONN -Q "SELECT 1" &>/dev/null; do
 done
 
 echo "[seed] Waiting for FinancialPlatform_Transactions DB and Users table..."
-until $SQLCMD $CONN -Q \
-  "IF EXISTS (SELECT 1 FROM FinancialPlatform_Transactions.INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='Users') SELECT 1 ELSE SELECT 0" \
-  2>/dev/null | grep -q "1"; do
+until $SQLCMD $CONN -h -1 -Q \
+  "SET NOCOUNT ON; IF EXISTS (SELECT 1 FROM FinancialPlatform_Transactions.INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='Users') PRINT '1' ELSE PRINT '0'" \
+  2>/dev/null | grep -q "^1"; do
   echo "[seed] Tables not ready yet (EF migrations pending), retrying in 5s..."
   sleep 5
 done

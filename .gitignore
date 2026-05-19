@@ -24,6 +24,8 @@ Thumbs.db
 # Env
 .env
 .env.local
+saas_details.md
+need-to-fix.md
 
 # Build
 publish/

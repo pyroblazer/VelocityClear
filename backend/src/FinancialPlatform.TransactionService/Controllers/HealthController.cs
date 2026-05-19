@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinancialPlatform.TransactionService.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/transactions/health")]
 public class HealthController : ControllerBase
 {
     [AllowAnonymous]
