@@ -167,9 +167,18 @@ try
     // ── Auto-migrate all databases ───────────────────────────────────────
     using (var scope = app.Services.CreateScope())
     {
-        await MigrateIfRelationalAsync<GatewayDbContext>(scope);
-        await MigrateIfRelationalAsync<TransactionDbContext>(scope);
-        await MigrateIfRelationalAsync<ComplianceDbContext>(scope);
+        var migrateLog = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        try
+        {
+            await MigrateIfRelationalAsync<GatewayDbContext>(scope);
+            await MigrateIfRelationalAsync<TransactionDbContext>(scope);
+            await MigrateIfRelationalAsync<ComplianceDbContext>(scope);
+            migrateLog.LogInformation("All databases migrated successfully.");
+        }
+        catch (Exception ex)
+        {
+            migrateLog.LogError(ex, "Database migration failed. The app will continue but database operations may fail.");
+        }
     }
 
     // ── Middleware pipeline ──────────────────────────────────────────────
@@ -199,8 +208,10 @@ try
         adaptiveBus.BackendChanged += (_, backend) => backendGauge.Set((double)backend);
     }
 
-    Log.Information("VelocityClear Platform listening on port 5000");
-    app.Run("http://0.0.0.0:5000");
+    Log.Information("VelocityClear Platform starting. Hosting environment: {Env}", app.Environment.EnvironmentName);
+    // Don't hardcode the URL — IIS InProcess hosting sets the port via ASPNETCORE_URLS.
+    // For Docker/standalone, pass --urls http://0.0.0.0:5000 or set ASPNETCORE_URLS.
+    app.Run();
 }
 catch (Exception ex)
 {

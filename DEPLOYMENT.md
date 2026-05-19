@@ -303,6 +303,36 @@ dotnet ef migrations add InitialCreate \
 
 ---
 
+## API Documentation (Swagger)
+
+All backend services expose interactive Swagger UI for exploring and testing API endpoints.
+
+### Accessing Swagger UI
+
+**Docker Compose (local development):**
+
+| Service | URL |
+|---------|-----|
+| API Gateway | http://localhost:5000/swagger |
+| Transaction Service | http://localhost:5001/swagger |
+| Risk Service | http://localhost:5002/swagger |
+| Payment Service | http://localhost:5003/swagger |
+| Compliance Service | http://localhost:5004/swagger |
+| PIN Encryption Service | http://localhost:5005/swagger |
+
+**MonsterASP.net (production):**
+
+Open `https://yoursite.monsterasp.net/swagger` — the consolidated `AllServices` project serves Swagger for all endpoints under a single UI.
+
+### What you can do
+
+- Browse all available endpoints grouped by controller
+- See request/response schemas and example payloads
+- Try endpoints directly from the browser (click **Try it out**)
+- Download the OpenAPI spec at `/swagger/v1/swagger.json`
+
+---
+
 ## Event Bus Backend Reference
 
 The `AdaptiveEventBus` switches between backends based on CPU load. You can pin a specific backend via the `EventBus__DefaultBackend` env var:
