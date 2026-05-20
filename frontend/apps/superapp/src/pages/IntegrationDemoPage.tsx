@@ -12,6 +12,8 @@ export default function IntegrationDemoPage() {
   const [lastResponse, setLastResponse] = useState('');
   const [lastCreatedId, setLastCreatedId] = useState('');
   const [loading, setLoading] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const runStep = async (label: string, fn: () => Promise<string>) => {
     setLoading(label);
@@ -31,7 +33,7 @@ export default function IntegrationDemoPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'admin', password: 'admin123' }),
+        body: JSON.stringify({ username, password }),
       });
       if (!res.ok) throw new Error(`${res.status}`);
       const data: Record<string, unknown> = await res.json();
@@ -45,12 +47,12 @@ export default function IntegrationDemoPage() {
       const res = await fetchWithAuth('/api/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: 'admin',
+        ...(username ? { body: JSON.stringify({
+          userId: username,
           amount: 150.0,
           currency: 'USD',
           description: 'Integration demo payment',
-        }),
+        }) } : {}),
       });
       if (!res.ok) throw new Error(`${res.status}`);
       const data: Record<string, unknown> = await res.json();
@@ -76,12 +78,12 @@ export default function IntegrationDemoPage() {
           'Content-Type': 'application/json',
           'X-API-Key': apiKey,
         },
-        body: JSON.stringify({
-          userId: 'admin',
+        ...(username ? { body: JSON.stringify({
+          userId: username,
           amount: 75.0,
           currency: 'USD',
           description: 'API key payment',
-        }),
+        }) } : {}),
       });
       if (!res.ok) throw new Error(`${res.status}`);
       const data: Record<string, unknown> = await res.json();
@@ -108,19 +110,35 @@ export default function IntegrationDemoPage() {
         <p className="text-xs text-[#A1A1AA] mb-4">
           Obtain a JWT token by sending credentials to the login endpoint.
         </p>
+        <div className="flex gap-3 mb-4">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            className="flex-1 px-3 py-2 bg-[#0A0A0A] border border-[#2A2A2A] rounded-md text-white text-sm outline-none"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="flex-1 px-3 py-2 bg-[#0A0A0A] border border-[#2A2A2A] rounded-md text-white text-sm outline-none"
+          />
+        </div>
         <pre className={CODE_BLOCK}>{`const response = await fetch('/api/auth/login', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    username: 'admin',
-    password: 'admin123'
+    username: '<your-username>',
+    password: '<your-password>'
   })
 });
 const { token, role, expiresAt } = await response.json();`}</pre>
         <div className="mt-3 flex items-center gap-3">
           <button
             onClick={step1}
-            disabled={!!loading}
+            disabled={!!loading || !username || !password}
             className="px-5 py-2 bg-[#3B82F6] text-white rounded-md text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <Play size={13} />
@@ -149,7 +167,7 @@ const { token, role, expiresAt } = await response.json();`}</pre>
     'Authorization': 'Bearer <your-jwt-token>'
   },
   body: JSON.stringify({
-    userId: 'admin', amount: 150.00,
+    userId: '<user-id>', amount: 150.00,
     currency: 'USD', description: 'Payment for order #123'
   })
 });
@@ -223,7 +241,7 @@ const transaction = await response.json();`}</pre>
     'X-API-Key': 'vc_live_your_api_key_here'
   },
   body: JSON.stringify({
-    userId: 'admin', amount: 75.00,
+    userId: '<user-id>', amount: 75.00,
     currency: 'USD', description: 'API key payment'
   })
 });`}</pre>
