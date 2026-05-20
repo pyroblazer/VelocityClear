@@ -181,10 +181,10 @@ jobs:
         run: |
           declare -A HEALTH_PATHS=(
             [5000]="/api/gateway/health"
-            [5001]="/api/health"
+            [5001]="/api/transactions/health"
             [5002]="/api/risk/health"
             [5003]="/api/payment/health"
-            [5004]="/api/health"
+            [5004]="/api/compliance/health"
             [5005]="/api/hsm/health"
           )
           declare -A READY
