@@ -3,9 +3,6 @@ name: Deploy to MonsterASP.net
 on:
   push:
     branches: [main]
-    paths:
-      - 'backend/**'
-      - '.github/workflows/deploy-monsterasp.yml'
   workflow_dispatch:
 
 jobs:
