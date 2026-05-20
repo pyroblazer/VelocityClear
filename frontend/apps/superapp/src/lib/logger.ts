@@ -4,8 +4,8 @@ interface LogEntry {
   ts: string;
   level: LogLevel;
   msg: string;
-  detail?: string;
-  url?: string;
+  detail?: string | undefined;
+  url?: string | undefined;
 }
 
 const LOG_KEY = 'vc_logs';

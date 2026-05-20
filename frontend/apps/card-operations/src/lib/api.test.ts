@@ -59,6 +59,7 @@ describe('API functions', () => {
     expect(result.encryptedPinBlock).toBe('AABB112233445566');
 
     const call = mockFetch.mock.calls[0];
+    if (!call) throw new Error('no fetch call');
     const body = JSON.parse(call[1].body);
     expect(body).toEqual({ pin: '1234', pan: '4111111111111111', zpkId: 'default-zpk' });
   });

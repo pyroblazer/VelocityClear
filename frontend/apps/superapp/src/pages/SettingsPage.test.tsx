@@ -106,7 +106,9 @@ describe('SettingsPage', () => {
     renderPage();
 
     const revokeButtons = await screen.findAllByTitle('Revoke key');
-    fireEvent.click(revokeButtons[0]);
+    const btn = revokeButtons[0];
+    if (!btn) throw new Error('No revoke button found');
+    fireEvent.click(btn);
     expect(screen.getByText('Confirm?')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Yes'));

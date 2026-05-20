@@ -36,7 +36,7 @@ export default function IntegrationDemoPage() {
       if (!res.ok) throw new Error(`${res.status}`);
       const data: Record<string, unknown> = await res.json();
       if (!data || typeof data !== 'object') throw new Error('Invalid response from server');
-      setJwt(String(data.token ?? ''));
+      setJwt(String(data['token'] ?? ''));
       return JSON.stringify(data, null, 2);
     });
 
@@ -55,7 +55,7 @@ export default function IntegrationDemoPage() {
       if (!res.ok) throw new Error(`${res.status}`);
       const data: Record<string, unknown> = await res.json();
       if (!data || typeof data !== 'object') throw new Error('Invalid response from server');
-      setLastCreatedId(String(data.id ?? ''));
+      setLastCreatedId(String(data['id'] ?? ''));
       return JSON.stringify(data, null, 2);
     });
 
@@ -86,7 +86,7 @@ export default function IntegrationDemoPage() {
       if (!res.ok) throw new Error(`${res.status}`);
       const data: Record<string, unknown> = await res.json();
       if (!data || typeof data !== 'object') throw new Error('Invalid response from server');
-      setLastCreatedId(String(data.id ?? ''));
+      setLastCreatedId(String(data['id'] ?? ''));
       return JSON.stringify(data, null, 2);
     });
 

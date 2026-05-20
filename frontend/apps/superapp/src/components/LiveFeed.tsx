@@ -17,8 +17,8 @@ export default function LiveFeed() {
   const handleMessage = useCallback(
     (data: LiveEvent) => {
       setEvents((prev) => [data, ...prev].slice(0, 50));
-      if (data.type === 'transaction' && (data as unknown as Record<string, unknown>).transaction) {
-        addTransaction((data as unknown as Record<string, unknown>).transaction as Parameters<typeof addTransaction>[0]);
+      if (data.type === 'transaction' && (data as unknown as Record<string, unknown>)['transaction']) {
+        addTransaction((data as unknown as Record<string, unknown>)['transaction'] as Parameters<typeof addTransaction>[0]);
       }
     },
     [addTransaction]

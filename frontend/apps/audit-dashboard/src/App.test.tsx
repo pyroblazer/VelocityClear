@@ -88,7 +88,9 @@ describe('Audit Trail Dashboard App', () => {
 
   it('filters to only TransactionCreated events when that filter is clicked', () => {
     render(<App />);
-    fireEvent.click(screen.getAllByText('TransactionCreated')[0]);
+    const txCreatedBtn = screen.getAllByText('TransactionCreated')[0];
+    if (!txCreatedBtn) throw new Error('TransactionCreated button not found');
+    fireEvent.click(txCreatedBtn);
     // After filter, only TransactionCreated badges should appear in timeline
     // riskBadges appear in filter buttons but not in timeline
     // Actually the filter buttons still show - just verify PaymentAuthorized is NOT in timeline by checking count drops
@@ -146,7 +148,9 @@ describe('Audit Trail Dashboard App', () => {
 
   it('RiskEvaluated filter shows only risk events', () => {
     render(<App />);
-    fireEvent.click(screen.getAllByText('RiskEvaluated')[0]);
+    const riskEvalBtn = screen.getAllByText('RiskEvaluated')[0];
+    if (!riskEvalBtn) throw new Error('RiskEvaluated button not found');
+    fireEvent.click(riskEvalBtn);
     // AuditLogged only appears in filter button, not in timeline
     const auditLogged = screen.getAllByText('AuditLogged');
     expect(auditLogged.length).toBe(1);

@@ -67,12 +67,12 @@ export default function App() {
 
 interface ErrorBoundaryState { hasError: boolean; message: string }
 class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
-  state: ErrorBoundaryState = { hasError: false, message: '' };
+  override state: ErrorBoundaryState = { hasError: false, message: '' };
   static getDerivedStateFromError(error: Error) { return { hasError: true, message: error.message }; }
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
+  override componentDidCatch(error: Error, info: React.ErrorInfo) {
     logger.error('Unhandled React error', `${error.message}\n${info.componentStack}`);
   }
-  render() {
+  override render() {
     if (!this.state.hasError) return this.props.children;
     return (
       <div style={{ padding: 40, color: '#EF4444', background: '#0A0A0A', minHeight: '100vh' }}>

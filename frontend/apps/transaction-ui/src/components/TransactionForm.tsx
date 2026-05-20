@@ -27,8 +27,8 @@ export default function TransactionForm() {
         userId: form.userId,
         amount: parseFloat(form.amount),
         currency: form.currency,
-        description: form.description || undefined,
-        counterparty: form.counterparty || undefined,
+        ...(form.description ? { description: form.description } : {}),
+        ...(form.counterparty ? { counterparty: form.counterparty } : {}),
       });
 
       if (result.error) {

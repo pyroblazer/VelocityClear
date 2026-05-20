@@ -70,6 +70,7 @@ describe('api', () => {
       await createTransaction(payload);
 
       const call = vi.mocked(fetch).mock.calls[0];
+      if (!call) throw new Error('no call');
       const body = JSON.parse((call[1] as RequestInit).body as string);
       expect(body.description).toBe('Payment');
       expect(body.counterparty).toBe('Vendor');

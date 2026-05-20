@@ -22,11 +22,11 @@ export async function createTransaction(data: {
   userId: string;
   amount: number;
   currency: string;
-  description?: string;
-  counterparty?: string;
-  pan?: string;
-  pinBlock?: string;
-  cardType?: string;
+  description?: string | undefined;
+  counterparty?: string | undefined;
+  pan?: string | undefined;
+  pinBlock?: string | undefined;
+  cardType?: string | undefined;
 }) {
   return postJson<Transaction>('/api/transactions', data);
 }

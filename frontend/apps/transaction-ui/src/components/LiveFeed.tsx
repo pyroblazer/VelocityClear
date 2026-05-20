@@ -18,8 +18,8 @@ export default function LiveFeed() {
     (data: LiveEvent) => {
       setEvents((prev) => [data, ...prev].slice(0, 50));
       // If the SSE event includes a full transaction, add it to the store
-      if (data.type === 'transaction' && (data as unknown as Record<string, unknown>).transaction) {
-        addTransaction((data as unknown as Record<string, unknown>).transaction as Parameters<typeof addTransaction>[0]);
+      if (data.type === 'transaction' && (data as unknown as Record<string, unknown>)['transaction']) {
+        addTransaction((data as unknown as Record<string, unknown>)['transaction'] as Parameters<typeof addTransaction>[0]);
       }
     },
     [addTransaction]

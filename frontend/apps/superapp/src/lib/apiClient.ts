@@ -32,7 +32,7 @@ export async function getJson<T>(path: string): Promise<T> {
 export async function postJson<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetchWithAuth(path, {
     method: 'POST',
-    body: body ? JSON.stringify(body) : undefined,
+    ...(body ? { body: JSON.stringify(body) } : {}),
   });
   if (!res.ok) {
     const text = await res.text().catch(() => '');
@@ -44,7 +44,7 @@ export async function postJson<T>(path: string, body?: unknown): Promise<T> {
 export async function putJson<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetchWithAuth(path, {
     method: 'PUT',
-    body: body ? JSON.stringify(body) : undefined,
+    ...(body ? { body: JSON.stringify(body) } : {}),
   });
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
   return res.json();

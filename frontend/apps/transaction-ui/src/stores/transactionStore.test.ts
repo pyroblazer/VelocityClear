@@ -26,7 +26,7 @@ describe('transactionStore', () => {
     const txns = [makeTransaction({ id: 'a' }), makeTransaction({ id: 'b' })];
     useTransactionStore.getState().setTransactions(txns);
     expect(useTransactionStore.getState().transactions).toHaveLength(2);
-    expect(useTransactionStore.getState().transactions[0].id).toBe('a');
+    expect(useTransactionStore.getState().transactions[0]!.id).toBe('a');
   });
 
   it('setTransactions overwrites existing data', () => {
@@ -34,7 +34,7 @@ describe('transactionStore', () => {
     useTransactionStore.getState().setTransactions([makeTransaction({ id: 'new' })]);
     const txns = useTransactionStore.getState().transactions;
     expect(txns).toHaveLength(1);
-    expect(txns[0].id).toBe('new');
+    expect(txns[0]!.id).toBe('new');
   });
 
   it('addTransaction prepends to the list', () => {
@@ -42,7 +42,7 @@ describe('transactionStore', () => {
     useTransactionStore.getState().addTransaction(makeTransaction({ id: 'new' }));
     const txns = useTransactionStore.getState().transactions;
     expect(txns).toHaveLength(2);
-    expect(txns[0].id).toBe('new');
+    expect(txns[0]!.id).toBe('new');
   });
 
   it('addTransaction on empty list results in one item', () => {
