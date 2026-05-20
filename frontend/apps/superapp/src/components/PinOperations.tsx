@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCardStore } from '../stores/cardStore';
 import { encryptPin, decryptPin, verifyPin } from '../lib/cardApi';
+import { logger } from '../lib/logger';
 import { Lock, RefreshCw } from 'lucide-react';
 
 const cardStyle: React.CSSProperties = { background: '#1A1A1A', borderRadius: 8, border: '1px solid #2A2A2A', padding: 20 };
@@ -25,9 +26,11 @@ export default function PinOperations() {
     setError(null);
     try {
       const result = await encryptPin(pin, pan, zpkId);
-      setEncryptedPinBlock(result.encryptedPinBlock);
+      setEncryptedPinBlock(result?.encryptedPinBlock ?? null);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Encryption failed');
+      const msg = err instanceof Error ? err.message : 'Encryption failed';
+      setError(msg);
+      logger.error('PIN encrypt failed', msg);
     } finally { setLoading(''); }
   };
 
@@ -37,9 +40,11 @@ export default function PinOperations() {
     setError(null);
     try {
       const result = await decryptPin(decryptBlock, decryptPan, zpkId);
-      setDecryptedPin(result.pin);
+      setDecryptedPin(result?.pin ?? null);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Decryption failed');
+      const msg = err instanceof Error ? err.message : 'Decryption failed';
+      setError(msg);
+      logger.error('PIN decrypt failed', msg);
     } finally { setLoading(''); }
   };
 
@@ -51,7 +56,9 @@ export default function PinOperations() {
       const result = await verifyPin(verifyBlock, verifyPan, zpkId, expectedPin);
       setVerificationResult(result);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Verification failed');
+      const msg = err instanceof Error ? err.message : 'Verification failed';
+      setError(msg);
+      logger.error('PIN verify failed', msg);
     } finally { setLoading(''); }
   };
 

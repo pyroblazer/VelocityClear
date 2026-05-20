@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Code, Play, CheckCircle, AlertCircle, Key } from 'lucide-react';
 import { fetchWithAuth } from '../lib/apiClient';
+import { logger } from '../lib/logger';
 
 const CODE_BLOCK =
   'bg-[#0A0A0A] border border-[#2A2A2A] rounded-lg p-4 font-mono text-xs leading-relaxed text-[#A1A1AA] whitespace-pre-wrap break-all';
@@ -18,9 +19,9 @@ export default function IntegrationDemoPage() {
       const result = await fn();
       setLastResponse(result);
     } catch (err) {
-      setLastResponse(
-        `Error: ${err instanceof Error ? err.message : String(err)}`,
-      );
+      const msg = err instanceof Error ? err.message : String(err);
+      setLastResponse(`Error: ${msg}`);
+      logger.error(`API demo step failed: ${label}`, msg);
     }
     setLoading('');
   };
@@ -33,8 +34,9 @@ export default function IntegrationDemoPage() {
         body: JSON.stringify({ username: 'admin', password: 'admin123' }),
       });
       if (!res.ok) throw new Error(`${res.status}`);
-      const data = await res.json();
-      setJwt(data.token);
+      const data: Record<string, unknown> = await res.json();
+      if (!data || typeof data !== 'object') throw new Error('Invalid response from server');
+      setJwt(String(data.token ?? ''));
       return JSON.stringify(data, null, 2);
     });
 
@@ -51,8 +53,9 @@ export default function IntegrationDemoPage() {
         }),
       });
       if (!res.ok) throw new Error(`${res.status}`);
-      const data = await res.json();
-      setLastCreatedId(data.id);
+      const data: Record<string, unknown> = await res.json();
+      if (!data || typeof data !== 'object') throw new Error('Invalid response from server');
+      setLastCreatedId(String(data.id ?? ''));
       return JSON.stringify(data, null, 2);
     });
 
@@ -61,7 +64,7 @@ export default function IntegrationDemoPage() {
       const id = lastCreatedId || 'unknown';
       const res = await fetchWithAuth(`/api/transactions/${id}`);
       if (!res.ok) throw new Error(`${res.status}`);
-      const data = await res.json();
+      const data: Record<string, unknown> = await res.json();
       return JSON.stringify(data, null, 2);
     });
 
@@ -81,8 +84,9 @@ export default function IntegrationDemoPage() {
         }),
       });
       if (!res.ok) throw new Error(`${res.status}`);
-      const data = await res.json();
-      setLastCreatedId(data.id);
+      const data: Record<string, unknown> = await res.json();
+      if (!data || typeof data !== 'object') throw new Error('Invalid response from server');
+      setLastCreatedId(String(data.id ?? ''));
       return JSON.stringify(data, null, 2);
     });
 

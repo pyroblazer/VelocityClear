@@ -1,4 +1,5 @@
 import { useAuthStore } from '../stores/authStore';
+import { logger } from './logger';
 
 export async function fetchWithAuth(path: string, init?: RequestInit): Promise<Response> {
   const token = useAuthStore.getState().token;
@@ -13,7 +14,11 @@ export async function fetchWithAuth(path: string, init?: RequestInit): Promise<R
   const res = await fetch(path, { ...init, headers });
 
   if (res.status === 401) {
+    logger.warn('Received 401, logging out', path);
     useAuthStore.getState().logout();
+  }
+  if (!res.ok && res.status !== 401) {
+    logger.error(`API ${init?.method ?? 'GET'} ${path} failed`, `${res.status} ${res.statusText}`);
   }
   return res;
 }

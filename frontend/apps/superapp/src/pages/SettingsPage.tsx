@@ -177,7 +177,7 @@ export default function SettingsPage() {
                     <td className="p-3 font-mono text-[#3B82F6] text-xs">{key.keyPrefix}...</td>
                     <td className="p-3">
                       <div className="flex gap-1 flex-wrap">
-                        {key.permissions.map((p) => (
+                        {Array.isArray(key.permissions) && key.permissions.map((p) => (
                           <span key={p} className="text-[10px] bg-[#0A0A0A] text-[#A1A1AA] px-2 py-0.5 rounded border border-[#2A2A2A]">{p}</span>
                         ))}
                       </div>

@@ -25,6 +25,7 @@ const inputStyle: React.CSSProperties = {
 
 export default function HsmKeyManagement() {
   const { keys, addKey } = useCardStore();
+  const keyList = Array.isArray(keys) ? keys : [];
   const [keyType, setKeyType] = useState('ZPK');
   const [keyId, setKeyId] = useState('');
   const [loading, setLoading] = useState(false);
@@ -105,11 +106,11 @@ export default function HsmKeyManagement() {
 
       <div>
         <div style={{ fontSize: 12, color: '#A1A1AA', marginBottom: 8 }}>Active Keys</div>
-        {keys.length === 0 ? (
+        {keyList.length === 0 ? (
           <div style={{ color: '#666666', fontSize: 12 }}>No keys loaded</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {keys.map((k) => (
+            {keyList.map((k) => (
               <div key={k} style={{ fontFamily: 'monospace', fontSize: 12, color: '#3B82F6', background: '#0A0A0A', padding: '4px 8px', borderRadius: 4 }}>
                 {k}
               </div>

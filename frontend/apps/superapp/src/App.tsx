@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Component, type ReactNode } from 'react';
 import { Zap, Shield, FileText, CreditCard, Activity, UserCheck, FileCheck, LayoutDashboard, LogOut, Settings, Code } from 'lucide-react';
+import { logger } from './lib/logger';
 import TransactionsPage from './pages/TransactionsPage';
 import AdminPage from './pages/AdminPage';
 import RiskPage from './pages/RiskPage';
@@ -38,6 +40,7 @@ export default function App() {
   };
 
   return (
+    <ErrorBoundary>
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#0A0A0A' }}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -58,7 +61,27 @@ export default function App() {
         </Route>
       </Routes>
     </div>
+    </ErrorBoundary>
   );
+}
+
+interface ErrorBoundaryState { hasError: boolean; message: string }
+class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
+  state: ErrorBoundaryState = { hasError: false, message: '' };
+  static getDerivedStateFromError(error: Error) { return { hasError: true, message: error.message }; }
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    logger.error('Unhandled React error', `${error.message}\n${info.componentStack}`);
+  }
+  render() {
+    if (!this.state.hasError) return this.props.children;
+    return (
+      <div style={{ padding: 40, color: '#EF4444', background: '#0A0A0A', minHeight: '100vh' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>Something went wrong</h2>
+        <pre style={{ fontSize: 13, color: '#A1A1AA', whiteSpace: 'pre-wrap' }}>{this.state.message}</pre>
+        <button onClick={() => this.setState({ hasError: false, message: '' })} style={{ marginTop: 16, padding: '8px 16px', background: '#3B82F6', color: '#FFF', border: 'none', borderRadius: 6, cursor: 'pointer' }}>Try Again</button>
+      </div>
+    );
+  }
 }
 
 function AppShell({ logout, role }: { logout: () => void; role: string | null }) {

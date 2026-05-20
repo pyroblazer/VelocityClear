@@ -24,6 +24,7 @@ Thumbs.db
 # Env
 .env
 .env.local
+.env.deploy
 saas_details.md
 need-to-fix.md
 

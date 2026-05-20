@@ -108,7 +108,7 @@ export default function AuditPage() {
         </div>
         <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p-4">
           <div className="text-sm text-[#A1A1AA] mb-1">Event Types</div>
-          <div className="text-2xl font-bold">{stats ? Object.keys(stats.eventsByType).length : '-'}</div>
+          <div className="text-2xl font-bold">{stats?.eventsByType ? Object.keys(stats.eventsByType).length : '-'}</div>
         </div>
       </section>
 

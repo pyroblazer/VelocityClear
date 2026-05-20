@@ -1,0 +1,42 @@
+name: Deploy to MonsterASP.net
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-monsterasp.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        working-directory: backend
+        run: dotnet restore
+
+      - name: Build
+        working-directory: backend
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Publish
+        working-directory: backend/src/FinancialPlatform.AllServices
+        run: dotnet publish --no-build --configuration Release --runtime win-x86 --output ./publish
+
+      - name: Deploy via WebDeploy
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        with:
+          website-name: 'site69774'
+          server-computer-name: 'site69774.siteasp.net'
+          server-username: 'site69774'
+          server-password: ${{ secrets.MONSTERASP_SERVER_PASSWORD }}
+          source-path: ./backend/src/FinancialPlatform.AllServices/publish

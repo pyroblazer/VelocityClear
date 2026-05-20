@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { createTransaction } from '../lib/transactionApi';
 import { listHsmKeys, generateKey, encryptPin } from '../lib/cardApi';
+import { logger } from '../lib/logger';
 import { useTransactionStore } from '../stores/transactionStore';
 import { Send, CheckCircle, XCircle, Loader2, CreditCard, ArrowRightLeft } from 'lucide-react';
 
@@ -38,7 +39,8 @@ export default function TransactionForm() {
         // Get or create a ZPK
         setStatusText('Accessing secure key store...');
         const keys = await listHsmKeys();
-        let zpkId = keys.find((k: string) => k.includes('zpk') || k.includes('ZPK'));
+        const keyList = Array.isArray(keys) ? keys : [];
+        let zpkId = keyList.find((k: string) => k.includes('zpk') || k.includes('ZPK'));
         if (!zpkId) {
           const genResult = await generateKey('ZPK', 'default-zpk');
           zpkId = genResult.keyId;
@@ -83,7 +85,9 @@ export default function TransactionForm() {
       setTimeout(() => { setStatus('idle'); setStatusText(''); }, 3000);
     } catch (err) {
       setStatus('error');
-      setErrorMsg(err instanceof Error ? err.message : 'Transaction failed');
+      const msg = err instanceof Error ? err.message : 'Transaction failed';
+      setErrorMsg(msg);
+      logger.error('Transaction failed', msg);
     }
   };
 

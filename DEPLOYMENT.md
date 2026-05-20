@@ -43,7 +43,7 @@ Vercel (free)                        MonsterASP.net (free)
 1. Log in to [MonsterASP.net](https://monsterasp.net)
 2. Go to **Hosting** → **Create Site**
 3. Choose **ASP.NET Core** runtime
-4. Note your site URL (e.g., `https://yoursite.monsterasp.net`)
+4. Note your site URL (e.g., `https://velocityclear.runasp.net`)
 
 ### 1b. Get your SQL Server connection string
 
@@ -191,7 +191,7 @@ EventBus__KafkaBrokers=chatapp-react-next-kafka-chatapp-react-next.h.aivencloud.
 2. Go to **Home → Connections → Add new connection**
 3. Search for **"Metrics Endpoint"**
 4. Configure the scrape job:
-   - **Scrape Job URL**: `https://yoursite.monsterasp.net/metrics`
+   - **Scrape Job URL**: `https://velocityclear.runasp.net/metrics`
    - **Authentication**: Bearer or Basic (set credentials if your `/metrics` endpoint requires auth)
    - **Scrape Interval**: 60 seconds
 5. Click **Test Connection** — you should see successful metrics collection
@@ -256,7 +256,7 @@ Make sure your code is on a GitHub repository.
 Edit `frontend/apps/superapp/vercel.json` and replace `YOUR_BACKEND_URL` with your MonsterASP.net site URL:
 
 ```json
-"destination": "https://yoursite.monsterasp.net/api/hsm/:path*"
+"destination": "https://velocityclear.runasp.net/api/hsm/:path*"
 ```
 
 Then redeploy on Vercel.
@@ -322,7 +322,7 @@ All backend services expose interactive Swagger UI for exploring and testing API
 
 **MonsterASP.net (production):**
 
-Open `https://yoursite.monsterasp.net/swagger` — the consolidated `AllServices` project serves Swagger for all endpoints under a single UI.
+Open `https://velocityclear.runasp.net/swagger` — the consolidated `AllServices` project serves Swagger for all endpoints under a single UI.
 
 ### What you can do
 
@@ -348,12 +348,79 @@ For the consolidated deployment on MonsterASP.net, `InMemory` is recommended (ev
 
 ---
 
+## Step 8: Automated Deployment (GitHub Actions CI/CD)
+
+A GitHub Actions workflow automatically deploys the backend to MonsterASP.net when you push to `main`.
+
+### 8a. Configure GitHub Secrets
+
+You only need to add one secret to your GitHub repo:
+
+Go to **Settings** → **Secrets and variables** → **Actions** and add:
+
+| Secret | Value |
+|--------|-------|
+| `MONSTERASP_SERVER_PASSWORD` | Your WebDeploy password (from MonsterASP.net control panel → Deploy → WebDeploy) |
+
+The server name (`site69774.siteasp.net`), site name (`site69774`), and username (`site69774`) are already configured in the workflow.
+
+### 8c. Workflow details
+
+The workflow (`.github/workflows/deploy-monsterasp.yml`) triggers on:
+- Push to `main` when files under `backend/` change
+- Manual trigger via **Actions** tab → **Deploy to MonsterASP.net** → **Run workflow**
+
+It runs on `windows-latest`, publishes with `--runtime win-x86`, and deploys via WebDeploy.
+
+---
+
+## Step 9: Terminal Deployment (Manual WebDeploy)
+
+If you need to deploy from your local terminal without Git:
+
+### 9a. Set up credentials
+
+Create `.env.deploy` in the project root (**never commit this file** — it's in `.gitignore`):
+
+```bash
+MONSTERASP_PASSWORD=your-webdeploy-password
+```
+
+The server and username are pre-configured in the deploy scripts. Only the password needs to be set.
+
+### 9b. Run the deploy script
+
+**Windows (recommended — uses WebDeploy directly):**
+
+```cmd
+scripts\deploy-monsterasp.bat
+```
+
+**Git Bash / WSL:**
+
+```bash
+./scripts/deploy-monsterasp.sh           # build + deploy
+./scripts/deploy-monsterasp.sh --skip-build  # deploy only
+```
+
+Requires `msdeploy.exe` (installed at `C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\` with Visual Studio or [Web Deploy 3.6+](https://www.iis.net/downloads/microsoft/web-deploy)).
+
+### 9c. Alternative: Manual FTP deployment
+
+1. Stop the site in MonsterASP.net control panel
+2. Connect via FTP (credentials in MonsterASP.net → Deploy → FTP)
+3. Upload contents of `backend/src/FinancialPlatform.AllServices/publish/` to `/wwwroot/`
+4. Start the site
+
+---
+
 ## Troubleshooting
 
 ### Backend won't start on MonsterASP.net
 - Check that `ConnectionStrings__DefaultConnection` is set correctly
 - Verify `Jwt__SecretKey` is at least 32 characters
 - Check MonsterASP.net logs in the control panel
+- Check `stdout` logs at `/logs/stdout_*.log` on the server
 
 ### API calls from Vercel return CORS errors
 - MonsterASP.net should automatically handle CORS for ASP.NET Core
@@ -361,7 +428,7 @@ For the consolidated deployment on MonsterASP.net, `InMemory` is recommended (ev
   ```csharp
   builder.Services.AddCors(options => {
       options.AddDefaultPolicy(policy => {
-          policy.WithOrigins("https://your-superapp.vercel.app")
+          policy.WithOrigins("https://your-superapp.vercel.app", "https://velocityclear.runasp.net")
                 .AllowAnyHeader().AllowAnyMethod();
       });
   });
@@ -371,7 +438,7 @@ For the consolidated deployment on MonsterASP.net, `InMemory` is recommended (ev
 ### Grafana Cloud shows no metrics
 - Verify the Metrics Endpoint scrape job URL is correct
 - Check that your MonsterASP.net site's `/metrics` endpoint returns data:
-  `curl https://yoursite.monsterasp.net/metrics`
+  `curl https://velocityclear.runasp.net/metrics`
 
 ### Aiven Kafka shuts down
 - The `KafkaKeepAliveService` sends pings every 5 minutes

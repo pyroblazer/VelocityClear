@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCardStore } from '../stores/cardStore';
 import { parseIso8583, buildIso8583, authorizeCard } from '../lib/cardApi';
+import { logger } from '../lib/logger';
 import { FileText, RefreshCw } from 'lucide-react';
 
 const cardStyle: React.CSSProperties = { background: '#1A1A1A', borderRadius: 8, border: '1px solid #2A2A2A', padding: 20 };
@@ -26,7 +27,9 @@ export default function Iso8583Tools() {
       const result = await parseIso8583(isoInput);
       setParsedMessage(result);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Parse failed');
+      const msg = err instanceof Error ? err.message : 'Parse failed';
+      setError(msg);
+      logger.error('ISO8583 parse failed', msg);
     } finally { setLoading(''); }
   };
 
@@ -38,7 +41,9 @@ export default function Iso8583Tools() {
       const result = await buildIso8583(buildMti, fields);
       setBuiltMessage(result.isoMessage);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Build failed - check JSON format');
+      const msg = err instanceof Error ? err.message : 'Build failed - check JSON format';
+      setError(msg);
+      logger.error('ISO8583 build failed', msg);
     } finally { setLoading(''); }
   };
 
@@ -50,7 +55,9 @@ export default function Iso8583Tools() {
       const result = await authorizeCard({ pan: authPan, amount: parseFloat(authAmount), currency: authCurrency, encryptedPinBlock: authPinBlock || '0000000000000000', zpkId: 'default-zpk', terminalId: 'TERM001', merchantId: 'MERCHANT001' });
       setAuthResult(result);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Authorization failed');
+      const msg = err instanceof Error ? err.message : 'Authorization failed';
+      setError(msg);
+      logger.error('Card authorization failed', msg);
     } finally { setLoading(''); }
   };
 
@@ -87,7 +94,7 @@ export default function Iso8583Tools() {
           {parsedMessage && (
             <div style={{ marginTop: 8, background: '#0A0A0A', padding: 10, borderRadius: 4, fontSize: 12 }}>
               <div style={{ color: '#3B82F6', marginBottom: 4 }}>MTI: {parsedMessage.mti} ({parsedMessage.mtiDescription})</div>
-              {Object.entries(parsedMessage.fields).map(([k, v]) => (
+              {Object.entries(parsedMessage.fields ?? {}).map(([k, v]) => (
                 <div key={k} style={{ color: '#A1A1AA', fontFamily: 'monospace' }}>Field {k}: <span style={{ color: '#FFFFFF' }}>{String(v)}</span></div>
               ))}
             </div>
