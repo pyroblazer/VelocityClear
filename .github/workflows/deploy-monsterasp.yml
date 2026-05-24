@@ -29,16 +29,12 @@ jobs:
         working-directory: backend/src/FinancialPlatform.AllServices
         run: dotnet publish --no-build --configuration Release --runtime win-x86 --output ./publish
 
-      - name: Deploy via WebDeploy
-        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
-        with:
-          website-name: 'site69774'
-          server-computer-name: 'site69774.siteasp.net'
-          server-username: 'site69774'
-          server-password: ${{ secrets.MONSTERASP_SERVER_PASSWORD }}
-          source-path: ./backend/src/FinancialPlatform.AllServices/publish
-          target-path: ''
-          target-delete: false
-          skip-directory-path: ''
-        env:
-          DOTNET_ROOT: C:\Program Files\dotnet
+      - name: Deploy via MSDeploy
+        shell: pwsh
+        run: |
+          .\deploy.ps1 `
+            -ServerName "site69774.siteasp.net" `
+            -SiteName "site69774" `
+            -Username "site69774" `
+            -Password "${{ secrets.MONSTERASP_SERVER_PASSWORD }}" `
+            -SourcePath "./backend/src/FinancialPlatform.AllServices/publish"
