@@ -25,6 +25,10 @@ jobs:
         working-directory: backend
         run: dotnet build --no-restore --configuration Release
 
+      - name: Restore for win-x86 publish
+        working-directory: backend
+        run: dotnet restore --runtime win-x86
+
       - name: Publish
         working-directory: backend/src/FinancialPlatform.AllServices
         run: dotnet publish --no-build --configuration Release --runtime win-x86 --output ./publish

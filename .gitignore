@@ -27,6 +27,7 @@ Thumbs.db
 .env.deploy
 saas_details.md
 need-to-fix.md
+cred-guide.md
 
 # Build
 publish/
