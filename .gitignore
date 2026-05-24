@@ -30,3 +30,6 @@ need-to-fix.md
 
 # Build
 publish/
+
+# Deployment
+*.publishSettings

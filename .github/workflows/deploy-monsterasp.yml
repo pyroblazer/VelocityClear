@@ -29,12 +29,17 @@ jobs:
         working-directory: backend/src/FinancialPlatform.AllServices
         run: dotnet publish --no-build --configuration Release --runtime win-x86 --output ./publish
 
+      - name: Prepare Publish Profile
+        shell: pwsh
+        run: |
+          # Decode the publish profile from base64 secret
+          $profileContent = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${{ secrets.MONSTERASP_PUBLISH_PROFILE }}'))
+          $profileContent | Out-File -FilePath "./monsterasp.publishSettings" -Encoding UTF8
+          Write-Host "Publish profile prepared"
+
       - name: Deploy via MSDeploy
         shell: pwsh
         run: |
           .\deploy.ps1 `
-            -ServerName "site69774.siteasp.net" `
-            -SiteName "site69774" `
-            -Username "site69774" `
-            -Password "${{ secrets.MONSTERASP_SERVER_PASSWORD }}" `
-            -SourcePath "./backend/src/FinancialPlatform.AllServices/publish"
+            -SourcePath "./backend/src/FinancialPlatform.AllServices/publish" `
+            -PublishProfilePath "./monsterasp.publishSettings"

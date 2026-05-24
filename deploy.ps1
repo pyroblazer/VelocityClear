@@ -1,20 +1,9 @@
 param(
     [Parameter(Mandatory=$true)]
-    [string]$ServerName,
-
-    [Parameter(Mandatory=$true)]
-    [string]$SiteName,
-
-    [Parameter(Mandatory=$true)]
-    [string]$Username,
-
-    [Parameter(Mandatory=$true)]
-    [string]$Password,
-
-    [Parameter(Mandatory=$true)]
     [string]$SourcePath,
 
-    [int]$Port = 8172
+    [Parameter(Mandatory=$false)]
+    [string]$PublishProfilePath
 )
 
 # Resolve to absolute path
@@ -26,14 +15,7 @@ if (-not (Test-Path $SourcePath)) {
     exit 1
 }
 
-# Build destination URL
-$destUrl = "https://${ServerName}:${Port}/msdeploy.axd?site=${SiteName}"
-
-Write-Host "Deploying to: $destUrl"
-Write-Host "Source path: $SourcePath"
-Write-Host "Site: $SiteName"
-
-# Run msdeploy
+# Check for msdeploy
 $msdeploy = "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"
 
 if (-not (Test-Path $msdeploy)) {
@@ -41,17 +23,34 @@ if (-not (Test-Path $msdeploy)) {
     exit 1
 }
 
-# Build command string
-$cmd = "`"$msdeploy`" -verb:sync -source:dirPath=`"$SourcePath`" -dest:auto,computerName=`"$destUrl`",userName=`"$Username`",password=`"$Password`",authType=`"Basic`" -enableRule:DoNotDeleteRule"
+# Deployment using publish settings file
+if ($PublishProfilePath) {
+    if (-not (Test-Path $PublishProfilePath)) {
+        Write-Error "Publish profile '$PublishProfilePath' does not exist"
+        exit 1
+    }
 
-Write-Host "Running deployment..."
-Write-Host $cmd
-cmd /c $cmd
+    Write-Host "Deploying using publish profile: $PublishProfilePath"
+    Write-Host "Source path: $SourcePath"
 
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Deployment failed with exit code $LASTEXITCODE"
-    exit $LASTEXITCODE
+    $cmd = "`"$msdeploy`" -verb:sync -source:dirPath=`"$SourcePath`" -dest:auto -publishSettings=`"$PublishProfilePath`" -enableRule:DoNotDeleteRule"
+
+    Write-Host "Running deployment..."
+    cmd /c $cmd
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Deployment failed with exit code $LASTEXITCODE"
+        exit $LASTEXITCODE
+    }
+
+    Write-Host "Deployment completed successfully"
+    exit 0
 }
 
-Write-Host "Deployment completed successfully"
-exit 0
+Write-Error "Either PublishProfilePath must be provided or MONSTERASP_PUBLISH_PROFILE_PATH environment variable must be set"
+Write-Host ""
+Write-Host "Usage:"
+Write-Host "  1. Download the publish profile from MonsterASP.net control panel"
+Write-Host "  2. Save it as 'monsterasp.publishSettings' in the repository root"
+Write-Host "  3. Or set the MONSTERASP_PUBLISH_PROFILE_PATH environment variable"
+exit 1
