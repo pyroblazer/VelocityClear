@@ -33,13 +33,14 @@ jobs:
         shell: pwsh
         run: |
           # Decode the publish profile from base64 secret
-          $profileContent = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${{ secrets.MONSTERASP_PUBLISH_PROFILE }}'))
-          $profileContent | Out-File -FilePath "./monsterasp.publishSettings" -Encoding UTF8
-          Write-Host "Publish profile prepared"
+          $profileBytes = [System.Convert]::FromBase64String('${{ secrets.MONSTERASP_PUBLISH_PROFILE }}')
+          $profileContent = [System.Text.Encoding]::UTF8.GetString($profileBytes)
+          $profileContent | Out-File -FilePath "./velocityclear.runasp.net-WebDeploy.publishSettings" -Encoding UTF8 -Force
+          Write-Host "✓ Publish profile prepared"
 
       - name: Deploy via MSDeploy
         shell: pwsh
         run: |
           .\deploy.ps1 `
             -SourcePath "./backend/src/FinancialPlatform.AllServices/publish" `
-            -PublishProfilePath "./monsterasp.publishSettings"
+            -PublishProfilePath "./velocityclear.runasp.net-WebDeploy.publishSettings"
